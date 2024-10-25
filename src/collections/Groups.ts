@@ -17,6 +17,7 @@ export const allowGuestAuthentication = [
  * @internal
  */
 export const fetchResources = [
+	EResourceType.LIST_MEMBERS,
 	EResourceType.LIST_TWEETS,
 	EResourceType.TWEET_DETAILS,
 	EResourceType.TWEET_DETAILS_ALT,

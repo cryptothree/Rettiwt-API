@@ -84,12 +84,10 @@ module.exports = {
 						'public-readonly-field',
 						'public-field',
 
-
 						// CONSTRUCTORS
 						'private-constructor',
 						'protected-constructor',
 						'public-constructor',
-						
 
 						// GETTERS
 
@@ -118,7 +116,6 @@ module.exports = {
 						// PUBLIC
 						'public-static-set',
 						'public-set',
-
 
 						// METHODS
 

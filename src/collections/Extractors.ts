@@ -1,5 +1,6 @@
 import {
 	IInitializeMediaUploadResponse,
+	IListMembersResponse,
 	IListTweetsResponse,
 	ITweetDetailsResponse,
 	ITweetLikeResponse,
@@ -42,6 +43,8 @@ import { User } from '../models/data/User';
  */
 export const extractors = {
 	/* eslint-disable @typescript-eslint/naming-convention */
+	LIST_MEMBERS: (response: IListMembersResponse): CursoredData<User> =>
+		new CursoredData<User>(response, EBaseType.USER),
 	LIST_TWEETS: (response: IListTweetsResponse): CursoredData<Tweet> =>
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 
