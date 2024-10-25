@@ -1,4 +1,5 @@
 import { AuthService } from './services/public/AuthService';
+import { ListService } from './services/public/ListService';
 import { TweetService } from './services/public/TweetService';
 import { UserService } from './services/public/UserService';
 import { IRettiwtConfig } from './types/RettiwtConfig';
@@ -48,6 +49,9 @@ export class Rettiwt {
 	/** The instance used to authenticate. */
 	public auth: AuthService;
 
+	/** The instance used to fetch data related to lists. */
+	public list: ListService;
+
 	/** The instance used to fetch data related to tweets. */
 	public tweet: TweetService;
 
@@ -61,6 +65,7 @@ export class Rettiwt {
 	 */
 	public constructor(config?: IRettiwtConfig) {
 		this.auth = new AuthService(config);
+		this.list = new ListService(config);
 		this.tweet = new TweetService(config);
 		this.user = new UserService(config);
 	}
