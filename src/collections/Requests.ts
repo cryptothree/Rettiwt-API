@@ -19,6 +19,7 @@ const request = new Request();
  */
 export const requests: { [key in keyof typeof EResourceType]: (args: FetchArgs | PostArgs) => AxiosRequestConfig } = {
 	/* eslint-disable @typescript-eslint/naming-convention */
+	LIST_MEMBERS: (args: FetchArgs) => request.list.members(args.id!, args.count, args.cursor),
 	LIST_TWEETS: (args: FetchArgs) => request.list.tweets(args.id!, args.count, args.cursor),
 
 	MEDIA_UPLOAD_APPEND: (args: PostArgs) => request.media.appendUpload(args.upload!.id!, args.upload!.media!),

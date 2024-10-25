@@ -1,5 +1,6 @@
 import {
 	EMediaType,
+	ILimitedVisibilityTweet,
 	IExtendedMedia as IRawExtendedMedia,
 	ITweet as IRawTweet,
 	IEntities as IRawTweetEntities,
@@ -77,7 +78,7 @@ export class Tweet {
 		this.tweetBy = new User(tweet.core.user_results.result);
 		this.entities = new TweetEntities(tweet.legacy.entities);
 		this.media = tweet.legacy.extended_entities?.media?.map((media) => new TweetMedia(media));
-		this.quoted = tweet.quoted_status_result ? new Tweet(tweet.quoted_status_result.result) : undefined;
+		this.quoted = this.getQuotedTweet(tweet);
 		this.fullText = tweet.note_tweet ? tweet.note_tweet.note_tweet_results.result.text : tweet.legacy.full_text;
 		this.replyTo = tweet.legacy.in_reply_to_status_id_str;
 		this.lang = tweet.legacy.lang;
@@ -87,9 +88,51 @@ export class Tweet {
 		this.likeCount = tweet.legacy.favorite_count;
 		this.viewCount = tweet.views.count ? parseInt(tweet.views.count) : 0;
 		this.bookmarkCount = tweet.legacy.bookmark_count;
-		this.retweetedTweet = tweet.legacy.retweeted_status_result?.result?.rest_id
-			? new Tweet(tweet.legacy.retweeted_status_result.result)
-			: undefined;
+		this.retweetedTweet = this.getRetweetedTweet(tweet);
+	}
+
+	/**
+	 * Extract and deserialize the original quoted tweet from the given raw tweet.
+	 *
+	 * @param tweet - The raw tweet.
+	 *
+	 * @returns - The deserialized original quoted tweet.
+	 */
+	private getQuotedTweet(tweet: IRawTweet): Tweet | undefined {
+		// If tweet with limited visibility
+		if (
+			tweet.quoted_status_result &&
+			Object.entries(tweet.quoted_status_result).length &&
+			tweet.quoted_status_result.result.__typename == 'TweetWithVisibilityResults'
+		) {
+			return new Tweet((tweet.quoted_status_result.result as ILimitedVisibilityTweet).tweet);
+		}
+		// If normal tweet
+		else if (tweet.quoted_status_result && Object.entries(tweet.quoted_status_result).length) {
+			return new Tweet(tweet.quoted_status_result.result as ITweet);
+		}
+		// Else, skip
+		else {
+			return undefined;
+		}
+	}
+
+	/**
+	 * Extract and deserialize the original retweeted tweet from the given raw tweet.
+	 *
+	 * @param tweet - The raw tweet.
+	 *
+	 * @returns - The deserialized original retweeted tweet.
+	 */
+	private getRetweetedTweet(tweet: IRawTweet): Tweet | undefined {
+		// If valid retweeted tweet
+		if (tweet.legacy.retweeted_status_result?.result?.rest_id) {
+			return new Tweet(tweet.legacy.retweeted_status_result.result);
+		}
+		// Else, skip
+		else {
+			return undefined;
+		}
 	}
 
 	/**
@@ -112,7 +155,6 @@ export class Tweet {
 			if (item.tweet_results?.result?.legacy) {
 				// Logging
 				LogService.log(ELogActions.DESERIALIZE, { id: item.tweet_results.result.rest_id });
-
 				tweets.push(new Tweet(item.tweet_results.result));
 			} else {
 				// Logging
@@ -210,6 +252,9 @@ export class TweetEntities {
  * @public
  */
 export class TweetMedia {
+	/** The thumbnail URL for the video content of the tweet. */
+	public thumbnailUrl?: string;
+
 	/** The type of media. */
 	public type: EMediaType;
 
@@ -232,6 +277,8 @@ export class TweetMedia {
 		}
 		// If the media is a video
 		else {
+			this.thumbnailUrl = media.media_url_https;
+
 			/** The highest bitrate of all variants. */
 			let highestRate: number = 0;
 

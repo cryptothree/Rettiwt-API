@@ -5,6 +5,7 @@
  */
 export enum EResourceType {
 	// LIST
+	LIST_MEMBERS = 'LIST_MEMBERS',
 	LIST_TWEETS = 'LIST_TWEETS',
 
 	// MEDIA

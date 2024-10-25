@@ -3,6 +3,7 @@
 import { createCommand } from 'commander';
 
 import auth from './commands/Auth';
+import list from './commands/List';
 import tweet from './commands/Tweet';
 import user from './commands/User';
 import { Rettiwt } from './Rettiwt';
@@ -32,6 +33,7 @@ const rettiwt: Rettiwt = new Rettiwt({
 });
 
 // Adding sub-commands
+program.addCommand(list(rettiwt));
 program.addCommand(tweet(rettiwt));
 program.addCommand(user(rettiwt));
 program.addCommand(auth(rettiwt));

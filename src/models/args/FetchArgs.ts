@@ -52,6 +52,7 @@ export class FetchArgs {
 	})
 	@IsOptional({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
@@ -68,6 +69,7 @@ export class FetchArgs {
 	})
 	@Min(1, {
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
@@ -84,6 +86,7 @@ export class FetchArgs {
 	})
 	@Max(100, {
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.USER_FOLLOWERS,
@@ -119,6 +122,7 @@ export class FetchArgs {
 	})
 	@IsOptional({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
@@ -137,6 +141,7 @@ export class FetchArgs {
 	})
 	@IsString({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
@@ -163,6 +168,7 @@ export class FetchArgs {
 	 */
 	@IsEmpty({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -202,6 +208,7 @@ export class FetchArgs {
 	})
 	@IsNotEmpty({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -220,6 +227,7 @@ export class FetchArgs {
 	})
 	@IsString({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -238,6 +246,7 @@ export class FetchArgs {
 	})
 	@IsNumberString(undefined, {
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -267,6 +276,7 @@ export class FetchArgs {
 	 */
 	@IsEmpty({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -298,7 +308,7 @@ export class FetchArgs {
 		this.count = args.count;
 		this.cursor = args.cursor;
 		this.filter = args.filter ? new TweetFilter(args.filter) : undefined;
-		this.results = args.results ?? ESearchResultType.LATEST;
+		this.results = args.results;
 
 		// Validating this object
 		const validationResult = validateSync(this, { groups: [resource] });
