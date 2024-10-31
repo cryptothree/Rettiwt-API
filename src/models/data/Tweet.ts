@@ -102,13 +102,13 @@ export class Tweet {
 		// If tweet with limited visibility
 		if (
 			tweet.quoted_status_result &&
-			Object.entries(tweet.quoted_status_result).length &&
-			tweet.quoted_status_result.result.__typename == 'TweetWithVisibilityResults'
+			tweet.quoted_status_result?.result?.__typename == 'TweetWithVisibilityResults' &&
+			(tweet.quoted_status_result.result as ILimitedVisibilityTweet)?.tweet?.legacy
 		) {
 			return new Tweet((tweet.quoted_status_result.result as ILimitedVisibilityTweet).tweet);
 		}
 		// If normal tweet
-		else if (tweet.quoted_status_result && Object.entries(tweet.quoted_status_result).length) {
+		else if ((tweet.quoted_status_result?.result as ITweet)?.rest_id) {
 			return new Tweet(tweet.quoted_status_result.result as ITweet);
 		}
 		// Else, skip
@@ -125,9 +125,17 @@ export class Tweet {
 	 * @returns - The deserialized original retweeted tweet.
 	 */
 	private getRetweetedTweet(tweet: IRawTweet): Tweet | undefined {
-		// If valid retweeted tweet
-		if (tweet.legacy.retweeted_status_result?.result?.rest_id) {
-			return new Tweet(tweet.legacy.retweeted_status_result.result);
+		// If retweet with limited visibility
+		if (
+			tweet.legacy?.retweeted_status_result &&
+			tweet.legacy?.retweeted_status_result?.result?.__typename == 'TweetWithVisibilityResults' &&
+			(tweet.legacy?.retweeted_status_result?.result as ILimitedVisibilityTweet)?.tweet?.legacy
+		) {
+			return new Tweet((tweet.legacy.retweeted_status_result.result as ILimitedVisibilityTweet).tweet);
+		}
+		// If normal tweet
+		else if ((tweet.legacy?.retweeted_status_result?.result as ITweet)?.rest_id) {
+			return new Tweet(tweet.legacy.retweeted_status_result.result as ITweet);
 		}
 		// Else, skip
 		else {
@@ -152,12 +160,23 @@ export class Tweet {
 
 		// Deserializing valid data
 		for (const item of extract) {
-			if (item.tweet_results?.result?.legacy) {
+			// If tweet with limited visibility
+			if (
+				item.tweet_results?.result &&
+				item.tweet_results?.result?.__typename == 'TweetWithVisibilityResults' &&
+				(item.tweet_results?.result as ILimitedVisibilityTweet)?.tweet?.legacy
+			) {
+				tweets.push(new Tweet((item.tweet_results.result as ILimitedVisibilityTweet).tweet));
+			}
+			// If normal tweet
+			else if ((item.tweet_results?.result as ITweet)?.legacy) {
 				// Logging
-				LogService.log(ELogActions.DESERIALIZE, { id: item.tweet_results.result.rest_id });
+				LogService.log(ELogActions.DESERIALIZE, { id: (item.tweet_results.result as ITweet).rest_id });
 
-				tweets.push(new Tweet(item.tweet_results.result));
-			} else {
+				tweets.push(new Tweet(item.tweet_results.result as ITweet));
+			}
+			// If invalid/unrecognized tweet
+			else {
 				// Logging
 				LogService.log(ELogActions.WARNING, {
 					action: ELogActions.DESERIALIZE,
