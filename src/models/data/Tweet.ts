@@ -125,8 +125,16 @@ export class Tweet {
 	 * @returns - The deserialized original retweeted tweet.
 	 */
 	private getRetweetedTweet(tweet: IRawTweet): Tweet | undefined {
+		// If retweet with limited visibility
+		if (
+			tweet.quoted_status_result &&
+			Object.entries(tweet.quoted_status_result).length &&
+			tweet.quoted_status_result.result.__typename == 'TweetWithVisibilityResults'
+		) {
+			return new Tweet((tweet.quoted_status_result.result as ILimitedVisibilityTweet).tweet);
+		}
 		// If valid retweeted tweet
-		if (tweet.legacy.retweeted_status_result?.result?.rest_id) {
+		else if (tweet.legacy.retweeted_status_result?.result?.rest_id) {
 			return new Tweet(tweet.legacy.retweeted_status_result.result);
 		}
 		// Else, skip
@@ -152,12 +160,19 @@ export class Tweet {
 
 		// Deserializing valid data
 		for (const item of extract) {
-			if (item.tweet_results?.result?.legacy) {
+			// If tweet with limited visibility
+			if (item.tweet_results?.result && item.tweet_results?.result.__typename == 'TweetWithVisibilityResults') {
+				tweets.push(new Tweet((item.tweet_results?.result as unknown as ILimitedVisibilityTweet).tweet));
+			}
+			// If normal tweet
+			else if (item.tweet_results?.result?.legacy) {
 				// Logging
 				LogService.log(ELogActions.DESERIALIZE, { id: item.tweet_results.result.rest_id });
 
 				tweets.push(new Tweet(item.tweet_results.result));
-			} else {
+			}
+			// If invalid/unrecognized tweet
+			else {
 				// Logging
 				LogService.log(ELogActions.WARNING, {
 					action: ELogActions.DESERIALIZE,
