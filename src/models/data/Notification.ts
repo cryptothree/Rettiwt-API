@@ -1,7 +1,7 @@
 import {
 	ENotificationType as ENotificationTypeOriginal,
 	INotification,
-	IUserNotifications as IUserNotificationsResponse,
+	IUserNotificationsResponse,
 } from 'rettiwt-core';
 
 import { findKeyByValue } from '../../helper/JsonUtils';
