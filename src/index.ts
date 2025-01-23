@@ -5,7 +5,6 @@ export * from './Rettiwt';
 export * from './enums/Api';
 export * from './enums/Http';
 export * from './enums/Resource';
-export { ESearchResultType } from 'rettiwt-core';
 
 // ARG MODELS
 export * from './models/args/FetchArgs';
