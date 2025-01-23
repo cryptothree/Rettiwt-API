@@ -23,6 +23,7 @@ export const fetchResources = [
 	EResourceType.TWEET_DETAILS_ALT,
 	EResourceType.TWEET_RETWEETERS,
 	EResourceType.TWEET_SEARCH,
+	EResourceType.USER_BOOKMARKS,
 	EResourceType.USER_DETAILS_BY_USERNAME,
 	EResourceType.USER_DETAILS_BY_ID,
 	EResourceType.USER_FEED_FOLLOWED,
