@@ -5,6 +5,7 @@ export * from './Rettiwt';
 export * from './enums/Api';
 export * from './enums/Http';
 export * from './enums/Resource';
+export { ESearchResultType } from 'rettiwt-core';
 
 // ARG MODELS
 export * from './models/args/FetchArgs';
@@ -37,6 +38,7 @@ export * from './types/ErrorHandler';
 // RAW TYPES
 export {
 	IInitializeMediaUploadResponse,
+	IListMembersResponse,
 	IListTweetsResponse,
 	ITweetDetailsResponse,
 	ITweetLikeResponse,
@@ -52,6 +54,7 @@ export {
 	ITweetUnretweetResponse,
 } from 'rettiwt-core';
 export {
+	IUserBookmarksResponse,
 	IUserDetailsResponse,
 	IUserFollowedResponse,
 	IUserFollowersResponse,
@@ -60,6 +63,7 @@ export {
 	IUserHighlightsResponse,
 	IUserLikesResponse,
 	IUserMediaResponse,
+	IUserNotificationsResponse,
 	IUserRecommendedResponse,
 	IUserSubscriptionsResponse,
 	IUserTweetsAndRepliesResponse,

@@ -57,7 +57,9 @@ export class AuthService extends FetcherService {
 		const cookieString: string = AuthService.decodeCookie(apiKey);
 
 		// Searching for the user id in the cookie string
-		const searchResults: string[] | null = cookieString.match(/((?<=twid="u=)(.*)(?="))|((?<=twid=u%3D)(.*)(?=;))/);
+		const searchResults: string[] | null = cookieString.match(
+			/((?<=twid="u=)(\d+)(?="))|((?<=twid=u%3D)(\d+)(?=;))/,
+		);
 
 		// If user id was found
 		if (searchResults) {

@@ -1,5 +1,6 @@
 import {
 	IInitializeMediaUploadResponse,
+	IListMembersResponse,
 	IListTweetsResponse,
 	ITweetDetailsResponse,
 	ITweetLikeResponse,
@@ -13,6 +14,7 @@ import {
 	ITweetUnpostResponse,
 	ITweetUnretweetResponse,
 	ITweetUnscheduleResponse,
+	IUserBookmarksResponse,
 	IUserDetailsResponse,
 	IUserFollowedResponse,
 	IUserFollowersResponse,
@@ -21,7 +23,7 @@ import {
 	IUserHighlightsResponse,
 	IUserLikesResponse,
 	IUserMediaResponse,
-	IUserNotifications as IUserNotificationsResponse,
+	IUserNotificationsResponse,
 	IUserRecommendedResponse,
 	IUserSubscriptionsResponse,
 	IUserTweetsAndRepliesResponse,
@@ -42,6 +44,8 @@ import { User } from '../models/data/User';
  */
 export const extractors = {
 	/* eslint-disable @typescript-eslint/naming-convention */
+	LIST_MEMBERS: (response: IListMembersResponse): CursoredData<User> =>
+		new CursoredData<User>(response, EBaseType.USER),
 	LIST_TWEETS: (response: IListTweetsResponse): CursoredData<Tweet> =>
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 
@@ -67,6 +71,8 @@ export const extractors = {
 		response?.data?.unretweet?.source_tweet_results?.result ? true : false,
 	TWEET_UNSCHEDULE: (response: ITweetUnscheduleResponse): boolean => response?.data?.scheduledtweet_delete == 'Done',
 
+	USER_BOOKMARKS: (response: IUserBookmarksResponse): CursoredData<Tweet> =>
+		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_DETAILS_BY_USERNAME: (response: IUserDetailsResponse): User | undefined => User.single(response),
 	USER_DETAILS_BY_ID: (response: IUserDetailsResponse): User | undefined => User.single(response),
 	USER_FEED_FOLLOWED: (response: IUserFollowedResponse): CursoredData<Tweet> =>

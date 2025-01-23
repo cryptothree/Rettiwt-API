@@ -159,6 +159,7 @@ function createTweetCommand(rettiwt: Rettiwt): Command {
 			'Matches the tweets that do not contain any of the give comma-separated list of words',
 		)
 		.option('-h, --hashtags <string>', 'Matches the tweets containing the given comma-separated list of hashtags')
+		.option('--list <string>', 'Matches the tweets from the list with the given id')
 		.option(
 			'-m, --mentions <string>',
 			'Matches the tweets that mention the given comma-separated list of usernames',
@@ -171,6 +172,7 @@ function createTweetCommand(rettiwt: Rettiwt): Command {
 		.option('--exclude-replies', 'Matches the tweets that are not replies')
 		.option('-s, --start <string>', 'Matches the tweets made since the given date (valid date/time string)')
 		.option('-e, --end <string>', 'Matches the tweets made upto the given date (valid date/time string)')
+		.option('--top', 'Matches top tweets instead of latest')
 		.option('--stream', 'Stream the filtered tweets in pseudo-realtime')
 		.option('-i, --interval <number>', 'The polling interval (in ms) to use for streaming. Default is 60000')
 		.action(async (count?: string, cursor?: string, options?: TweetSearchOptions) => {
@@ -284,6 +286,7 @@ class TweetSearchOptions {
 	public from?: string;
 	public hashtags?: string;
 	public interval?: number;
+	public list?: string;
 	public mentions?: string;
 	public minLikes?: number;
 	public minReplies?: number;
@@ -294,6 +297,7 @@ class TweetSearchOptions {
 	public start?: string;
 	public stream?: boolean;
 	public to?: string;
+	public top?: boolean;
 	public words?: string;
 
 	/**
@@ -309,6 +313,7 @@ class TweetSearchOptions {
 		this.optionalWords = options?.optionalWords;
 		this.excludeWords = options?.excludeWords;
 		this.hashtags = options?.hashtags;
+		this.list = options?.list;
 		this.mentions = options?.mentions;
 		this.minReplies = options?.minReplies;
 		this.minLikes = options?.minLikes;
@@ -320,6 +325,7 @@ class TweetSearchOptions {
 		this.end = options?.end;
 		this.stream = options?.stream;
 		this.interval = options?.interval;
+		this.top = options?.top;
 	}
 
 	/**
@@ -336,6 +342,7 @@ class TweetSearchOptions {
 			optionalWords: this.optionalWords ? this.optionalWords.split(',') : undefined,
 			excludeWords: this.excludeWords ? this.excludeWords.split(',') : undefined,
 			hashtags: this.hashtags ? this.hashtags.split(',') : undefined,
+			list: this.list,
 			mentions: this.mentions ? this.mentions.split(',') : undefined,
 			minReplies: this.minReplies,
 			minLikes: this.minLikes,
@@ -344,6 +351,7 @@ class TweetSearchOptions {
 			links: !this.excludeLinks,
 			replies: !this.excludeReplies,
 			startDate: this.start ? new Date(this.start) : undefined,
+			top: this.top,
 			endDate: this.end ? new Date(this.end) : undefined,
 		});
 	}

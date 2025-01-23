@@ -123,7 +123,7 @@ export class User {
 
 		// Deserializing valid data
 		for (const item of extract) {
-			if (item.legacy) {
+			if (item.legacy && item.legacy.created_at) {
 				// Logging
 				LogService.log(ELogActions.DESERIALIZE, { id: item.rest_id });
 

@@ -14,7 +14,7 @@ import {
 	validateSync,
 } from 'class-validator';
 
-import { TweetFilter as TweetFilterCore } from 'rettiwt-core';
+import { ESearchResultType, TweetFilter as TweetFilterCore } from 'rettiwt-core';
 
 import { EResourceType } from '../../enums/Resource';
 import { DataValidationError } from '../errors/DataValidationError';
@@ -52,9 +52,11 @@ export class FetchArgs {
 	})
 	@IsOptional({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FOLLOWERS,
 			EResourceType.USER_FOLLOWING,
 			EResourceType.USER_HIGHLIGHTS,
@@ -68,9 +70,11 @@ export class FetchArgs {
 	})
 	@Min(1, {
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FOLLOWERS,
 			EResourceType.USER_FOLLOWING,
 			EResourceType.USER_HIGHLIGHTS,
@@ -84,8 +88,10 @@ export class FetchArgs {
 	})
 	@Max(100, {
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FOLLOWERS,
 			EResourceType.USER_FOLLOWING,
 			EResourceType.USER_HIGHLIGHTS,
@@ -119,9 +125,11 @@ export class FetchArgs {
 	})
 	@IsOptional({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FEED_FOLLOWED,
 			EResourceType.USER_FEED_RECOMMENDED,
 			EResourceType.USER_FOLLOWING,
@@ -137,9 +145,11 @@ export class FetchArgs {
 	})
 	@IsString({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FEED_FOLLOWED,
 			EResourceType.USER_FEED_RECOMMENDED,
 			EResourceType.USER_FOLLOWING,
@@ -163,10 +173,12 @@ export class FetchArgs {
 	 */
 	@IsEmpty({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
 			EResourceType.TWEET_RETWEETERS,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_DETAILS_BY_USERNAME,
 			EResourceType.USER_DETAILS_BY_ID,
 			EResourceType.USER_FEED_FOLLOWED,
@@ -195,6 +207,7 @@ export class FetchArgs {
 	 */
 	@IsEmpty({
 		groups: [
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FEED_FOLLOWED,
 			EResourceType.USER_FEED_RECOMMENDED,
 			EResourceType.USER_NOTIFICATIONS,
@@ -202,6 +215,7 @@ export class FetchArgs {
 	})
 	@IsNotEmpty({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -220,6 +234,7 @@ export class FetchArgs {
 	})
 	@IsString({
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -238,6 +253,7 @@ export class FetchArgs {
 	})
 	@IsNumberString(undefined, {
 		groups: [
+			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
@@ -256,6 +272,42 @@ export class FetchArgs {
 	public id?: string;
 
 	/**
+	 * The type of search results to fetch. Can be one of:
+	 * - {@link EResourceType.LATEST}, for latest search results.
+	 * - {@link EResourceType.TOP}, for top search results.
+	 *
+	 * @defaultValue {@link ESearchResultType.LATEST}.
+	 *
+	 * @remarks
+	 * - Applicable only for {@link EResourceType.TWEET_SEARCH}.
+	 */
+	@IsEmpty({
+		groups: [
+			EResourceType.LIST_MEMBERS,
+			EResourceType.LIST_TWEETS,
+			EResourceType.TWEET_DETAILS,
+			EResourceType.TWEET_DETAILS_ALT,
+			EResourceType.TWEET_RETWEETERS,
+			EResourceType.USER_BOOKMARKS,
+			EResourceType.USER_DETAILS_BY_USERNAME,
+			EResourceType.USER_DETAILS_BY_ID,
+			EResourceType.USER_FEED_FOLLOWED,
+			EResourceType.USER_FEED_RECOMMENDED,
+			EResourceType.USER_FOLLOWING,
+			EResourceType.USER_FOLLOWERS,
+			EResourceType.USER_HIGHLIGHTS,
+			EResourceType.USER_LIKES,
+			EResourceType.USER_MEDIA,
+			EResourceType.USER_NOTIFICATIONS,
+			EResourceType.USER_SUBSCRIPTIONS,
+			EResourceType.USER_TIMELINE,
+			EResourceType.USER_TIMELINE_AND_REPLIES,
+		],
+	})
+	@IsOptional({ groups: [EResourceType.TWEET_SEARCH] })
+	public results?: ESearchResultType;
+
+	/**
 	 * @param resource - The resource to be fetched.
 	 * @param args - Additional user-defined arguments for fetching the resource.
 	 */
@@ -264,6 +316,7 @@ export class FetchArgs {
 		this.count = args.count;
 		this.cursor = args.cursor;
 		this.filter = args.filter ? new TweetFilter(args.filter) : undefined;
+		this.results = args.results;
 
 		// Validating this object
 		const validationResult = validateSync(this, { groups: [resource] });
@@ -339,6 +392,11 @@ export class TweetFilter extends TweetFilterCore {
 	@IsBoolean()
 	public links?: boolean;
 
+	/** The list from which tweets are to be searched. */
+	@IsOptional()
+	@IsNumberString()
+	public list?: string;
+
 	/** The id of the tweet, before which the tweets are to be searched. */
 	@IsOptional()
 	@IsNumberString()
@@ -410,6 +468,15 @@ export class TweetFilter extends TweetFilterCore {
 	@IsArray()
 	@IsString({ each: true })
 	public toUsers?: string[];
+
+	/**
+	 * Whether to fetch top or not.
+	 *
+	 * @defaultValue true
+	 */
+	@IsOptional()
+	@IsBoolean()
+	public top?: boolean;
 
 	/**
 	 * @param filter - The filter to use for searching tweets.
