@@ -462,6 +462,15 @@ export class TweetFilter extends TweetFilterCore {
 	public toUsers?: string[];
 
 	/**
+	 * Whether to fetch top or not.
+	 *
+	 * @defaultValue true
+	 */
+	@IsOptional()
+	@IsBoolean()
+	public top?: boolean;
+
+	/**
 	 * @param filter - The filter to use for searching tweets.
 	 */
 	public constructor(filter: TweetFilter) {
