@@ -73,7 +73,7 @@ export class Notification {
 	 *
 	 * @internal
 	 */
-	public static list(response: NonNullable<unknown>): Notification[] {
+	public static list(response: {}): Notification[] {
 		const notifications: Notification[] = [];
 
 		// Extracting notifications
