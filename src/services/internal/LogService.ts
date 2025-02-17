@@ -31,7 +31,7 @@ export class LogService {
 	 *
 	 * @param data - The data to be logged.
 	 */
-	public static log(action: ELogActions, data: NonNullable<unknown>): void {
+	public static log(action: ELogActions, data: {}): void {
 		// Proceed to log only if logging is enabled
 		if (this.enabled) {
 			// Preparing the log message

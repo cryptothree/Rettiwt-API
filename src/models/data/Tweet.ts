@@ -66,6 +66,9 @@ export class Tweet {
 	/** The details of the user who made the tweet. */
 	public tweetBy: User;
 
+	/** The URL to the tweet. */
+	public url: string;
+
 	/** The number of views of a tweet. */
 	public viewCount: number;
 
@@ -89,6 +92,7 @@ export class Tweet {
 		this.viewCount = tweet.views.count ? parseInt(tweet.views.count) : 0;
 		this.bookmarkCount = tweet.legacy.bookmark_count;
 		this.retweetedTweet = this.getRetweetedTweet(tweet);
+		this.url = `https://x.com/${this.tweetBy.userName}/status/${this.id}`;
 	}
 
 	/**
@@ -152,7 +156,7 @@ export class Tweet {
 	 *
 	 * @internal
 	 */
-	public static list(response: NonNullable<unknown>): Tweet[] {
+	public static list(response: {}): Tweet[] {
 		const tweets: Tweet[] = [];
 
 		// Extracting the matching data
@@ -198,7 +202,7 @@ export class Tweet {
 	 *
 	 * @internal
 	 */
-	public static single(response: NonNullable<unknown>, id: string): Tweet | undefined {
+	public static single(response: {}, id: string): Tweet | undefined {
 		const tweets: Tweet[] = [];
 
 		// Extracting the matching data

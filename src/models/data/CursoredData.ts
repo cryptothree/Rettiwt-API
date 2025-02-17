@@ -26,7 +26,7 @@ export class CursoredData<T extends Notification | Tweet | User> {
 	 * @param response - The raw response.
 	 * @param type - The base type of the data included in the batch.
 	 */
-	public constructor(response: NonNullable<unknown>, type: EBaseType) {
+	public constructor(response: {}, type: EBaseType) {
 		if (type == EBaseType.TWEET) {
 			this.list = Tweet.list(response) as T[];
 			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
