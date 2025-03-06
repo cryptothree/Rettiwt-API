@@ -1,5 +1,5 @@
 import { Command, createCommand } from 'commander';
-import { ESearchResultType, TweetFilter } from 'rettiwt-core';
+import { TweetFilter } from 'rettiwt-core';
 
 import { output } from '../helper/CliUtils';
 import { Rettiwt } from '../Rettiwt';
@@ -192,7 +192,6 @@ function createTweetCommand(rettiwt: Rettiwt): Command {
 						new TweetSearchOptions(options).toTweetFilter(),
 						count ? parseInt(count) : undefined,
 						cursor,
-						options?.top ? ESearchResultType.TOP : ESearchResultType.LATEST,
 					);
 					output(tweets);
 				}
@@ -352,6 +351,7 @@ class TweetSearchOptions {
 			links: !this.excludeLinks,
 			replies: !this.excludeReplies,
 			startDate: this.start ? new Date(this.start) : undefined,
+			top: this.top,
 			endDate: this.end ? new Date(this.end) : undefined,
 		});
 	}

@@ -14,6 +14,7 @@ import {
 	ITweetUnpostResponse,
 	ITweetUnretweetResponse,
 	ITweetUnscheduleResponse,
+	IUserBookmarksResponse,
 	IUserDetailsResponse,
 	IUserFollowedResponse,
 	IUserFollowersResponse,
@@ -22,7 +23,7 @@ import {
 	IUserHighlightsResponse,
 	IUserLikesResponse,
 	IUserMediaResponse,
-	IUserNotifications as IUserNotificationsResponse,
+	IUserNotificationsResponse,
 	IUserRecommendedResponse,
 	IUserSubscriptionsResponse,
 	IUserTweetsAndRepliesResponse,
@@ -70,6 +71,8 @@ export const extractors = {
 		response?.data?.unretweet?.source_tweet_results?.result ? true : false,
 	TWEET_UNSCHEDULE: (response: ITweetUnscheduleResponse): boolean => response?.data?.scheduledtweet_delete == 'Done',
 
+	USER_BOOKMARKS: (response: IUserBookmarksResponse): CursoredData<Tweet> =>
+		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_DETAILS_BY_USERNAME: (response: IUserDetailsResponse): User | undefined => User.single(response),
 	USER_DETAILS_BY_ID: (response: IUserDetailsResponse): User | undefined => User.single(response),
 	USER_FEED_FOLLOWED: (response: IUserFollowedResponse): CursoredData<Tweet> =>

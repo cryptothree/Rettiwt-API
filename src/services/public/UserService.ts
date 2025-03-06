@@ -1,4 +1,5 @@
 import {
+	IUserBookmarksResponse,
 	IUserDetailsResponse,
 	IUserFollowedResponse,
 	IUserFollowersResponse,
@@ -7,7 +8,7 @@ import {
 	IUserHighlightsResponse,
 	IUserLikesResponse,
 	IUserMediaResponse,
-	IUserNotifications as IUserNotificationsResponse,
+	IUserNotificationsResponse,
 	IUserRecommendedResponse,
 	IUserSubscriptionsResponse,
 	IUserTweetsAndRepliesResponse,
@@ -38,6 +39,46 @@ export class UserService extends FetcherService {
 	 */
 	public constructor(config?: IRettiwtConfig) {
 		super(config);
+	}
+
+	/**
+	 * Get the list of bookmarks of the logged in user.
+	 *
+	 * @param count - The number of bookmakrs to fetch, must be \<= 100.
+	 * @param cursor - The cursor to the batch of bookmarks to fetch.
+	 *
+	 * @returns The list of tweets bookmarked by the target user.
+	 *
+	 * @example
+	 * ```
+	 * import { Rettiwt } from 'rettiwt-api';
+	 *
+	 * // Creating a new Rettiwt instance using the given 'API_KEY'
+	 * const rettiwt = new Rettiwt({ apiKey: API_KEY });
+	 *
+	 * // Fetching the most recent 100 liked Tweets of the logged in User
+	 * rettiwt.user.bookmarks()
+	 * .then(res => {
+	 * 	console.log(res);
+	 * })
+	 * .catch(err => {
+	 * 	console.log(err);
+	 * });
+	 * ```
+	 */
+	public async bookmarks(count?: number, cursor?: string): Promise<CursoredData<Tweet>> {
+		const resource = EResourceType.USER_BOOKMARKS;
+
+		// Fetching raw list of likes
+		const response = await this.request<IUserBookmarksResponse>(resource, {
+			count: count,
+			cursor: cursor,
+		});
+
+		// Deserializing response
+		const data = extractors[resource](response);
+
+		return data;
 	}
 
 	/**

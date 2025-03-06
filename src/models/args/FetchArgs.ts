@@ -56,6 +56,7 @@ export class FetchArgs {
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FOLLOWERS,
 			EResourceType.USER_FOLLOWING,
 			EResourceType.USER_HIGHLIGHTS,
@@ -73,6 +74,7 @@ export class FetchArgs {
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FOLLOWERS,
 			EResourceType.USER_FOLLOWING,
 			EResourceType.USER_HIGHLIGHTS,
@@ -89,6 +91,7 @@ export class FetchArgs {
 			EResourceType.LIST_MEMBERS,
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FOLLOWERS,
 			EResourceType.USER_FOLLOWING,
 			EResourceType.USER_HIGHLIGHTS,
@@ -126,6 +129,7 @@ export class FetchArgs {
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FEED_FOLLOWED,
 			EResourceType.USER_FEED_RECOMMENDED,
 			EResourceType.USER_FOLLOWING,
@@ -145,6 +149,7 @@ export class FetchArgs {
 			EResourceType.LIST_TWEETS,
 			EResourceType.TWEET_RETWEETERS,
 			EResourceType.TWEET_SEARCH,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FEED_FOLLOWED,
 			EResourceType.USER_FEED_RECOMMENDED,
 			EResourceType.USER_FOLLOWING,
@@ -173,6 +178,7 @@ export class FetchArgs {
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
 			EResourceType.TWEET_RETWEETERS,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_DETAILS_BY_USERNAME,
 			EResourceType.USER_DETAILS_BY_ID,
 			EResourceType.USER_FEED_FOLLOWED,
@@ -201,6 +207,7 @@ export class FetchArgs {
 	 */
 	@IsEmpty({
 		groups: [
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_FEED_FOLLOWED,
 			EResourceType.USER_FEED_RECOMMENDED,
 			EResourceType.USER_NOTIFICATIONS,
@@ -281,6 +288,7 @@ export class FetchArgs {
 			EResourceType.TWEET_DETAILS,
 			EResourceType.TWEET_DETAILS_ALT,
 			EResourceType.TWEET_RETWEETERS,
+			EResourceType.USER_BOOKMARKS,
 			EResourceType.USER_DETAILS_BY_USERNAME,
 			EResourceType.USER_DETAILS_BY_ID,
 			EResourceType.USER_FEED_FOLLOWED,
@@ -460,6 +468,15 @@ export class TweetFilter extends TweetFilterCore {
 	@IsArray()
 	@IsString({ each: true })
 	public toUsers?: string[];
+
+	/**
+	 * Whether to fetch top or not.
+	 *
+	 * @defaultValue true
+	 */
+	@IsOptional()
+	@IsBoolean()
+	public top?: boolean;
 
 	/**
 	 * @param filter - The filter to use for searching tweets.

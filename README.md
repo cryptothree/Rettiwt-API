@@ -30,9 +30,10 @@ Rettiwt-API can be used with or without logging in to Twitter. As such, the two 
 
 -   'user' authentication (logging in) grants access to the following resources/actions:
 
+    -   List Tweets
+    -   List Members
     -   Tweet Details
     -   Tweet Like
-    -   Tweet List
     -   Tweet Media Upload
     -   Tweet Post
     -   Tweet Retweet
@@ -43,6 +44,7 @@ Rettiwt-API can be used with or without logging in to Twitter. As such, the two 
     -   Tweet Unlike
     -   Tweet Unpost
     -   Tweet Unretweet
+    -   User Bookmarks
     -   User Details (by username or id)
     -   User Follow
     -   User Followed Feed
@@ -58,11 +60,9 @@ Rettiwt-API can be used with or without logging in to Twitter. As such, the two 
     -   User Timeline
     -   User Unfollow
 
-By default, Rettiwt-API uses 'guest' authentication. If however, access to the full set of resources is required, 'user' authentication can be used. This is done by using the cookies associated with your Twitter/X account, and encoding them into an `API_KEY` for convenience. For getting the said `API_KEY`, there are two approaches:
+By default, Rettiwt-API uses 'guest' authentication. If however, access to the full set of resources is required, 'user' authentication can be used. This is done by using the cookies associated with your Twitter/X account, and encoding them into an `API_KEY` for convenience. The said `API_KEY` can be obtained by using a browser extension, as follows:
 
-### 1. Using a browser (recommended):
-
-#### A. For Chrome/Chromium-based browsers:
+### A. For Chrome/Chromium-based browsers:
 
 1. Install the [X Auth Helper extension](https://chromewebstore.google.com/detail/x-auth-helper/igpkhkjmpdecacocghpgkghdcmcmpfhp) from the Chrome Web Store, and allow it to run it in incognito mode.
 2. Switch to incognito mode and login to Twitter/X.
@@ -72,7 +72,7 @@ By default, Rettiwt-API uses 'guest' authentication. If however, access to the f
 6. You may close the browser, but don't log out. Remember, since it's incognito mode, you didn't explicity 'log out', so, while the session will be erased from the browser, the `API_KEY` still remains valid.
 7. Save the `API_KEY` for use.
 
-#### B. For Firefox/Firefox-based browsers:
+### B. For Firefox/Firefox-based browsers:
 
 1. Install the [Rettiwt Auth Helper extension](https://addons.mozilla.org/en-US/firefox/addon/rettiwt-auth-helper) from Firefox Add-Ons, and allow it to run it in in-private mode.
 2. Switch to in-private mode and login to Twitter/X.
@@ -87,7 +87,7 @@ By default, Rettiwt-API uses 'guest' authentication. If however, access to the f
 -   `API_KEY` created in this way should last 5 years from the date of login, as long as the credentials to the account aren't changed.
 -   This approach can also be done without going into incognito/in-private mode, in which case you can either login as usual or skip the login step if you're already logged in, and continue from the steps after login. However, this makes the `API_KEY` to last only as long as the Twitter/X account isn't logged out of (you may exit the browser as usual) or 5 years, whichever comes first. That's why it's recommended to use incognito/in-private mode, so that the `API_KEY` isn't accidentially revoked by logging out.
 
-### 2. Using the CLI:
+### 2. Using the CLI (Borked):
 
 1. Open a terminal.
 2. Generate an API_KEY using the command `rettiwt auth login "<email>" "<username>" "<password>"`
@@ -234,7 +234,7 @@ rettiwt.tweet.search({
 });
 ```
 
-### 4. Getting an API_KEY during runtime, using 'user' authentication
+### 4. Getting an API_KEY during runtime, using 'user' authentication (Borked)
 
 Sometimes, you might want to generate an API_KEY on the fly, in situations such as implementing Twitter login in your application. The following example demonstrates how to generate an API_KEY during runtime:
 
@@ -355,6 +355,11 @@ So far, the following operations are supported:
 -   [Logging in as user](https://rishikant181.github.io/Rettiwt-API/classes/AuthService.html#login)
 -   [Logging in as guest](https://rishikant181.github.io/Rettiwt-API/classes/AuthService.html#guest)
 
+### List
+
+-   [Getting the members of a given Twitter list](https://rishikant181.github.io/Rettiwt-API/classes/ListService.html#members)
+-   [Getting the list of tweets from a given Twitter list](https://rishikant181.github.io/Rettiwt-API/classes/ListService.html#tweets)
+
 ### Tweets
 
 -   [Getting the details of a tweet](https://rishikant181.github.io/Rettiwt-API/classes/TweetService.html#details)
@@ -374,6 +379,7 @@ So far, the following operations are supported:
 
 ### Users
 
+-   [Getting the list of tweets bookmarked by the logged-in user](https://rishikant181.github.io/Rettiwt-API/classes/UserService.html#bookmarks)
 -   [Getting the details of a user](https://rishikant181.github.io/Rettiwt-API/classes/UserService.html#details)
 -   [Following a given user](https://rishikant181.github.io/Rettiwt-API/classes/UserService.html#follow)
 -   [Getting the followed feed of the logged-in user](https://rishikant181.github.io/Rettiwt-API/classes/UserService.html#followed)
