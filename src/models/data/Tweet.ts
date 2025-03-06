@@ -55,7 +55,7 @@ export class Tweet {
 	public replyCount: number;
 
 	/** The rest id of the tweet to which the tweet is a reply. */
-	public replyTo?: string;
+	public replyTo?: Tweet;
 
 	/** The number of retweets of the tweet. */
 	public retweetCount: number;
@@ -71,16 +71,17 @@ export class Tweet {
 
 	/**
 	 * @param tweet - The raw tweet details.
+	 * @param response - The raw response
 	 */
-	public constructor(tweet: IRawTweet) {
+	public constructor(tweet: IRawTweet, response: NonNullable<unknown>) {
 		this.id = tweet.rest_id;
 		this.createdAt = tweet.legacy.created_at;
 		this.tweetBy = new User(tweet.core.user_results.result);
 		this.entities = new TweetEntities(tweet.legacy.entities);
 		this.media = tweet.legacy.extended_entities?.media?.map((media) => new TweetMedia(media));
-		this.quoted = this.getQuotedTweet(tweet);
+		this.quoted = this.getQuotedTweet(tweet, response);
 		this.fullText = tweet.note_tweet ? tweet.note_tweet.note_tweet_results.result.text : tweet.legacy.full_text;
-		this.replyTo = tweet.legacy.in_reply_to_status_id_str;
+		this.replyTo = this.getParentTweet(tweet, response);
 		this.lang = tweet.legacy.lang;
 		this.quoteCount = tweet.legacy.quote_count;
 		this.replyCount = tweet.legacy.reply_count;
@@ -88,28 +89,42 @@ export class Tweet {
 		this.likeCount = tweet.legacy.favorite_count;
 		this.viewCount = tweet.views.count ? parseInt(tweet.views.count) : 0;
 		this.bookmarkCount = tweet.legacy.bookmark_count;
-		this.retweetedTweet = this.getRetweetedTweet(tweet);
+		this.retweetedTweet = this.getRetweetedTweet(tweet, response);
+	}
+
+	private getParentTweet(tweet: IRawTweet, response: NonNullable<unknown>): Tweet | undefined {
+		// Getting parent tweet ID, if any
+		const parentTweetId: string = tweet.legacy?.in_reply_to_status_id_str ?? '';
+
+		// If no parent tweet
+		if (parentTweetId.length == 0) {
+			return;
+		}
+
+		// Getting the details of parent tweet
+		return Tweet.single(response, parentTweetId);
 	}
 
 	/**
 	 * Extract and deserialize the original quoted tweet from the given raw tweet.
 	 *
 	 * @param tweet - The raw tweet.
+	 * @param response - The raw response
 	 *
 	 * @returns - The deserialized original quoted tweet.
 	 */
-	private getQuotedTweet(tweet: IRawTweet): Tweet | undefined {
+	private getQuotedTweet(tweet: IRawTweet, response: NonNullable<unknown>): Tweet | undefined {
 		// If tweet with limited visibility
 		if (
 			tweet.quoted_status_result &&
 			tweet.quoted_status_result?.result?.__typename == 'TweetWithVisibilityResults' &&
 			(tweet.quoted_status_result.result as ILimitedVisibilityTweet)?.tweet?.legacy
 		) {
-			return new Tweet((tweet.quoted_status_result.result as ILimitedVisibilityTweet).tweet);
+			return new Tweet((tweet.quoted_status_result.result as ILimitedVisibilityTweet).tweet, response);
 		}
 		// If normal tweet
 		else if ((tweet.quoted_status_result?.result as ITweet)?.rest_id) {
-			return new Tweet(tweet.quoted_status_result.result as ITweet);
+			return new Tweet(tweet.quoted_status_result.result as ITweet, response);
 		}
 		// Else, skip
 		else {
@@ -121,21 +136,22 @@ export class Tweet {
 	 * Extract and deserialize the original retweeted tweet from the given raw tweet.
 	 *
 	 * @param tweet - The raw tweet.
+	 * @param response - The raw response
 	 *
 	 * @returns - The deserialized original retweeted tweet.
 	 */
-	private getRetweetedTweet(tweet: IRawTweet): Tweet | undefined {
+	private getRetweetedTweet(tweet: IRawTweet, response: NonNullable<unknown>): Tweet | undefined {
 		// If retweet with limited visibility
 		if (
 			tweet.legacy?.retweeted_status_result &&
 			tweet.legacy?.retweeted_status_result?.result?.__typename == 'TweetWithVisibilityResults' &&
 			(tweet.legacy?.retweeted_status_result?.result as ILimitedVisibilityTweet)?.tweet?.legacy
 		) {
-			return new Tweet((tweet.legacy.retweeted_status_result.result as ILimitedVisibilityTweet).tweet);
+			return new Tweet((tweet.legacy.retweeted_status_result.result as ILimitedVisibilityTweet).tweet, response);
 		}
 		// If normal tweet
 		else if ((tweet.legacy?.retweeted_status_result?.result as ITweet)?.rest_id) {
-			return new Tweet(tweet.legacy.retweeted_status_result.result as ITweet);
+			return new Tweet(tweet.legacy.retweeted_status_result.result as ITweet, response);
 		}
 		// Else, skip
 		else {
@@ -166,14 +182,14 @@ export class Tweet {
 				item.tweet_results?.result?.__typename == 'TweetWithVisibilityResults' &&
 				(item.tweet_results?.result as ILimitedVisibilityTweet)?.tweet?.legacy
 			) {
-				tweets.push(new Tweet((item.tweet_results.result as ILimitedVisibilityTweet).tweet));
+				tweets.push(new Tweet((item.tweet_results.result as ILimitedVisibilityTweet).tweet, response));
 			}
 			// If normal tweet
 			else if ((item.tweet_results?.result as ITweet)?.legacy) {
 				// Logging
 				LogService.log(ELogActions.DESERIALIZE, { id: (item.tweet_results.result as ITweet).rest_id });
 
-				tweets.push(new Tweet(item.tweet_results.result as ITweet));
+				tweets.push(new Tweet(item.tweet_results.result as ITweet, response));
 			}
 			// If invalid/unrecognized tweet
 			else {
@@ -210,7 +226,7 @@ export class Tweet {
 				// Logging
 				LogService.log(ELogActions.DESERIALIZE, { id: item.rest_id });
 
-				tweets.push(new Tweet(item));
+				tweets.push(new Tweet(item, response));
 			} else {
 				// Logging
 				LogService.log(ELogActions.WARNING, {
