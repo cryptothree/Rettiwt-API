@@ -54,3 +54,42 @@ export async function handleXMigration(config: AxiosRequestConfig): Promise<Jsdo
 
 	return homePage;
 }
+
+export function floatToHex(x: number): string | undefined {
+	const result: string[] = [];
+	let quotient = parseInt(String(x));
+	let fraction = x - quotient;
+
+	while (quotient > 0) {
+		quotient = parseInt(String(x / 16));
+		const remainder = parseInt(String(x - quotient * 16));
+
+		if (remainder > 9) {
+			result.splice(0, 0, String.fromCharCode(remainder + 55));
+		} else {
+			result.splice(0, 0, String(remainder));
+		}
+
+		x = quotient;
+	}
+
+	if (fraction == 0) {
+		return result.join();
+	}
+
+	result.push('.');
+
+	while (fraction > 0) {
+		fraction = fraction * 16;
+		const integer = parseInt(String(fraction));
+		fraction = fraction - integer;
+
+		if (integer > 9) {
+			result.push(String.fromCharCode(integer + 55));
+		} else {
+			result.push(String(integer));
+		}
+	}
+
+	return result.join();
+}
