@@ -74,7 +74,7 @@ export function floatToHex(x: number): string | undefined {
 	}
 
 	if (fraction == 0) {
-		return result.join();
+		return result.join('');
 	}
 
 	result.push('.');
@@ -91,5 +91,5 @@ export function floatToHex(x: number): string | undefined {
 		}
 	}
 
-	return result.join();
+	return result.join('');
 }
