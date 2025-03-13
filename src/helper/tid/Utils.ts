@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import Jsdom from 'jsdom';
 
-export async function handleXMigration(config: AxiosRequestConfig): Promise<void> {
+export async function handleXMigration(config: AxiosRequestConfig): Promise<Jsdom.JSDOM> {
 	const migrationRedirectionRegex: RegExp = new RegExp(
 		`(http(?:s)?://(?:www\.)?(twitter|x){1}\.com(/x)?/migrate([/?])?tok=[a-zA-Z0-9%\-_]+)+`,
 	);
@@ -37,5 +37,20 @@ export async function handleXMigration(config: AxiosRequestConfig): Promise<void
 	if (migrationForm) {
 		const url = migrationForm.getAttribute('action') ?? 'https://x.com/x/migrate';
 		const method = migrationForm.getAttribute('method') ?? 'POST';
+		let requestPayload: { [key: string]: string } = {};
+		migrationForm.querySelectorAll('input').forEach((item) => {
+			requestPayload[item.getAttribute('name') as string] = item.getAttribute('value') as string;
+		});
+
+		response = await axios.request({
+			...config,
+			method: method,
+			url: url,
+			data: requestPayload,
+		});
+
+		homePage = new Jsdom.JSDOM(response.data);
 	}
+
+	return homePage;
 }
