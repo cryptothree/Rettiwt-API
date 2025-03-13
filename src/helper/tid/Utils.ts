@@ -9,7 +9,7 @@ export async function handleXMigration(config: AxiosRequestConfig): Promise<Jsdo
 	let response = await axios.request({
 		...config,
 		method: 'GET',
-		url: 'https://google.com',
+		url: 'https://x.com',
 	});
 
 	let homePage: Jsdom.JSDOM = new Jsdom.JSDOM(response.data);
