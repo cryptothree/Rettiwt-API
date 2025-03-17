@@ -5,6 +5,7 @@ import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { HttpsProxyAgent } from 'https-proxy-agent';
+import puppeteer from 'puppeteer';
 
 /**
  * The services that handles authentication.
@@ -146,19 +147,37 @@ export class AuthService {
 	 * Interchanging `email` and `userName` works too.
 	 */
 	public async login(email: string, userName: string, password: string): Promise<string> {
-		// Logging in and getting the credentials
-		let apiKey: string =
-			((
-				await new Auth({ proxyUrl: this.authProxyUrl }).getUserCredential({
-					email: email,
-					userName: userName,
-					password: password,
-				})
-			).toHeader().cookie as string) ?? '';
+		// Launch browser
+		const browser = await puppeteer.launch({
+			headless: true,
+			defaultViewport: null,
+		});
 
-		// Converting the credentials to base64 string
-		apiKey = AuthService.encodeCookie(apiKey);
+		const page = await browser.newPage();
+		await page.goto('https://x.com/i/flow/login');
 
-		return apiKey;
+		// Wait for username field and type
+		await page.waitForSelector('input[autocomplete="username"]');
+		await page.type('input[autocomplete="username"]', userName);
+
+		// Click the Next button using background color
+		await page.waitForSelector('button[style*="background-color: rgb(15, 20, 25)"]');
+		await page.click('button[style*="background-color: rgb(15, 20, 25)"]');
+
+		// Wait for password field and type
+		await page.waitForSelector('input[name="password"]');
+		await page.type('input[name="password"]', password);
+
+		// Click the Next button using background color
+		await page.waitForSelector('button[style*="background-color: rgb(15, 20, 25)"]');
+		await page.click('button[style*="background-color: rgb(15, 20, 25)"]');
+
+		// Wait for navigation to complete
+		await page.waitForNavigation();
+
+		// Getting the cookies
+		const cookies = (await browser.cookies()).filter((cookie) => cookie.domain.includes('x.com'));
+
+		return AuthService.encodeCookie(new AuthCredential(cookies).cookies ?? '');
 	}
 }

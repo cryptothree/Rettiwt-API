@@ -1,11 +1,12 @@
 // PACKAGES
-import { AxiosHeaders } from 'axios';
+import { AxiosHeaders, AxiosRequestHeaders } from 'axios';
 
 // ENUMS
 import { EAuthenticationType } from '../../enums/Authentication';
 
 // MODELS
 import { AuthCookie } from './AuthCookie';
+import { Cookie } from 'puppeteer';
 
 /**
  * The credentials for authenticating against Twitter.
@@ -32,10 +33,10 @@ export class AuthCredential {
 	public guestToken?: string;
 
 	/**
-	 * @param cookies - The list of cookie strings to be used for authenticating against Twitter.
+	 * @param cookies - The list of cookies to be used for authenticating against Twitter.
 	 * @param guestToken - The guest token to be used to authenticate a guest session.
 	 */
-	public constructor(cookies?: string[], guestToken?: string) {
+	public constructor(cookies?: Cookie[], guestToken?: string) {
 		this.authToken =
 			'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
 		// If guest credentials given
@@ -66,7 +67,7 @@ export class AuthCredential {
 	/**
 	 * @returns The HTTP header representation of 'this' object.
 	 */
-	public toHeader(): AxiosHeaders {
+	public toHeader(): AxiosRequestHeaders {
 		const headers = new AxiosHeaders();
 
 		/**

@@ -1,5 +1,4 @@
-// PACKAGES
-import { Cookie, CookieJar } from 'cookiejar';
+import { Cookie } from 'puppeteer';
 
 /**
  * The cookie containing the tokens that are used to authenticate against Twitter.
@@ -22,12 +21,9 @@ export class AuthCookie {
 	/* eslint-enable @typescript-eslint/naming-convention */
 
 	/**
-	 * @param cookieStr - The cookie string list obtained from set-cookie header.
+	 * @param cookies - The cookie list obtained from the browser.
 	 */
-	public constructor(cookieStr: string[]) {
-		// Storing the cookies in cookie jar
-		const cookies: Cookie[] = new CookieJar().setCookies(cookieStr);
-
+	public constructor(cookies: Cookie[]) {
 		// Parsing the cookies
 		for (const cookie of cookies) {
 			if (cookie.name == 'kdt') {

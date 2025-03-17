@@ -18,6 +18,7 @@ import { LogService } from '../internal/LogService';
 
 import { AuthService } from './AuthService';
 import { AuthCredential } from '../../models/auth/AuthCredential';
+import { Cookie } from 'cookiejar';
 
 /**
  * The base service that handles all HTTP requests.
@@ -87,7 +88,17 @@ export class FetcherService {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'USER_CREDENTIAL' });
 
-			return new AuthCredential(AuthService.decodeCookie(this._apiKey).split(';'));
+			return new AuthCredential(
+				AuthService.decodeCookie(this._apiKey)
+					.split(';')
+					.map((item) => ({
+						...new Cookie(item),
+						expires: 0,
+						size: 0,
+						httpOnly: false,
+						session: true,
+					})),
+			);
 		} else if (this._guestKey) {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'GUEST_CREDENTIAL' });
