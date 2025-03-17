@@ -1,23 +1,27 @@
-import { Auth } from 'rettiwt-auth';
-
+import axios from 'axios';
+import https, { Agent } from 'https';
 import { EApiErrors } from '../../enums/Api';
+import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
-import { FetcherService } from './FetcherService';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 /**
  * The services that handles authentication.
  *
  * @public
  */
-export class AuthService extends FetcherService {
+export class AuthService {
+	/** The HTTPS Agent to use for requests to Twitter API. */
+	private readonly httpsAgent: Agent;
+
 	/**
 	 * @param config - The config object for configuring the `Rettiwt` instance.
 	 *
 	 * @internal
 	 */
 	public constructor(config?: IRettiwtConfig) {
-		super(config);
+		this.httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
 	}
 
 	/**
@@ -94,11 +98,21 @@ export class AuthService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async guest(): Promise<string> {
-		// Getting a new guest key
-		const guestKey: string = (await new Auth().getGuestCredential()).guestToken ?? '';
+	public async guest(): Promise<AuthCredential> {
+		// Creating a new blank credential
+		const cred: AuthCredential = new AuthCredential();
 
-		return guestKey;
+		// Getting the guest token
+		await axios
+			.get<{ guest_token: string }>('https://api.twitter.com/1.1/guest/activate.json', {
+				headers: cred.toHeader(),
+				httpsAgent: this.httpsAgent,
+			})
+			.then((res) => {
+				cred.guestToken = res.data.guest_token;
+			});
+
+		return cred;
 	}
 
 	/**

@@ -33,7 +33,7 @@ function createAuthCommand(rettiwt: Rettiwt): Command {
 		.description('Generate a new guest key')
 		.action(async () => {
 			try {
-				const guestKey: string = await rettiwt.auth.guest();
+				const guestKey: string = (await rettiwt.auth.guest()).guestToken ?? '';
 				output(guestKey);
 			} catch (error) {
 				output(error);

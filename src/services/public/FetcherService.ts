@@ -2,7 +2,6 @@ import https, { Agent } from 'https';
 
 import axios from 'axios';
 import { HttpsProxyAgent } from 'https-proxy-agent';
-import { Auth, AuthCredential } from 'rettiwt-auth';
 
 import { allowGuestAuthentication, fetchResources, postResources } from '../../collections/Groups';
 import { requests } from '../../collections/Requests';
@@ -18,6 +17,7 @@ import { ErrorService } from '../internal/ErrorService';
 import { LogService } from '../internal/LogService';
 
 import { AuthService } from './AuthService';
+import { AuthCredential } from '../../models/auth/AuthCredential';
 
 /**
  * The base service that handles all HTTP requests.
@@ -97,7 +97,7 @@ export class FetcherService {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'NEW_GUEST_CREDENTIAL' });
 
-			return await new Auth({ proxyUrl: this.authProxyUrl }).getGuestCredential();
+			return await new AuthService({ proxyUrl: this.authProxyUrl }).guest();
 		}
 	}
 
