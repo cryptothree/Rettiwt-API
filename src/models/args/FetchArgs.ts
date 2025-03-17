@@ -20,6 +20,172 @@ import { EResourceType } from '../../enums/Resource';
 import { DataValidationError } from '../errors/DataValidationError';
 
 /**
+ * The filter to be used for searching tweets.
+ *
+ * @public
+ */
+export class TweetFilter extends TweetFilterCore {
+	/** The date upto which tweets are to be searched. */
+	@IsOptional()
+	@IsDate()
+	declare public endDate?: Date;
+
+	/** The list of words to exclude from search. */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public excludeWords?: string[];
+
+	/**
+	 * The list of usernames whose tweets are to be searched.
+	 *
+	 * @remarks
+	 * '\@' must be excluded from the username!
+	 */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public fromUsers?: string[];
+
+	/**
+	 * The list of hashtags to search.
+	 *
+	 * @remarks
+	 * '#' must be excluded from the hashtag!
+	 */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public hashtags?: string[];
+
+	/** The exact phrase to search. */
+	@IsOptional()
+	@IsString()
+	declare public includePhrase?: string;
+
+	/** The list of words to search. */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public includeWords?: string[];
+
+	/** The language of the tweets to search. */
+	@IsOptional()
+	@IsString()
+	declare public language?: string;
+
+	/**
+	 * Whether to fetch tweets that are links or not.
+	 *
+	 * @defaultValue true
+	 */
+	@IsOptional()
+	@IsBoolean()
+	declare public links?: boolean;
+
+	/** The list from which tweets are to be searched. */
+	@IsOptional()
+	@IsNumberString()
+	declare public list?: string;
+
+	/** The id of the tweet, before which the tweets are to be searched. */
+	@IsOptional()
+	@IsNumberString()
+	declare public maxId?: string;
+
+	/**
+	 * The list of username mentioned in the tweets to search.
+	 *
+	 * @remarks
+	 * '\@' must be excluded from the username!
+	 */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public mentions?: string[];
+
+	/** The minimun number of likes to search by. */
+	@IsOptional()
+	@IsNumber()
+	declare public minLikes?: number;
+
+	/** The minimum number of replies to search by. */
+	@IsOptional()
+	@IsNumber()
+	declare public minReplies?: number;
+
+	/** The minimum number of retweets to search by. */
+	@IsOptional()
+	@IsNumber()
+	declare public minRetweets?: number;
+
+	/** The optional words to search. */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public optionalWords?: string[];
+
+	/** The id of the tweet which is quoted in the tweets to search. */
+	@IsOptional()
+	@IsNumberString()
+	declare public quoted?: string;
+
+	/**
+	 * Whether to fetch tweets that are replies or not.
+	 *
+	 * @defaultValue true
+	 */
+	@IsOptional()
+	@IsBoolean()
+	declare public replies?: boolean;
+
+	/** The id of the tweet, after which the tweets are to be searched. */
+	@IsOptional()
+	@IsNumberString()
+	declare public sinceId?: string;
+
+	/** The date starting from which tweets are to be searched. */
+	@IsOptional()
+	@IsDate()
+	declare public startDate?: Date;
+
+	/**
+	 * The list of username to whom the tweets to be searched, are adressed.
+	 *
+	 * @remarks
+	 * '\@' must be excluded from the username!
+	 */
+	@IsOptional()
+	@IsArray()
+	@IsString({ each: true })
+	declare public toUsers?: string[];
+
+	/**
+	 * Whether to fetch top or not.
+	 *
+	 * @defaultValue true
+	 */
+	@IsOptional()
+	@IsBoolean()
+	declare public top?: boolean;
+
+	/**
+	 * @param filter - The filter to use for searching tweets.
+	 */
+	public constructor(filter: TweetFilter) {
+		super(filter);
+
+		// Validating this object
+		const validationResult = validateSync(this);
+
+		// If valiation error occured
+		if (validationResult.length) {
+			throw new DataValidationError(validationResult);
+		}
+	}
+}
+
+/**
  * Options specifying the data that is to be fetched.
  *
  * @public
@@ -320,172 +486,6 @@ export class FetchArgs {
 
 		// Validating this object
 		const validationResult = validateSync(this, { groups: [resource] });
-
-		// If valiation error occured
-		if (validationResult.length) {
-			throw new DataValidationError(validationResult);
-		}
-	}
-}
-
-/**
- * The filter to be used for searching tweets.
- *
- * @public
- */
-export class TweetFilter extends TweetFilterCore {
-	/** The date upto which tweets are to be searched. */
-	@IsOptional()
-	@IsDate()
-	public endDate?: Date;
-
-	/** The list of words to exclude from search. */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public excludeWords?: string[];
-
-	/**
-	 * The list of usernames whose tweets are to be searched.
-	 *
-	 * @remarks
-	 * '\@' must be excluded from the username!
-	 */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public fromUsers?: string[];
-
-	/**
-	 * The list of hashtags to search.
-	 *
-	 * @remarks
-	 * '#' must be excluded from the hashtag!
-	 */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public hashtags?: string[];
-
-	/** The exact phrase to search. */
-	@IsOptional()
-	@IsString()
-	public includePhrase?: string;
-
-	/** The list of words to search. */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public includeWords?: string[];
-
-	/** The language of the tweets to search. */
-	@IsOptional()
-	@IsString()
-	public language?: string;
-
-	/**
-	 * Whether to fetch tweets that are links or not.
-	 *
-	 * @defaultValue true
-	 */
-	@IsOptional()
-	@IsBoolean()
-	public links?: boolean;
-
-	/** The list from which tweets are to be searched. */
-	@IsOptional()
-	@IsNumberString()
-	public list?: string;
-
-	/** The id of the tweet, before which the tweets are to be searched. */
-	@IsOptional()
-	@IsNumberString()
-	public maxId?: string;
-
-	/**
-	 * The list of username mentioned in the tweets to search.
-	 *
-	 * @remarks
-	 * '\@' must be excluded from the username!
-	 */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public mentions?: string[];
-
-	/** The minimun number of likes to search by. */
-	@IsOptional()
-	@IsNumber()
-	public minLikes?: number;
-
-	/** The minimum number of replies to search by. */
-	@IsOptional()
-	@IsNumber()
-	public minReplies?: number;
-
-	/** The minimum number of retweets to search by. */
-	@IsOptional()
-	@IsNumber()
-	public minRetweets?: number;
-
-	/** The optional words to search. */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public optionalWords?: string[];
-
-	/** The id of the tweet which is quoted in the tweets to search. */
-	@IsOptional()
-	@IsNumberString()
-	public quoted?: string;
-
-	/**
-	 * Whether to fetch tweets that are replies or not.
-	 *
-	 * @defaultValue true
-	 */
-	@IsOptional()
-	@IsBoolean()
-	public replies?: boolean;
-
-	/** The id of the tweet, after which the tweets are to be searched. */
-	@IsOptional()
-	@IsNumberString()
-	public sinceId?: string;
-
-	/** The date starting from which tweets are to be searched. */
-	@IsOptional()
-	@IsDate()
-	public startDate?: Date;
-
-	/**
-	 * The list of username to whom the tweets to be searched, are adressed.
-	 *
-	 * @remarks
-	 * '\@' must be excluded from the username!
-	 */
-	@IsOptional()
-	@IsArray()
-	@IsString({ each: true })
-	public toUsers?: string[];
-
-	/**
-	 * Whether to fetch top or not.
-	 *
-	 * @defaultValue true
-	 */
-	@IsOptional()
-	@IsBoolean()
-	public top?: boolean;
-
-	/**
-	 * @param filter - The filter to use for searching tweets.
-	 */
-	public constructor(filter: TweetFilter) {
-		super(filter);
-
-		// Validating this object
-		const validationResult = validateSync(this);
 
 		// If valiation error occured
 		if (validationResult.length) {
