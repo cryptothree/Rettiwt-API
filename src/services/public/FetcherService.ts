@@ -46,6 +46,9 @@ export class FetcherService {
 	/** The id of the authenticated user (if any). */
 	protected readonly userId?: string;
 
+	/** Custom headers to use for all requests */
+	private readonly _customHeaders?: { [key: string]: string };
+
 	/**
 	 * @param config - The config object for configuring the Rettiwt instance.
 	 */
@@ -58,6 +61,7 @@ export class FetcherService {
 		this._proxyUrl = config?.proxyUrl;
 		this._timeout = config?.timeout ?? 0;
 		this._errorHandler = config?.errorHandler ?? new ErrorService();
+		this._customHeaders = config?.headers;
 	}
 
 	/**
@@ -192,7 +196,7 @@ export class FetcherService {
 		const config = requests[resource](args);
 
 		// Setting additional request parameters
-		config.headers = { ...config.headers, ...cred.toHeader() };
+		config.headers = { ...config.headers, ...cred.toHeader(), ...(this._customHeaders || {}) };
 		config.httpAgent = httpsAgent;
 		config.httpsAgent = httpsAgent;
 		config.timeout = this._timeout;
