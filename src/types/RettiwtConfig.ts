@@ -36,4 +36,11 @@ export interface IRettiwtConfig {
 
 	/** Optional custom error handler to define error conditions and process API/HTTP errors in responses. */
 	errorHandler?: IErrorHandler;
+
+	/**
+	* Optional custom HTTP headers to add to all requests to Twitter API.
+	* 
+	* @remarks Custom headers can be useful for proxies, avoiding rate limits, etc.
+	*/
+	headers?: { [key: string]: string };
 }
