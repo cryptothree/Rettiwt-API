@@ -5,12 +5,9 @@ import { ValidationError } from 'class-validator';
  *
  * @public
  */
-export class DataValidationError {
+export class DataValidationError extends Error {
 	/** The detaied error message(s). */
 	public details: ValidationErrorDetails[];
-
-	/** The user-friendly error message. */
-	public message: string;
 
 	/** The name of the error. */
 	public name: string;
@@ -19,8 +16,8 @@ export class DataValidationError {
 	 * @param data - The error details, as a list of type {@link ValidationError}
 	 */
 	public constructor(errorDetails: ValidationError[]) {
+		super('One or more validation error(s) occured, check details field.');
 		this.name = 'VALIDATION_ERROR';
-		this.message = 'One or more validation error(s) occured, check details field.';
 		this.details = errorDetails.map((error) => new ValidationErrorDetails(error));
 	}
 }
