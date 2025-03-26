@@ -2,11 +2,12 @@
 import { AxiosHeaders, AxiosRequestHeaders } from 'axios';
 
 // ENUMS
+import { Cookie } from 'puppeteer';
+
 import { EAuthenticationType } from '../../enums/Authentication';
 
 // MODELS
 import { AuthCookie } from './AuthCookie';
-import { Cookie } from 'puppeteer';
 
 /**
  * The credentials for authenticating against Twitter.

@@ -8,7 +8,7 @@
  *
  * @internal
  */
-export function findByFilter<T>(data: {}, key: string, value: string): T[] {
+export function findByFilter<T>(data: NonNullable<unknown>, key: string, value: string): T[] {
 	/**
 	 * The list containing all the objects matching given filter.
 	 */
@@ -24,7 +24,7 @@ export function findByFilter<T>(data: {}, key: string, value: string): T[] {
 		 * Therefore, map(item =\> findByFilter(.......)) returns an array of arrays.
 		 * Therefore, using ... operator to spread the 2-D array in 1-D array.
 		 */
-		res = res.concat(...data.map((item) => findByFilter<T>(item, key, value)));
+		res = res.concat(...data.map((item: NonNullable<unknown>) => findByFilter<T>(item, key, value)));
 	}
 	// If the data is an object
 	else if (data != null && typeof data == 'object') {
@@ -39,7 +39,7 @@ export function findByFilter<T>(data: {}, key: string, value: string): T[] {
 		 * Recursively run the function on each value specified by each key in the object, for subsequent matches.
 		 */
 		for (const [, v] of Object.entries(data)) {
-			res = res.concat(findByFilter<T>(v, key, value));
+			res = res.concat(findByFilter<T>(v as NonNullable<unknown>, key, value));
 		}
 	}
 
@@ -55,7 +55,7 @@ export function findByFilter<T>(data: {}, key: string, value: string): T[] {
  *
  * @internal
  */
-export function findKeyByValue(data: {}, value: string): string | undefined {
+export function findKeyByValue(data: NonNullable<unknown>, value: string): string | undefined {
 	// Finding the key-value pairs that have the given value
 	const kvPair = Object.entries(data).filter(([, v]) => v == value)[0];
 

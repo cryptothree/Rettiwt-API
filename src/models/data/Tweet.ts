@@ -156,7 +156,7 @@ export class Tweet {
 	 *
 	 * @internal
 	 */
-	public static list(response: {}): Tweet[] {
+	public static list(response: NonNullable<unknown>): Tweet[] {
 		const tweets: Tweet[] = [];
 
 		// Extracting the matching data
@@ -202,7 +202,7 @@ export class Tweet {
 	 *
 	 * @internal
 	 */
-	public static single(response: {}, id: string): Tweet | undefined {
+	public static single(response: NonNullable<unknown>, id: string): Tweet | undefined {
 		const tweets: Tweet[] = [];
 
 		// Extracting the matching data

@@ -81,7 +81,7 @@ export class User {
 	 *
 	 * @internal
 	 */
-	public static list(response: {}): User[] {
+	public static list(response: NonNullable<unknown>): User[] {
 		const users: User[] = [];
 
 		// Extracting the matching data
@@ -115,7 +115,7 @@ export class User {
 	 *
 	 * @internal
 	 */
-	public static single(response: {}): User | undefined {
+	public static single(response: NonNullable<unknown>): User | undefined {
 		const users: User[] = [];
 
 		// Extracting the matching data

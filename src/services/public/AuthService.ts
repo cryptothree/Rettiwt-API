@@ -1,11 +1,14 @@
-import axios from 'axios';
 import https, { Agent } from 'https';
+
+import axios from 'axios';
+
+import { HttpsProxyAgent } from 'https-proxy-agent';
+
+import puppeteer from 'puppeteer';
+
 import { EApiErrors } from '../../enums/Api';
 import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
-
-import { HttpsProxyAgent } from 'https-proxy-agent';
-import puppeteer from 'puppeteer';
 
 /**
  * The services that handles authentication.
@@ -14,7 +17,7 @@ import puppeteer from 'puppeteer';
  */
 export class AuthService {
 	/** The HTTPS Agent to use for requests to Twitter API. */
-	private readonly httpsAgent: Agent;
+	private readonly _httpsAgent: Agent;
 
 	/**
 	 * @param config - The config object for configuring the `Rettiwt` instance.
@@ -22,7 +25,7 @@ export class AuthService {
 	 * @internal
 	 */
 	public constructor(config?: IRettiwtConfig) {
-		this.httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
+		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
 	}
 
 	/**
@@ -105,9 +108,13 @@ export class AuthService {
 
 		// Getting the guest token
 		await axios
-			.get<{ guest_token: string }>('https://api.twitter.com/1.1/guest/activate.json', {
+			.get<{
+				/* eslint-disable @typescript-eslint/naming-convention */
+				guest_token: string;
+				/* eslint-enable @typescript-eslint/naming-convention */
+			}>('https://api.twitter.com/1.1/guest/activate.json', {
 				headers: cred.toHeader(),
-				httpsAgent: this.httpsAgent,
+				httpsAgent: this._httpsAgent,
 			})
 			.then((res) => {
 				cred.guestToken = res.data.guest_token;

@@ -1,6 +1,7 @@
 import https, { Agent } from 'https';
 
 import axios from 'axios';
+import { Cookie } from 'cookiejar';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
 import { allowGuestAuthentication, fetchResources, postResources } from '../../collections/Groups';
@@ -10,6 +11,7 @@ import { ELogActions } from '../../enums/Logging';
 import { EResourceType } from '../../enums/Resource';
 import { FetchArgs } from '../../models/args/FetchArgs';
 import { PostArgs } from '../../models/args/PostArgs';
+import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IErrorHandler } from '../../types/ErrorHandler';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
@@ -17,8 +19,6 @@ import { ErrorService } from '../internal/ErrorService';
 import { LogService } from '../internal/LogService';
 
 import { AuthService } from './AuthService';
-import { AuthCredential } from '../../models/auth/AuthCredential';
-import { Cookie } from 'cookiejar';
 
 /**
  * The base service that handles all HTTP requests.
