@@ -283,7 +283,7 @@ export class TweetMedia {
 	public type: EMediaType;
 
 	/** The direct URL to the media. */
-	public url: string = '';
+	public url = '';
 
 	/**
 	 * @param media - The raw media details.
@@ -304,7 +304,7 @@ export class TweetMedia {
 			this.thumbnailUrl = media.media_url_https;
 
 			/** The highest bitrate of all variants. */
-			let highestRate: number = 0;
+			let highestRate = 0;
 
 			/**
 			 * Selecting the URL of the video variant with the highest bitrate.

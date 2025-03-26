@@ -479,7 +479,7 @@ export class TweetService extends FetcherService {
 	 * streamTweets();
 	 * ```
 	 */
-	public async *stream(filter: TweetFilter, pollingInterval: number = 60000): AsyncGenerator<Tweet> {
+	public async *stream(filter: TweetFilter, pollingInterval = 60000): AsyncGenerator<Tweet> {
 		const startDate = new Date();
 
 		let cursor: string | undefined = undefined;

@@ -7,16 +7,16 @@ export class AuthCookie {
 	/* eslint-disable @typescript-eslint/naming-convention */
 
 	/** The bearer token from twitter.com. */
-	public auth_token: string = '';
+	public auth_token = '';
 
 	/** The CSRF token for the session. */
-	public ct0: string = '';
+	public ct0 = '';
 
 	/** Token used to authenticate a device. */
-	public kdt: string = '';
+	public kdt = '';
 
 	/** Token used to authenticate a user using a Twitter ID. */
-	public twid: string = '';
+	public twid = '';
 
 	/* eslint-enable @typescript-eslint/naming-convention */
 
@@ -43,7 +43,7 @@ export class AuthCookie {
 	 */
 	public toString(): string {
 		/** The string representation of 'this' object. */
-		let outStr: string = '';
+		let outStr = '';
 
 		// Iterating through the (key, value) pairs of this cookie
 		for (const [key, value] of Object.entries(this)) {
