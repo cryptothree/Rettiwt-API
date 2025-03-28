@@ -4,6 +4,7 @@ import {
 	ESearchResultType,
 	IInitializeMediaUploadResponse,
 	IListTweetsResponse,
+	INewTweet,
 	ITweetDetailsResponse,
 	ITweetLikeResponse,
 	ITweetPostResponse,
@@ -21,7 +22,6 @@ import {
 
 import { extractors } from '../../collections/Extractors';
 import { EResourceType } from '../../enums/Resource';
-import { TweetArgs } from '../../models/args/PostArgs';
 import { CursoredData } from '../../models/data/CursoredData';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
@@ -263,7 +263,7 @@ export class TweetService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async post(options: TweetArgs): Promise<string | undefined> {
+	public async post(options: INewTweet): Promise<string | undefined> {
 		const resource = EResourceType.TWEET_POST;
 
 		// Posting the tweet
@@ -381,7 +381,7 @@ export class TweetService extends FetcherService {
 	 * @remarks
 	 * Scheduling a tweet is similar to {@link post}ing, except that an extra parameter called `scheduleFor` is used.
 	 */
-	public async schedule(options: TweetArgs): Promise<string | undefined> {
+	public async schedule(options: INewTweet): Promise<string | undefined> {
 		const resource = EResourceType.TWEET_SCHEDULE;
 
 		// Scheduling the tweet

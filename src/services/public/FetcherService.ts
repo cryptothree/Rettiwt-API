@@ -12,6 +12,8 @@ import { EResourceType } from '../../enums/Resource';
 import { FetchArgs } from '../../models/args/FetchArgs';
 import { PostArgs } from '../../models/args/PostArgs';
 import { AuthCredential } from '../../models/auth/AuthCredential';
+import { IFetchArgs } from '../../types/args/FetchArgs';
+import { IPostArgs } from '../../types/args/PostArgs';
 import { IErrorHandler } from '../../types/ErrorHandler';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
@@ -141,7 +143,7 @@ export class FetcherService {
 	 *
 	 * @returns The validated args.
 	 */
-	private validateArgs(resource: EResourceType, args: FetchArgs | PostArgs): FetchArgs | PostArgs | undefined {
+	private validateArgs(resource: EResourceType, args: IFetchArgs | IPostArgs): FetchArgs | PostArgs | undefined {
 		if (fetchResources.includes(resource)) {
 			// Logging
 			LogService.log(ELogActions.VALIDATE, { target: 'FETCH_ARGS' });
@@ -183,7 +185,7 @@ export class FetcherService {
 	 * })
 	 * ```
 	 */
-	public async request<T>(resource: EResourceType, args: FetchArgs | PostArgs): Promise<T> {
+	public async request<T>(resource: EResourceType, args: IFetchArgs | IPostArgs): Promise<T> {
 		// Logging
 		LogService.log(ELogActions.REQUEST, { resource: resource, args: args });
 
