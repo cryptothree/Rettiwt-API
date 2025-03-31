@@ -1,22 +1,17 @@
 import { Cookie } from 'puppeteer';
 
+import { IAuthCookie } from '../../types/auth/AuthCookie';
+
 /**
  * The cookie containing the tokens that are used to authenticate against Twitter.
  */
-export class AuthCookie {
+export class AuthCookie implements IAuthCookie {
 	/* eslint-disable @typescript-eslint/naming-convention */
 
-	/** The bearer token from twitter.com. */
-	public auth_token = '';
-
-	/** The CSRF token for the session. */
-	public ct0 = '';
-
-	/** Token used to authenticate a device. */
-	public kdt = '';
-
-	/** Token used to authenticate a user using a Twitter ID. */
-	public twid = '';
+	public auth_token: string;
+	public ct0: string;
+	public kdt: string;
+	public twid: string;
 
 	/* eslint-enable @typescript-eslint/naming-convention */
 
@@ -24,6 +19,12 @@ export class AuthCookie {
 	 * @param cookies - The cookie list obtained from the browser.
 	 */
 	public constructor(cookies: Cookie[]) {
+		// Initializing defaults
+		this.auth_token = '';
+		this.ct0 = '';
+		this.kdt = '';
+		this.twid = '';
+
 		// Parsing the cookies
 		for (const cookie of cookies) {
 			if (cookie.name == 'kdt') {

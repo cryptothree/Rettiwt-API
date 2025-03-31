@@ -1,12 +1,10 @@
-// PACKAGES
 import { AxiosHeaders, AxiosRequestHeaders } from 'axios';
 
-// ENUMS
 import { Cookie } from 'puppeteer';
 
 import { EAuthenticationType } from '../../enums/Authentication';
+import { IAuthCredential } from '../../types/auth/AuthCredential';
 
-// MODELS
 import { AuthCookie } from './AuthCookie';
 
 /**
@@ -17,20 +15,11 @@ import { AuthCookie } from './AuthCookie';
  * - authToken, csrfToken, cookie =\> User authentication.
  * - authToken, guestToken, cookie =\> Guest authentication while logging in.
  */
-export class AuthCredential {
-	/** The bearer token from twitter.com. */
+export class AuthCredential implements IAuthCredential {
 	public authToken?: string;
-
-	/** The type of authentication. */
 	public authenticationType?: EAuthenticationType;
-
-	/** The cookie of the twitter account, which is used to authenticate against twitter. */
 	public cookies?: string;
-
-	/** The CSRF token for the session. */
 	public csrfToken?: string;
-
-	/** The guest token provided by Twitter API. */
 	public guestToken?: string;
 
 	/**
