@@ -1,8 +1,10 @@
-import { ICursor } from 'rettiwt-core';
+import { ICursor as IRawCursor } from 'rettiwt-core';
 
 import { EBaseType } from '../../enums/Data';
 
 import { findByFilter } from '../../helper/JsonUtils';
+
+import { ICursor, ICursoredData } from '../../types/data/CursoredData';
 
 import { Notification } from './Notification';
 import { Tweet } from './Tweet';
@@ -15,11 +17,8 @@ import { User } from './User';
  *
  * @public
  */
-export class CursoredData<T extends Notification | Tweet | User> {
-	/** The batch of data of the given type. */
+export class CursoredData<T extends Notification | Tweet | User> implements ICursoredData<T> {
 	public list: T[] = [];
-
-	/** The cursor to the next batch of data. */
 	public next: Cursor = new Cursor('');
 
 	/**
@@ -27,15 +26,19 @@ export class CursoredData<T extends Notification | Tweet | User> {
 	 * @param type - The base type of the data included in the batch.
 	 */
 	public constructor(response: NonNullable<unknown>, type: EBaseType) {
+		// Initializing defaults
+		this.list = [];
+		this.next = new Cursor('');
+
 		if (type == EBaseType.TWEET) {
 			this.list = Tweet.list(response) as T[];
-			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
+			this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
 		} else if (type == EBaseType.USER) {
 			this.list = User.list(response) as T[];
-			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
+			this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
 		} else if (type == EBaseType.NOTIFICATION) {
 			this.list = Notification.list(response) as T[];
-			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Top')[0]?.value ?? '');
+			this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Top')[0]?.value ?? '');
 		}
 	}
 }
@@ -45,7 +48,7 @@ export class CursoredData<T extends Notification | Tweet | User> {
  *
  * @public
  */
-export class Cursor {
+export class Cursor implements ICursor {
 	/** The cursor string. */
 	public value: string;
 

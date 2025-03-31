@@ -5,13 +5,14 @@ import {
 	ITweet as IRawTweet,
 	IEntities as IRawTweetEntities,
 	ITimelineTweet,
-	ITweet,
 } from 'rettiwt-core';
 
 import { ELogActions } from '../../enums/Logging';
 import { findByFilter } from '../../helper/JsonUtils';
 
 import { LogService } from '../../services/internal/LogService';
+
+import { ITweet } from '../../types/data/Tweet';
 
 import { User } from './User';
 
@@ -20,56 +21,23 @@ import { User } from './User';
  *
  * @public
  */
-export class Tweet {
-	/** The number of bookmarks of a tweet. */
+export class Tweet implements ITweet {
 	public bookmarkCount: number;
-
-	/** The date and time of creation of the tweet, in UTC string format. */
 	public createdAt: string;
-
-	/** Additional tweet entities like urls, mentions, etc. */
 	public entities: TweetEntities;
-
-	/** The full text content of the tweet. */
 	public fullText: string;
-
-	/** The rest id of the tweet. */
 	public id: string;
-
-	/** The language in which the tweet is written. */
 	public lang: string;
-
-	/** The number of likes of the tweet. */
 	public likeCount: number;
-
-	/** The urls of the media contents of the tweet (if any). */
 	public media?: TweetMedia[];
-
-	/** The number of quotes of the tweet. */
 	public quoteCount: number;
-
-	/** The tweet which is quoted in the tweet. */
 	public quoted?: Tweet;
-
-	/** The number of replies to the tweet. */
 	public replyCount: number;
-
-	/** The rest id of the tweet to which the tweet is a reply. */
 	public replyTo?: string;
-
-	/** The number of retweets of the tweet. */
 	public retweetCount: number;
-
-	/** The tweet which is retweeted in this tweet (if any). */
 	public retweetedTweet?: Tweet;
-
-	/** The details of the user who made the tweet. */
 	public tweetBy: User;
-
-	/** The URL to the tweet. */
 	public url: string;
-
-	/** The number of views of a tweet. */
 	public viewCount: number;
 
 	/**
@@ -112,8 +80,8 @@ export class Tweet {
 			return new Tweet((tweet.quoted_status_result.result as ILimitedVisibilityTweet).tweet);
 		}
 		// If normal tweet
-		else if ((tweet.quoted_status_result?.result as ITweet)?.rest_id) {
-			return new Tweet(tweet.quoted_status_result.result as ITweet);
+		else if ((tweet.quoted_status_result?.result as IRawTweet)?.rest_id) {
+			return new Tweet(tweet.quoted_status_result.result as IRawTweet);
 		}
 		// Else, skip
 		else {
@@ -138,8 +106,8 @@ export class Tweet {
 			return new Tweet((tweet.legacy.retweeted_status_result.result as ILimitedVisibilityTweet).tweet);
 		}
 		// If normal tweet
-		else if ((tweet.legacy?.retweeted_status_result?.result as ITweet)?.rest_id) {
-			return new Tweet(tweet.legacy.retweeted_status_result.result as ITweet);
+		else if ((tweet.legacy?.retweeted_status_result?.result as IRawTweet)?.rest_id) {
+			return new Tweet(tweet.legacy.retweeted_status_result.result as IRawTweet);
 		}
 		// Else, skip
 		else {
@@ -173,11 +141,11 @@ export class Tweet {
 				tweets.push(new Tweet((item.tweet_results.result as ILimitedVisibilityTweet).tweet));
 			}
 			// If normal tweet
-			else if ((item.tweet_results?.result as ITweet)?.legacy) {
+			else if ((item.tweet_results?.result as IRawTweet)?.legacy) {
 				// Logging
-				LogService.log(ELogActions.DESERIALIZE, { id: (item.tweet_results.result as ITweet).rest_id });
+				LogService.log(ELogActions.DESERIALIZE, { id: (item.tweet_results.result as IRawTweet).rest_id });
 
-				tweets.push(new Tweet(item.tweet_results.result as ITweet));
+				tweets.push(new Tweet(item.tweet_results.result as IRawTweet));
 			}
 			// If invalid/unrecognized tweet
 			else {
@@ -206,7 +174,7 @@ export class Tweet {
 		const tweets: Tweet[] = [];
 
 		// Extracting the matching data
-		const extract = findByFilter<ITweet>(response, 'rest_id', id);
+		const extract = findByFilter<IRawTweet>(response, 'rest_id', id);
 
 		// Deserializing valid data
 		for (const item of extract) {
