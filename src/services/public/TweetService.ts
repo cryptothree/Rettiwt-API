@@ -279,7 +279,6 @@ export class TweetService extends FetcherService {
 	 * Get the list of replies to a tweet.
 	 *
 	 * @param id - The id of the target tweet.
-	 * @param count - The number of replies to fetch, must be \<= 100.
 	 * @param cursor - The cursor to the batch of replies to fetch.
 	 *
 	 * @returns The list of replies to the given tweet.
@@ -301,13 +300,12 @@ export class TweetService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async replies(id: string, count?: number, cursor?: string): Promise<CursoredData<Tweet>> {
+	public async replies(id: string, cursor?: string): Promise<CursoredData<Tweet>> {
 		const resource = EResourceType.TWEET_REPLIES;
 
 		// Fetching raw list of replies
 		const response = await this.request<ITweetDetailsResponse>(resource, {
 			id: id,
-			count: count,
 			cursor: cursor,
 		});
 
