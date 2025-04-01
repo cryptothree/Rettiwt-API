@@ -276,6 +276,46 @@ export class TweetService extends FetcherService {
 	}
 
 	/**
+	 * Get the list of replies to a tweet.
+	 *
+	 * @param id - The id of the target tweet.
+	 * @param cursor - The cursor to the batch of replies to fetch.
+	 *
+	 * @returns The list of replies to the given tweet.
+	 *
+	 * @example
+	 * ```
+	 * import { Rettiwt } from 'rettiwt-api';
+	 *
+	 * // Creating a new Rettiwt instance using the given 'API_KEY'
+	 * const rettiwt = new Rettiwt({ apiKey: API_KEY });
+	 *
+	 * // Fetching the first 100 replies to the Tweet with id '1234567890'
+	 * rettiwt.tweet.replies('1234567890')
+	 * .then(res => {
+	 * 	console.log(res);
+	 * })
+	 * .catch(err => {
+	 * 	console.log(err);
+	 * });
+	 * ```
+	 */
+	public async replies(id: string, cursor?: string): Promise<CursoredData<Tweet>> {
+		const resource = EResourceType.TWEET_REPLIES;
+
+		// Fetching raw list of replies
+		const response = await this.request<ITweetDetailsResponse>(resource, {
+			id: id,
+			cursor: cursor,
+		});
+
+		// Deserializing response
+		const data = extractors[resource](response);
+
+		return data;
+	}
+
+	/**
 	 * Retweet a tweet.
 	 *
 	 * @param id - The id of the target tweet.

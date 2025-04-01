@@ -11,6 +11,7 @@ export interface IFetchArgs {
 	 *
 	 * @remarks
 	 * - Works only for cursored resources.
+	 * - Does not work for {@link EResourceType.TWEET_REPLIES}.
 	 * - Must be \<= 20 for:
 	 * 	- {@link EResourceType.USER_TIMELINE}
 	 * 	- {@link EResourceType.USER_TIMELINE}
