@@ -1,55 +1,29 @@
-import { IUser as IRawUser, ITimelineUser, IUser } from 'rettiwt-core';
+import { ITimelineUser as IRawTimelineUser, IUser as IRawUser } from 'rettiwt-core';
 
 import { ELogActions } from '../../enums/Logging';
 import { findByFilter } from '../../helper/JsonUtils';
 import { LogService } from '../../services/internal/LogService';
+import { IUser } from '../../types/data/User';
 
 /**
  * The details of a single user.
  *
  * @public
  */
-export class User {
-	/** The creation date of user's account. */
+export class User implements IUser {
 	public createdAt: string;
-
-	/** The user's description. */
 	public description?: string;
-
-	/** The number of followers of the user. */
 	public followersCount: number;
-
-	/** The number of following of the user. */
 	public followingsCount: number;
-
-	/** The full name of the user. */
 	public fullName: string;
-
-	/** The rest id of the user. */
 	public id: string;
-
-	/** Whether the account is verified or not. */
 	public isVerified: boolean;
-
-	/** The number of tweets liked by the user. */
 	public likeCount: number;
-
-	/** The location of user as provided by user. */
 	public location?: string;
-
-	/** The rest id of the tweet pinned in the user's profile. */
 	public pinnedTweet?: string;
-
-	/** The url of the profile banner image. */
 	public profileBanner?: string;
-
-	/** The url of the profile image. */
 	public profileImage: string;
-
-	/** The number of tweets made by the user. */
 	public statusesCount: number;
-
-	/** The username/screenname of the user. */
 	public userName: string;
 
 	/**
@@ -81,11 +55,11 @@ export class User {
 	 *
 	 * @internal
 	 */
-	public static list(response: {}): User[] {
+	public static list(response: NonNullable<unknown>): User[] {
 		const users: User[] = [];
 
 		// Extracting the matching data
-		const extract = findByFilter<ITimelineUser>(response, '__typename', 'TimelineUser');
+		const extract = findByFilter<IRawTimelineUser>(response, '__typename', 'TimelineUser');
 
 		// Deserializing valid data
 		for (const item of extract) {
@@ -115,11 +89,11 @@ export class User {
 	 *
 	 * @internal
 	 */
-	public static single(response: {}): User | undefined {
+	public static single(response: NonNullable<unknown>): User | undefined {
 		const users: User[] = [];
 
 		// Extracting the matching data
-		const extract = findByFilter<IUser>(response, '__typename', 'User');
+		const extract = findByFilter<IRawUser>(response, '__typename', 'User');
 
 		// Deserializing valid data
 		for (const item of extract) {

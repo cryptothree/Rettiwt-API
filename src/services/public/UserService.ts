@@ -465,11 +465,11 @@ export class UserService extends FetcherService {
 	 * streamNotifications();
 	 * ```
 	 */
-	public async *notifications(pollingInterval: number = 60000): AsyncGenerator<Notification> {
+	public async *notifications(pollingInterval = 60000): AsyncGenerator<Notification> {
 		const resource = EResourceType.USER_NOTIFICATIONS;
 
 		/** Whether it's the first batch of notifications or not. */
-		let first: boolean = true;
+		let first = true;
 
 		/** The cursor to the last notification received. */
 		let cursor: string | undefined = undefined;

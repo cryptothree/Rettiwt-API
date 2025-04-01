@@ -1,8 +1,8 @@
 import https, { Agent } from 'https';
 
 import axios from 'axios';
+import { Cookie } from 'cookiejar';
 import { HttpsProxyAgent } from 'https-proxy-agent';
-import { Auth, AuthCredential } from 'rettiwt-auth';
 
 import { allowGuestAuthentication, fetchResources, postResources } from '../../collections/Groups';
 import { requests } from '../../collections/Requests';
@@ -11,6 +11,9 @@ import { ELogActions } from '../../enums/Logging';
 import { EResourceType } from '../../enums/Resource';
 import { FetchArgs } from '../../models/args/FetchArgs';
 import { PostArgs } from '../../models/args/PostArgs';
+import { AuthCredential } from '../../models/auth/AuthCredential';
+import { IFetchArgs } from '../../types/args/FetchArgs';
+import { IPostArgs } from '../../types/args/PostArgs';
 import { IErrorHandler } from '../../types/ErrorHandler';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
@@ -91,7 +94,17 @@ export class FetcherService {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'USER_CREDENTIAL' });
 
-			return new AuthCredential(AuthService.decodeCookie(this._apiKey).split(';'));
+			return new AuthCredential(
+				AuthService.decodeCookie(this._apiKey)
+					.split(';')
+					.map((item) => ({
+						...new Cookie(item),
+						expires: 0,
+						size: 0,
+						httpOnly: false,
+						session: true,
+					})),
+			);
 		} else if (this._guestKey) {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'GUEST_CREDENTIAL' });
@@ -101,7 +114,7 @@ export class FetcherService {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'NEW_GUEST_CREDENTIAL' });
 
-			return await new Auth({ proxyUrl: this.authProxyUrl }).getGuestCredential();
+			return await new AuthService({ proxyUrl: this.authProxyUrl }).guest();
 		}
 	}
 
@@ -134,7 +147,7 @@ export class FetcherService {
 	 *
 	 * @returns The validated args.
 	 */
-	private validateArgs(resource: EResourceType, args: FetchArgs | PostArgs): FetchArgs | PostArgs | undefined {
+	private validateArgs(resource: EResourceType, args: IFetchArgs | IPostArgs): FetchArgs | PostArgs | undefined {
 		if (fetchResources.includes(resource)) {
 			// Logging
 			LogService.log(ELogActions.VALIDATE, { target: 'FETCH_ARGS' });
@@ -176,7 +189,7 @@ export class FetcherService {
 	 * })
 	 * ```
 	 */
-	public async request<T>(resource: EResourceType, args: FetchArgs | PostArgs): Promise<T> {
+	public async request<T>(resource: EResourceType, args: IFetchArgs | IPostArgs): Promise<T> {
 		// Logging
 		LogService.log(ELogActions.REQUEST, { resource: resource, args: args });
 

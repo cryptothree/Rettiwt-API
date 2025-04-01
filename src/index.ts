@@ -19,7 +19,6 @@ export * from './models/data/User';
 
 // ERROR MODELS
 export * from './models/errors/ApiError';
-export * from './models/errors/DataValidationError';
 export * from './models/errors/HttpError';
 export * from './models/errors/RettiwtError';
 export * from './models/errors/TimeoutError';

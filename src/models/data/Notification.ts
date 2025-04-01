@@ -1,52 +1,30 @@
 import {
 	ENotificationType as ENotificationTypeOriginal,
-	INotification,
+	INotification as IRawNotification,
 	IUserNotificationsResponse,
 } from 'rettiwt-core';
 
+import { ENotificationType } from '../../enums/Data';
 import { findKeyByValue } from '../../helper/JsonUtils';
-
-/**
- * The different types of notifications.
- *
- * @public
- */
-export enum ENotificationType {
-	RECOMMENDATION = 'RECOMMENDATION',
-	INFORMATION = 'INFORMATION',
-	LIVE = 'LIVE',
-	ALERT = 'ALERT',
-	UNDEFINED = 'UNDEFINED',
-}
+import { INotification } from '../../types/data/Notification';
 
 /**
  * The details of a single notification.
  *
  * @public
  */
-export class Notification {
-	/** The list of id of the users from whom the notification was received. */
+export class Notification implements INotification {
 	public from: string[];
-
-	/** The id of the notification. */
 	public id: string;
-
-	/** The text contents of the notification. */
 	public message: string;
-
-	/** The date/time at which the notification was received. */
 	public receivedAt: Date;
-
-	/** The list of id of the target tweet(s) of the notification. */
 	public target: string[];
-
-	/** The type of notification. */
 	public type?: ENotificationType;
 
 	/**
 	 * @param notification - The raw notification details.
 	 */
-	public constructor(notification: INotification) {
+	public constructor(notification: IRawNotification) {
 		// Getting the original notification type
 		const notificationType: string | undefined = findKeyByValue(ENotificationTypeOriginal, notification.icon.id);
 
@@ -73,7 +51,7 @@ export class Notification {
 	 *
 	 * @internal
 	 */
-	public static list(response: {}): Notification[] {
+	public static list(response: NonNullable<unknown>): Notification[] {
 		const notifications: Notification[] = [];
 
 		// Extracting notifications
@@ -82,7 +60,7 @@ export class Notification {
 			for (const [, value] of Object.entries(
 				(response as IUserNotificationsResponse).globalObjects.notifications,
 			)) {
-				notifications.push(new Notification(value as INotification));
+				notifications.push(new Notification(value as IRawNotification));
 			}
 		}
 

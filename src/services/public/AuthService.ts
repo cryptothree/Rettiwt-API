@@ -1,23 +1,31 @@
-import { Auth } from 'rettiwt-auth';
+import https, { Agent } from 'https';
+
+import axios from 'axios';
+
+import { HttpsProxyAgent } from 'https-proxy-agent';
+
+import puppeteer from 'puppeteer';
 
 import { EApiErrors } from '../../enums/Api';
+import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
-
-import { FetcherService } from './FetcherService';
 
 /**
  * The services that handles authentication.
  *
  * @public
  */
-export class AuthService extends FetcherService {
+export class AuthService {
+	/** The HTTPS Agent to use for requests to Twitter API. */
+	private readonly _httpsAgent: Agent;
+
 	/**
 	 * @param config - The config object for configuring the `Rettiwt` instance.
 	 *
 	 * @internal
 	 */
 	public constructor(config?: IRettiwtConfig) {
-		super(config);
+		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
 	}
 
 	/**
@@ -94,11 +102,25 @@ export class AuthService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async guest(): Promise<string> {
-		// Getting a new guest key
-		const guestKey: string = (await new Auth().getGuestCredential()).guestToken ?? '';
+	public async guest(): Promise<AuthCredential> {
+		// Creating a new blank credential
+		const cred: AuthCredential = new AuthCredential();
 
-		return guestKey;
+		// Getting the guest token
+		await axios
+			.get<{
+				/* eslint-disable @typescript-eslint/naming-convention */
+				guest_token: string;
+				/* eslint-enable @typescript-eslint/naming-convention */
+			}>('https://api.twitter.com/1.1/guest/activate.json', {
+				headers: cred.toHeader(),
+				httpsAgent: this._httpsAgent,
+			})
+			.then((res) => {
+				cred.guestToken = res.data.guest_token;
+			});
+
+		return cred;
 	}
 
 	/**
@@ -132,19 +154,37 @@ export class AuthService extends FetcherService {
 	 * Interchanging `email` and `userName` works too.
 	 */
 	public async login(email: string, userName: string, password: string): Promise<string> {
-		// Logging in and getting the credentials
-		let apiKey: string =
-			((
-				await new Auth({ proxyUrl: this.authProxyUrl }).getUserCredential({
-					email: email,
-					userName: userName,
-					password: password,
-				})
-			).toHeader().cookie as string) ?? '';
+		// Launch browser
+		const browser = await puppeteer.launch({
+			headless: true,
+			defaultViewport: null,
+		});
 
-		// Converting the credentials to base64 string
-		apiKey = AuthService.encodeCookie(apiKey);
+		const page = await browser.newPage();
+		await page.goto('https://x.com/i/flow/login');
 
-		return apiKey;
+		// Wait for username field and type
+		await page.waitForSelector('input[autocomplete="username"]');
+		await page.type('input[autocomplete="username"]', userName);
+
+		// Click the Next button using background color
+		await page.waitForSelector('button[style*="background-color: rgb(15, 20, 25)"]');
+		await page.click('button[style*="background-color: rgb(15, 20, 25)"]');
+
+		// Wait for password field and type
+		await page.waitForSelector('input[name="password"]');
+		await page.type('input[name="password"]', password);
+
+		// Click the Next button using background color
+		await page.waitForSelector('button[style*="background-color: rgb(15, 20, 25)"]');
+		await page.click('button[style*="background-color: rgb(15, 20, 25)"]');
+
+		// Wait for navigation to complete
+		await page.waitForNavigation();
+
+		// Getting the cookies
+		const cookies = (await browser.cookies()).filter((cookie) => cookie.domain.includes('x.com'));
+
+		return AuthService.encodeCookie(new AuthCredential(cookies).cookies ?? '');
 	}
 }
