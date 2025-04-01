@@ -30,6 +30,7 @@ export const requests: { [key in keyof typeof EResourceType]: (args: IFetchArgs 
 	TWEET_DETAILS_ALT: (args: IFetchArgs) => request.tweet.replies(args.id!),
 	TWEET_LIKE: (args: IPostArgs) => request.tweet.like(args.id!),
 	TWEET_POST: (args: IPostArgs) => request.tweet.post(args.tweet!),
+	TWEET_REPLIES: (args: IFetchArgs) => request.tweet.replies(args.id!, args.count, args.cursor),
 	TWEET_RETWEET: (args: IPostArgs) => request.tweet.retweet(args.id!),
 	TWEET_RETWEETERS: (args: IFetchArgs) => request.tweet.retweeters(args.id!, args.count, args.cursor),
 	TWEET_SCHEDULE: (args: IPostArgs) => request.tweet.schedule(args.tweet!),
