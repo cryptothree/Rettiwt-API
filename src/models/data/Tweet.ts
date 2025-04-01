@@ -23,6 +23,7 @@ import { User } from './User';
  */
 export class Tweet implements ITweet {
 	public bookmarkCount: number;
+	public conversationId: string;
 	public createdAt: string;
 	public entities: TweetEntities;
 	public fullText: string;
@@ -45,6 +46,7 @@ export class Tweet implements ITweet {
 	 */
 	public constructor(tweet: IRawTweet) {
 		this.id = tweet.rest_id;
+		this.conversationId = tweet.legacy.conversation_id_str;
 		this.createdAt = tweet.legacy.created_at;
 		this.tweetBy = new User(tweet.core.user_results.result);
 		this.entities = new TweetEntities(tweet.legacy.entities);

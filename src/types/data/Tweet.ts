@@ -11,6 +11,9 @@ export interface ITweet {
 	/** The number of bookmarks of a tweet. */
 	bookmarkCount: number;
 
+	/** The ID of tweet which started the current conversation. */
+	conversationId: string;
+
 	/** The date and time of creation of the tweet, in UTC string format. */
 	createdAt: string;
 
