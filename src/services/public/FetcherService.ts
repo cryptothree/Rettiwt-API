@@ -20,7 +20,7 @@ import { IRettiwtConfig } from '../../types/RettiwtConfig';
 import { ErrorService } from '../internal/ErrorService';
 import { LogService } from '../internal/LogService';
 
-import { AuthService } from './AuthService';
+import { AuthService } from '../internal/AuthService';
 
 /**
  * The base service that handles all HTTP requests.
