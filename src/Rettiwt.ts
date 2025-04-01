@@ -1,4 +1,4 @@
-import { AuthService } from './services/public/AuthService';
+import { AuthService } from './services/internal/AuthService';
 import { ListService } from './services/public/ListService';
 import { TweetService } from './services/public/TweetService';
 import { UserService } from './services/public/UserService';

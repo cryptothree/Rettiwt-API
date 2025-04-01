@@ -24,7 +24,7 @@ export * from './models/errors/RettiwtError';
 export * from './models/errors/TimeoutError';
 
 // SERVICES
-export * from './services/public/AuthService';
+export * from './services/internal/AuthService';
 export * from './services/public/FetcherService';
 export * from './services/public/TweetService';
 export * from './services/public/UserService';
