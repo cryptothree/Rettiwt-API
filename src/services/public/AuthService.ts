@@ -4,8 +4,6 @@ import axios from 'axios';
 
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
-import puppeteer from 'puppeteer';
-
 import { EApiErrors } from '../../enums/Api';
 import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
@@ -121,70 +119,5 @@ export class AuthService {
 			});
 
 		return cred;
-	}
-
-	/**
-	 * Login to twitter using account credentials.
-	 *
-	 * @param email - The email id associated with the Twitter account.
-	 * @param userName - The username associated with the Twitter account.
-	 * @param password - The password to the Twitter account.
-	 *
-	 * @returns The `API_KEY` for the Twitter account.
-	 *
-	 * @example
-	 * ```
-	 * import { Rettiwt } from 'rettiwt-api';
-	 *
-	 * // Creating a new Rettiwt instance
-	 * const rettiwt = new Rettiwt();
-	 *
-	 * // Logging in an getting the API_KEY
-	 * rettiwt.auth.login("email@domain.com", "username", "password")
-	 * .then(apiKey => {
-	 * 	// Use the API_KEY
-	 * 	...
-	 * })
-	 * .catch(err => {
-	 * 	console.log(err);
-	 * });
-	 * ```
-	 *
-	 * @remarks
-	 * Interchanging `email` and `userName` works too.
-	 */
-	public async login(email: string, userName: string, password: string): Promise<string> {
-		// Launch browser
-		const browser = await puppeteer.launch({
-			headless: true,
-			defaultViewport: null,
-		});
-
-		const page = await browser.newPage();
-		await page.goto('https://x.com/i/flow/login');
-
-		// Wait for username field and type
-		await page.waitForSelector('input[autocomplete="username"]');
-		await page.type('input[autocomplete="username"]', userName);
-
-		// Click the Next button using background color
-		await page.waitForSelector('button[style*="background-color: rgb(15, 20, 25)"]');
-		await page.click('button[style*="background-color: rgb(15, 20, 25)"]');
-
-		// Wait for password field and type
-		await page.waitForSelector('input[name="password"]');
-		await page.type('input[name="password"]', password);
-
-		// Click the Next button using background color
-		await page.waitForSelector('button[style*="background-color: rgb(15, 20, 25)"]');
-		await page.click('button[style*="background-color: rgb(15, 20, 25)"]');
-
-		// Wait for navigation to complete
-		await page.waitForNavigation();
-
-		// Getting the cookies
-		const cookies = (await browser.cookies()).filter((cookie) => cookie.domain.includes('x.com'));
-
-		return AuthService.encodeCookie(new AuthCredential(cookies).cookies ?? '');
 	}
 }

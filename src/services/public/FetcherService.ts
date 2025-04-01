@@ -31,6 +31,9 @@ export class FetcherService {
 	/** The api key to use for authenticating against Twitter API as user. */
 	private readonly _apiKey?: string;
 
+	/** Custom headers to use for all requests */
+	private readonly _customHeaders?: { [key: string]: string };
+
 	/** The service used to handle HTTP and API errors */
 	private readonly _errorHandler: IErrorHandler;
 
@@ -48,9 +51,6 @@ export class FetcherService {
 
 	/** The id of the authenticated user (if any). */
 	protected readonly userId?: string;
-
-	/** Custom headers to use for all requests */
-	private readonly _customHeaders?: { [key: string]: string };
 
 	/**
 	 * @param config - The config object for configuring the Rettiwt instance.
@@ -97,13 +97,7 @@ export class FetcherService {
 			return new AuthCredential(
 				AuthService.decodeCookie(this._apiKey)
 					.split(';')
-					.map((item) => ({
-						...new Cookie(item),
-						expires: 0,
-						size: 0,
-						httpOnly: false,
-						session: true,
-					})),
+					.map((item) => new Cookie(item)),
 			);
 		} else if (this._guestKey) {
 			// Logging

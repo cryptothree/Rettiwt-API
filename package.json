@@ -50,7 +50,6 @@
 		"commander": "13.1.0",
 		"cookiejar": "2.1.4",
 		"https-proxy-agent": "7.0.6",
-		"puppeteer": "24.4.0",
 		"rettiwt-core": "4.5.0-alpha.3"
 	}
 }

@@ -1,6 +1,6 @@
 import { AxiosHeaders, AxiosRequestHeaders } from 'axios';
 
-import { Cookie } from 'puppeteer';
+import { Cookie } from 'cookiejar';
 
 import { EAuthenticationType } from '../../enums/Authentication';
 import { IAuthCredential } from '../../types/auth/AuthCredential';

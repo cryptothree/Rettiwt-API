@@ -1,4 +1,4 @@
-import { Cookie } from 'puppeteer';
+import { Cookie } from 'cookiejar';
 
 import { IAuthCookie } from '../../types/auth/AuthCookie';
 
