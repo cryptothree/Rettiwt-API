@@ -17,10 +17,9 @@ import { IPostArgs } from '../../types/args/PostArgs';
 import { IErrorHandler } from '../../types/ErrorHandler';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
+import { AuthService } from '../internal/AuthService';
 import { ErrorService } from '../internal/ErrorService';
 import { LogService } from '../internal/LogService';
-
-import { AuthService } from '../internal/AuthService';
 
 /**
  * The base service that handles all HTTP requests.
