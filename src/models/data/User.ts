@@ -1,9 +1,8 @@
-import { ITimelineUser as IRawTimelineUser, IUser as IRawUser } from 'rettiwt-core';
-
 import { ELogActions } from '../../enums/Logging';
 import { findByFilter } from '../../helper/JsonUtils';
 import { LogService } from '../../services/internal/LogService';
 import { IUser } from '../../types/data/User';
+import { ITimelineUser as IRawTimelineUser, IUser as IRawUser } from '../../types/raw';
 
 /**
  * The details of a single user.

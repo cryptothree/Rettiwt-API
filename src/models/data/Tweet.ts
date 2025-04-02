@@ -1,18 +1,17 @@
-import {
-	EMediaType,
-	ILimitedVisibilityTweet,
-	IExtendedMedia as IRawExtendedMedia,
-	ITweet as IRawTweet,
-	IEntities as IRawTweetEntities,
-	ITimelineTweet,
-} from 'rettiwt-core';
-
 import { ELogActions } from '../../enums/Logging';
+import { EMediaType } from '../../enums/Media';
 import { findByFilter } from '../../helper/JsonUtils';
 
 import { LogService } from '../../services/internal/LogService';
 
 import { ITweet } from '../../types/data/Tweet';
+import {
+	ILimitedVisibilityTweet,
+	IExtendedMedia as IRawExtendedMedia,
+	ITweet as IRawTweet,
+	IEntities as IRawTweetEntities,
+	ITimelineTweet,
+} from '../../types/raw';
 
 import { User } from './User';
 

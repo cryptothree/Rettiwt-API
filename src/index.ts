@@ -50,7 +50,7 @@ export {
 	ITweetUnpostResponse,
 	ITweetUnscheduleResponse,
 	ITweetUnretweetResponse,
-} from 'rettiwt-core';
+} from './types/raw';
 export {
 	IUserBookmarksResponse,
 	IUserDetailsResponse,
@@ -67,4 +67,4 @@ export {
 	IUserTweetsAndRepliesResponse,
 	IUserTweetsResponse,
 	IUserUnfollowResponse,
-} from 'rettiwt-core';
+} from './types/raw';

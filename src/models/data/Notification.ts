@@ -1,12 +1,8 @@
-import {
-	ENotificationType as ENotificationTypeOriginal,
-	INotification as IRawNotification,
-	IUserNotificationsResponse,
-} from 'rettiwt-core';
-
 import { ENotificationType } from '../../enums/Data';
+import { ENotificationType as ENotificationTypeOriginal } from '../../enums/Notification';
 import { findKeyByValue } from '../../helper/JsonUtils';
 import { INotification } from '../../types/data/Notification';
+import { INotification as IRawNotification, IUserNotificationsResponse } from '../../types/raw';
 
 /**
  * The details of a single notification.

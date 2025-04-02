@@ -1,6 +1,5 @@
-import { IList as IRawList } from 'rettiwt-core';
-
 import { IList } from '../../types/data/List';
+import { IList as IRawList } from '../../types/raw';
 
 /**
  * The details of a single Twitter List.

@@ -1,3 +1,9 @@
+import { extractors } from '../../collections/Extractors';
+import { EResourceType } from '../../enums/Resource';
+import { CursoredData } from '../../models/data/CursoredData';
+import { Notification } from '../../models/data/Notification';
+import { Tweet } from '../../models/data/Tweet';
+import { User } from '../../models/data/User';
 import {
 	IUserBookmarksResponse,
 	IUserDetailsResponse,
@@ -14,14 +20,7 @@ import {
 	IUserTweetsAndRepliesResponse,
 	IUserTweetsResponse,
 	IUserUnfollowResponse,
-} from 'rettiwt-core';
-
-import { extractors } from '../../collections/Extractors';
-import { EResourceType } from '../../enums/Resource';
-import { CursoredData } from '../../models/data/CursoredData';
-import { Notification } from '../../models/data/Notification';
-import { Tweet } from '../../models/data/Tweet';
-import { User } from '../../models/data/User';
+} from '../../types/raw';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';

@@ -1,10 +1,17 @@
 import { statSync } from 'fs';
 
+import { extractors } from '../../collections/Extractors';
+import { EResourceType } from '../../enums/Resource';
+import { ESearchResultType } from '../../enums/Search';
+import { CursoredData } from '../../models/data/CursoredData';
+import { Tweet } from '../../models/data/Tweet';
+import { User } from '../../models/data/User';
+
+import { ITweetFilter } from '../../types/args/FetchArgs';
+import { INewTweet } from '../../types/args/PostArgs';
 import {
-	ESearchResultType,
 	IInitializeMediaUploadResponse,
 	IListTweetsResponse,
-	INewTweet,
 	ITweetDetailsResponse,
 	ITweetLikeResponse,
 	ITweetPostResponse,
@@ -17,14 +24,7 @@ import {
 	ITweetUnpostResponse,
 	ITweetUnretweetResponse,
 	ITweetUnscheduleResponse,
-	TweetFilter,
-} from 'rettiwt-core';
-
-import { extractors } from '../../collections/Extractors';
-import { EResourceType } from '../../enums/Resource';
-import { CursoredData } from '../../models/data/CursoredData';
-import { Tweet } from '../../models/data/Tweet';
-import { User } from '../../models/data/User';
+} from '../../types/raw';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';
@@ -463,7 +463,7 @@ export class TweetService extends FetcherService {
 	 * @remarks For details about available filters, refer to {@link TweetFilter}
 	 */
 	public async search(
-		filter: TweetFilter,
+		filter: ITweetFilter,
 		count?: number,
 		cursor?: string,
 		results?: ESearchResultType,
@@ -519,7 +519,7 @@ export class TweetService extends FetcherService {
 	 * streamTweets();
 	 * ```
 	 */
-	public async *stream(filter: TweetFilter, pollingInterval = 60000): AsyncGenerator<Tweet> {
+	public async *stream(filter: ITweetFilter, pollingInterval = 60000): AsyncGenerator<Tweet> {
 		const startDate = new Date();
 
 		let cursor: string | undefined = undefined;

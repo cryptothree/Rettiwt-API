@@ -1,3 +1,8 @@
+import { EBaseType } from '../enums/Data';
+import { CursoredData } from '../models/data/CursoredData';
+import { Notification } from '../models/data/Notification';
+import { Tweet } from '../models/data/Tweet';
+import { User } from '../models/data/User';
 import {
 	IInitializeMediaUploadResponse,
 	IListMembersResponse,
@@ -29,13 +34,7 @@ import {
 	IUserTweetsAndRepliesResponse,
 	IUserTweetsResponse,
 	IUserUnfollowResponse,
-} from 'rettiwt-core';
-
-import { EBaseType } from '../enums/Data';
-import { CursoredData } from '../models/data/CursoredData';
-import { Notification } from '../models/data/Notification';
-import { Tweet } from '../models/data/Tweet';
-import { User } from '../models/data/User';
+} from '../types/raw';
 
 /**
  * Collection of data extractors for each resource.
@@ -44,6 +43,7 @@ import { User } from '../models/data/User';
  */
 export const extractors = {
 	/* eslint-disable @typescript-eslint/naming-convention */
+
 	LIST_MEMBERS: (response: IListMembersResponse): CursoredData<User> =>
 		new CursoredData<User>(response, EBaseType.USER),
 	LIST_TWEETS: (response: IListTweetsResponse): CursoredData<Tweet> =>
@@ -101,5 +101,6 @@ export const extractors = {
 	USER_TIMELINE_AND_REPLIES: (response: IUserTweetsAndRepliesResponse): CursoredData<Tweet> =>
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_UNFOLLOW: (response: IUserUnfollowResponse): boolean => (response?.id ? true : false),
+
 	/* eslint-enable @typescript-eslint/naming-convention */
 };

@@ -1,10 +1,9 @@
-import { IListMembersResponse, IListTweetsResponse } from 'rettiwt-core';
-
 import { extractors } from '../../collections/Extractors';
 import { EResourceType } from '../../enums/Resource';
 import { CursoredData } from '../../models/data/CursoredData';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
+import { IListMembersResponse, IListTweetsResponse } from '../../types/raw';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';
