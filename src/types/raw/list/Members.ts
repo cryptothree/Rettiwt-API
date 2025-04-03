@@ -5,38 +5,38 @@
  *
  * @public
  */
-export interface Root {
+export interface IListMembersResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	list: List;
 }
 
-export interface List {
+interface List {
 	members_timeline: MembersTimeline;
 }
 
-export interface MembersTimeline {
+interface MembersTimeline {
 	timeline: Timeline;
 }
 
-export interface Timeline {
+interface Timeline {
 	instructions: Instruction[];
 }
 
-export interface Instruction {
+interface Instruction {
 	type: string;
 	entries: Entry[];
 }
 
-export interface Entry {
+interface Entry {
 	entryId: string;
 	sortIndex: string;
 	content: Content;
 }
 
-export interface Content {
+interface Content {
 	entryType: string;
 	__typename: string;
 	itemContent?: ItemContent;
@@ -45,18 +45,18 @@ export interface Content {
 	cursorType?: string;
 }
 
-export interface ItemContent {
+interface ItemContent {
 	itemType: string;
 	__typename: string;
 	user_results: UserResults;
 	userDisplayType: string;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -70,9 +70,9 @@ export interface Result {
 	professional?: Professional;
 }
 
-export interface AffiliatesHighlightedLabel {}
+interface AffiliatesHighlightedLabel {}
 
-export interface Legacy {
+interface Legacy {
 	following: boolean;
 	can_dm: boolean;
 	can_media_tag: boolean;
@@ -107,48 +107,48 @@ export interface Legacy {
 	verified_type?: string;
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 	url?: Url2;
 }
 
-export interface Description {
+interface Description {
 	urls: Url[];
 }
 
-export interface Url {
+interface Url {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Url2 {
+interface Url2 {
 	urls: Url3[];
 }
 
-export interface Url3 {
+interface Url3 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface TipjarSettings {}
+interface TipjarSettings {}
 
-export interface Professional {
+interface Professional {
 	rest_id: string;
 	professional_type: string;
 	category: Category[];
 }
 
-export interface Category {
+interface Category {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface ClientEventInfo {
+interface ClientEventInfo {
 	component: string;
 	element: string;
 }

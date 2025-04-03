@@ -5,35 +5,35 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetRetweetersResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	retweeters_timeline: RetweetersTimeline;
 }
 
-export interface RetweetersTimeline {
+interface RetweetersTimeline {
 	timeline: Timeline;
 }
 
-export interface Timeline {
+interface Timeline {
 	instructions: Instruction[];
 	responseObjects: ResponseObjects;
 }
 
-export interface Instruction {
+interface Instruction {
 	type: string;
 	entries: Entry[];
 }
 
-export interface Entry {
+interface Entry {
 	entryId: string;
 	sortIndex: string;
 	content: Content;
 }
 
-export interface Content {
+interface Content {
 	entryType: string;
 	itemContent?: ItemContent;
 	value?: string;
@@ -41,17 +41,17 @@ export interface Content {
 	stopOnEmptyResponse?: boolean;
 }
 
-export interface ItemContent {
+interface ItemContent {
 	itemType: string;
 	user_results: UserResults;
 	userDisplayType: string;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	__typename: string;
 	id?: string;
 	rest_id?: string;
@@ -65,9 +65,9 @@ export interface Result {
 	reason?: string;
 }
 
-export interface AffiliatesHighlightedLabel {}
+interface AffiliatesHighlightedLabel {}
 
-export interface Legacy {
+interface Legacy {
 	blocked_by: boolean;
 	blocking: boolean;
 	can_dm: boolean;
@@ -110,99 +110,99 @@ export interface Legacy {
 	url?: string;
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 	url?: Url2;
 }
 
-export interface Description {
+interface Description {
 	urls: Url[];
 }
 
-export interface Url {
+interface Url {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Url2 {
+interface Url2 {
 	urls: Url3[];
 }
 
-export interface Url3 {
+interface Url3 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface ProfileBannerExtensions {
+interface ProfileBannerExtensions {
 	mediaColor: MediaColor;
 }
 
-export interface MediaColor {
+interface MediaColor {
 	r: R;
 }
 
-export interface R {
+interface R {
 	ok: Ok;
 }
 
-export interface Ok {
+interface Ok {
 	palette: Palette[];
 }
 
-export interface Palette {
+interface Palette {
 	percentage: number;
 	rgb: Rgb;
 }
 
-export interface Rgb {
+interface Rgb {
 	blue: number;
 	green: number;
 	red: number;
 }
 
-export interface ProfileImageExtensions {
+interface ProfileImageExtensions {
 	mediaColor: MediaColor2;
 }
 
-export interface MediaColor2 {
+interface MediaColor2 {
 	r: R2;
 }
 
-export interface R2 {
+interface R2 {
 	ok: Ok2;
 }
 
-export interface Ok2 {
+interface Ok2 {
 	palette: Palette2[];
 }
 
-export interface Palette2 {
+interface Palette2 {
 	percentage: number;
 	rgb: Rgb2;
 }
 
-export interface Rgb2 {
+interface Rgb2 {
 	blue: number;
 	green: number;
 	red: number;
 }
 
-export interface Professional {
+interface Professional {
 	rest_id: string;
 	professional_type: string;
 	category: Category[];
 }
 
-export interface Category {
+interface Category {
 	id: number;
 	name: string;
 }
 
-export interface ResponseObjects {
+interface ResponseObjects {
 	feedbackActions: any[];
 	immediateReactions: any[];
 }

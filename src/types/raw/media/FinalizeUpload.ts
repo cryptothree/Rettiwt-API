@@ -5,7 +5,7 @@
  *
  * @public
  */
-export interface Root {
+export interface IMediaFinalizeUploadResponse {
 	media_id: number;
 	media_id_string: string;
 	size: number;
@@ -13,7 +13,7 @@ export interface Root {
 	image: Image;
 }
 
-export interface Image {
+interface Image {
 	image_type: string;
 	w: number;
 	h: number;

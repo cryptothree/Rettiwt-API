@@ -5,20 +5,20 @@
  *
  * @public
  */
-export interface Root {
+export interface IUserNotificationsResponse {
 	globalObjects: GlobalObjects;
 	timeline: Timeline;
 }
 
-export interface GlobalObjects {
+interface GlobalObjects {
 	notifications: Notifications;
 }
 
-export interface Notifications {
+interface Notifications {
 	[key: string]: Notification;
 }
 
-export interface Notification {
+interface Notification {
 	id: string;
 	timestampMs: string;
 	icon: Icon;
@@ -26,150 +26,150 @@ export interface Notification {
 	template: Template;
 }
 
-export interface Icon {
+interface Icon {
 	id: string;
 }
 
-export interface Message {
+interface Message {
 	text: string;
 	entities: Entity[];
 	rtl: boolean;
 }
 
-export interface Entity {
+interface Entity {
 	fromIndex: number;
 	toIndex: number;
 	format: string;
 }
 
-export interface Template {
+interface Template {
 	aggregateUserActionsV1: AggregateUserActionsV1;
 }
 
-export interface AggregateUserActionsV1 {
+interface AggregateUserActionsV1 {
 	targetObjects: TargetObject[];
 	fromUsers: FromUser[];
 	additionalContext: AdditionalContext;
 }
 
-export interface TargetObject {
+interface TargetObject {
 	tweet: Tweet;
 }
 
-export interface Tweet {
+interface Tweet {
 	id: string;
 }
 
-export interface FromUser {
+interface FromUser {
 	user: User;
 }
 
-export interface User {
+interface User {
 	id: string;
 }
 
-export interface AdditionalContext {
+interface AdditionalContext {
 	contextText: ContextText;
 }
 
-export interface ContextText {
+interface ContextText {
 	text: string;
 	entities: any[];
 }
 
-export interface Timeline {
+interface Timeline {
 	id: string;
 	instructions: Instruction[];
 }
 
-export interface Instruction {
+interface Instruction {
 	clearCache?: ClearCache;
 	addEntries?: AddEntries;
 	clearEntriesUnreadState?: ClearEntriesUnreadState;
 	markEntriesUnreadGreaterThanSortIndex?: MarkEntriesUnreadGreaterThanSortIndex;
 }
 
-export interface ClearCache {}
+interface ClearCache {}
 
-export interface AddEntries {
+interface AddEntries {
 	entries: Entry[];
 }
 
-export interface Entry {
+interface Entry {
 	entryId: string;
 	sortIndex: string;
 	content: Content;
 }
 
-export interface Content {
+interface Content {
 	operation?: Operation;
 	item?: Item;
 }
 
-export interface Operation {
+interface Operation {
 	cursor: Cursor;
 }
 
-export interface Cursor {
+interface Cursor {
 	value: string;
 	cursorType: string;
 }
 
-export interface Item {
+interface Item {
 	content: Content2;
 	clientEventInfo: ClientEventInfo;
 	feedbackInfo?: FeedbackInfo;
 }
 
-export interface Content2 {
+interface Content2 {
 	notification: Notification2;
 }
 
-export interface Notification2 {
+interface Notification2 {
 	id: string;
 	url: Url;
 	fromUsers: string[];
 	targetTweets: string[];
 }
 
-export interface Url {
+interface Url {
 	urlType: string;
 	url: string;
 	urtEndpointOptions?: UrtEndpointOptions;
 }
 
-export interface UrtEndpointOptions {
+interface UrtEndpointOptions {
 	title: string;
 	cacheId: string;
 }
 
-export interface ClientEventInfo {
+interface ClientEventInfo {
 	component: string;
 	element: string;
 	details: Details;
 }
 
-export interface Details {
+interface Details {
 	notificationDetails: NotificationDetails;
 }
 
-export interface NotificationDetails {
+interface NotificationDetails {
 	impressionId: string;
 	metadata: string;
 }
 
-export interface FeedbackInfo {
+interface FeedbackInfo {
 	feedbackKeys: string[];
 	feedbackMetadata: string;
 	clientEventInfo: ClientEventInfo2;
 }
 
-export interface ClientEventInfo2 {
+interface ClientEventInfo2 {
 	element: string;
 }
 
-export interface ClearEntriesUnreadState {}
+interface ClearEntriesUnreadState {}
 
-export interface MarkEntriesUnreadGreaterThanSortIndex {
+interface MarkEntriesUnreadGreaterThanSortIndex {
 	sortIndex: string;
 }

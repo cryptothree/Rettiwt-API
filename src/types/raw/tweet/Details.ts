@@ -5,19 +5,19 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetDetailsResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	tweetResult: TweetResult;
 }
 
-export interface TweetResult {
+interface TweetResult {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	__typename: string;
 	rest_id: string;
 	has_birdwatch_notes: boolean;
@@ -32,15 +32,15 @@ export interface Result {
 	quick_promote_eligibility: QuickPromoteEligibility;
 }
 
-export interface Core {
+interface Core {
 	user_results: UserResults;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result2;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -53,9 +53,9 @@ export interface Result2 {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel {}
+interface AffiliatesHighlightedLabel {}
 
-export interface Legacy {
+interface Legacy {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -87,69 +87,69 @@ export interface Legacy {
 	withheld_in_countries: any[];
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 	url: Url2;
 }
 
-export interface Description {
+interface Description {
 	urls: Url[];
 }
 
-export interface Url {
+interface Url {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Url2 {
+interface Url2 {
 	urls: Url3[];
 }
 
-export interface Url3 {
+interface Url3 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Professional {
+interface Professional {
 	rest_id: string;
 	professional_type: string;
 	category: Category[];
 }
 
-export interface Category {
+interface Category {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface UnmentionData {}
+interface UnmentionData {}
 
-export interface EditControl {
+interface EditControl {
 	edit_tweet_ids: string[];
 	editable_until_msecs: string;
 	is_edit_eligible: boolean;
 	edits_remaining: string;
 }
 
-export interface Views {
+interface Views {
 	count: string;
 	state: string;
 }
 
-export interface NoteTweet {
+interface NoteTweet {
 	is_expandable: boolean;
 	note_tweet_results: NoteTweetResults;
 }
 
-export interface NoteTweetResults {
+interface NoteTweetResults {
 	result: Result3;
 }
 
-export interface Result3 {
+interface Result3 {
 	id: string;
 	text: string;
 	entity_set: EntitySet;
@@ -157,28 +157,28 @@ export interface Result3 {
 	media: Media;
 }
 
-export interface EntitySet {
+interface EntitySet {
 	user_mentions: any[];
 	urls: any[];
 	hashtags: any[];
 	symbols: any[];
 }
 
-export interface Richtext {
+interface Richtext {
 	richtext_tags: RichtextTag[];
 }
 
-export interface RichtextTag {
+interface RichtextTag {
 	from_index: number;
 	to_index: number;
 	richtext_types: string[];
 }
 
-export interface Media {
+interface Media {
 	inline_media: any[];
 }
 
-export interface Legacy2 {
+interface Legacy2 {
 	bookmark_count: number;
 	bookmarked: boolean;
 	created_at: string;
@@ -198,13 +198,13 @@ export interface Legacy2 {
 	id_str: string;
 }
 
-export interface Entities2 {
+interface Entities2 {
 	user_mentions: any[];
 	urls: any[];
 	hashtags: any[];
 	symbols: any[];
 }
 
-export interface QuickPromoteEligibility {
+interface QuickPromoteEligibility {
 	eligibility: string;
 }

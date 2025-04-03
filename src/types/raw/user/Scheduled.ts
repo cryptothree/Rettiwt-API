@@ -5,30 +5,30 @@
  *
  * @public
  */
-export interface Root {
+export interface IUserScheduledResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	viewer: Viewer;
 }
 
-export interface Viewer {
+interface Viewer {
 	scheduled_tweet_list: ScheduledTweetList[];
 }
 
-export interface ScheduledTweetList {
+interface ScheduledTweetList {
 	rest_id: string;
 	scheduling_info: SchedulingInfo;
 	tweet_create_request: TweetCreateRequest;
 }
 
-export interface SchedulingInfo {
+interface SchedulingInfo {
 	execute_at: number;
 	state: string;
 }
 
-export interface TweetCreateRequest {
+interface TweetCreateRequest {
 	type: string;
 	status: string;
 	exclude_reply_user_ids: any[];

@@ -5,7 +5,7 @@
  *
  * @public
  */
-export interface Root {
+export interface ISpaceDetailsResponse {
 	rest_id: string;
 	state: string;
 	title: string;
@@ -30,11 +30,11 @@ export interface Root {
 	tweet_results: TweetResults;
 }
 
-export interface CreatorResults {
+interface CreatorResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -47,11 +47,11 @@ export interface Result {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel {
+interface AffiliatesHighlightedLabel {
 	label: Label;
 }
 
-export interface Label {
+interface Label {
 	url: Url;
 	badge: Badge;
 	description: string;
@@ -59,16 +59,16 @@ export interface Label {
 	userLabelDisplayType: string;
 }
 
-export interface Url {
+interface Url {
 	url: string;
 	urlType: string;
 }
 
-export interface Badge {
+interface Badge {
 	url: string;
 }
 
-export interface Legacy {
+interface Legacy {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -101,43 +101,43 @@ export interface Legacy {
 	withheld_in_countries: any[];
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 	url: Url2;
 }
 
-export interface Description {
+interface Description {
 	urls: any[];
 }
 
-export interface Url2 {
+interface Url2 {
 	urls: Url3[];
 }
 
-export interface Url3 {
+interface Url3 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Professional {
+interface Professional {
 	rest_id: string;
 	professional_type: string;
 	category: Category[];
 }
 
-export interface Category {
+interface Category {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface TweetResults {
+interface TweetResults {
 	result: Result2;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	rest_id: string;
 	core: Core;
@@ -152,15 +152,15 @@ export interface Result2 {
 	legacy: Legacy4;
 }
 
-export interface Core {
+interface Core {
 	user_results: UserResults;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result3;
 }
 
-export interface Result3 {
+interface Result3 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -173,11 +173,11 @@ export interface Result3 {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel2 {
+interface AffiliatesHighlightedLabel2 {
 	label: Label2;
 }
 
-export interface Label2 {
+interface Label2 {
 	url: Url4;
 	badge: Badge2;
 	description: string;
@@ -185,16 +185,16 @@ export interface Label2 {
 	userLabelDisplayType: string;
 }
 
-export interface Url4 {
+interface Url4 {
 	url: string;
 	urlType: string;
 }
 
-export interface Badge2 {
+interface Badge2 {
 	url: string;
 }
 
-export interface Legacy2 {
+interface Legacy2 {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -227,44 +227,44 @@ export interface Legacy2 {
 	withheld_in_countries: any[];
 }
 
-export interface Entities2 {
+interface Entities2 {
 	description: Description2;
 	url: Url5;
 }
 
-export interface Description2 {
+interface Description2 {
 	urls: any[];
 }
 
-export interface Url5 {
+interface Url5 {
 	urls: Url6[];
 }
 
-export interface Url6 {
+interface Url6 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Professional2 {
+interface Professional2 {
 	rest_id: string;
 	professional_type: string;
 	category: Category2[];
 }
 
-export interface Category2 {
+interface Category2 {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface Card {
+interface Card {
 	rest_id: string;
 	legacy: Legacy3;
 }
 
-export interface Legacy3 {
+interface Legacy3 {
 	binding_values: BindingValue[];
 	card_platform: CardPlatform;
 	name: string;
@@ -272,56 +272,56 @@ export interface Legacy3 {
 	user_refs_results: any[];
 }
 
-export interface BindingValue {
+interface BindingValue {
 	key: string;
 	value: Value;
 }
 
-export interface Value {
+interface Value {
 	string_value: string;
 	type: string;
 	scribe_key?: string;
 }
 
-export interface CardPlatform {
+interface CardPlatform {
 	platform: Platform;
 }
 
-export interface Platform {
+interface Platform {
 	audience: Audience;
 	device: Device;
 }
 
-export interface Audience {
+interface Audience {
 	name: string;
 }
 
-export interface Device {
+interface Device {
 	name: string;
 	version: string;
 }
 
-export interface VoiceInfo {}
+interface VoiceInfo {}
 
-export interface UnmentionData {}
+interface UnmentionData {}
 
-export interface UnifiedCard {
+interface UnifiedCard {
 	card_fetch_state: string;
 }
 
-export interface EditControl {
+interface EditControl {
 	edit_tweet_ids: string[];
 	editable_until_msecs: string;
 	is_edit_eligible: boolean;
 	edits_remaining: string;
 }
 
-export interface Views {
+interface Views {
 	count: string;
 	state: string;
 }
 
-export interface Legacy4 {
+interface Legacy4 {
 	bookmark_count: number;
 	bookmarked: boolean;
 	created_at: string;
@@ -343,7 +343,7 @@ export interface Legacy4 {
 	id_str: string;
 }
 
-export interface Entities3 {
+interface Entities3 {
 	hashtags: any[];
 	symbols: any[];
 	timestamps: any[];
@@ -351,7 +351,7 @@ export interface Entities3 {
 	user_mentions: any[];
 }
 
-export interface Url7 {
+interface Url7 {
 	display_url: string;
 	expanded_url: string;
 	url: string;

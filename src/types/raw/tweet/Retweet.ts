@@ -5,27 +5,27 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetRetweetResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	create_retweet: CreateRetweet;
 }
 
-export interface CreateRetweet {
+interface CreateRetweet {
 	retweet_results: RetweetResults;
 }
 
-export interface RetweetResults {
+interface RetweetResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	rest_id: string;
 	legacy: Legacy;
 }
 
-export interface Legacy {
+interface Legacy {
 	full_text: string;
 }

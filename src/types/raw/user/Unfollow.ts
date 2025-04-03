@@ -5,7 +5,7 @@
  *
  * @public
  */
-export interface Root {
+export interface IUserUnfollowResponse {
 	id: number;
 	id_str: string;
 	name: string;
@@ -65,15 +65,15 @@ export interface Root {
 	require_some_consent: boolean;
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 }
 
-export interface Description {
+interface Description {
 	urls: any[];
 }
 
-export interface Status {
+interface Status {
 	created_at: string;
 	id: number;
 	id_str: string;
@@ -102,7 +102,7 @@ export interface Status {
 	supplemental_language: any;
 }
 
-export interface Entities2 {
+interface Entities2 {
 	hashtags: any[];
 	symbols: any[];
 	user_mentions: any[];
@@ -110,7 +110,7 @@ export interface Entities2 {
 	media: Medum[];
 }
 
-export interface Medum {
+interface Medum {
 	id: number;
 	id_str: string;
 	indices: number[];
@@ -125,78 +125,78 @@ export interface Medum {
 	features: Features;
 }
 
-export interface OriginalInfo {
+interface OriginalInfo {
 	width: number;
 	height: number;
 	focus_rects: FocusRect[];
 }
 
-export interface FocusRect {
+interface FocusRect {
 	x: number;
 	y: number;
 	h: number;
 	w: number;
 }
 
-export interface Sizes {
+interface Sizes {
 	thumb: Thumb;
 	medium: Medium;
 	large: Large;
 	small: Small;
 }
 
-export interface Thumb {
+interface Thumb {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Medium {
+interface Medium {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Large {
+interface Large {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Small {
+interface Small {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Features {
+interface Features {
 	medium: Medium2;
 	orig: Orig;
 	large: Large2;
 	small: Small2;
 }
 
-export interface Medium2 {
+interface Medium2 {
 	faces: any[];
 }
 
-export interface Orig {
+interface Orig {
 	faces: any[];
 }
 
-export interface Large2 {
+interface Large2 {
 	faces: any[];
 }
 
-export interface Small2 {
+interface Small2 {
 	faces: any[];
 }
 
-export interface ExtendedEntities {
+interface ExtendedEntities {
 	media: Medum2[];
 }
 
-export interface Medum2 {
+interface Medum2 {
 	id: number;
 	id_str: string;
 	indices: number[];
@@ -212,69 +212,69 @@ export interface Medum2 {
 	media_key: string;
 }
 
-export interface OriginalInfo2 {
+interface OriginalInfo2 {
 	width: number;
 	height: number;
 	focus_rects: FocusRect2[];
 }
 
-export interface FocusRect2 {
+interface FocusRect2 {
 	x: number;
 	y: number;
 	h: number;
 	w: number;
 }
 
-export interface Sizes2 {
+interface Sizes2 {
 	thumb: Thumb2;
 	medium: Medium3;
 	large: Large3;
 	small: Small3;
 }
 
-export interface Thumb2 {
+interface Thumb2 {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Medium3 {
+interface Medium3 {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Large3 {
+interface Large3 {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Small3 {
+interface Small3 {
 	w: number;
 	h: number;
 	resize: string;
 }
 
-export interface Features2 {
+interface Features2 {
 	medium: Medium4;
 	orig: Orig2;
 	large: Large4;
 	small: Small4;
 }
 
-export interface Medium4 {
+interface Medium4 {
 	faces: any[];
 }
 
-export interface Orig2 {
+interface Orig2 {
 	faces: any[];
 }
 
-export interface Large4 {
+interface Large4 {
 	faces: any[];
 }
 
-export interface Small4 {
+interface Small4 {
 	faces: any[];
 }

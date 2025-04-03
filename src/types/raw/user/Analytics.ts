@@ -5,35 +5,35 @@
  *
  * @public
  */
-export interface Root {
+export interface IUserAnalyticsResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	result: Result2;
 	id: string;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	organic_metrics_time_series: Series[];
 	id: string;
 }
 
-export interface Series {
+interface Series {
 	metric_values: MetricValue[];
 	timestamp: Timestamp;
 }
 
-export interface MetricValue {
+interface MetricValue {
 	metric_value: number;
 	metric_type: string;
 }
 
-export interface Timestamp {
+interface Timestamp {
 	iso8601_time: string;
 }

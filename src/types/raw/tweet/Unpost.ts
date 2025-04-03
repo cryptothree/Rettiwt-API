@@ -5,16 +5,16 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetUnpostResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	delete_tweet: DeleteTweet;
 }
 
-export interface DeleteTweet {
+interface DeleteTweet {
 	tweet_results: TweetResults;
 }
 
-export interface TweetResults {}
+interface TweetResults {}

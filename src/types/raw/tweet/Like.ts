@@ -5,10 +5,10 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetLikeResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	favorite_tweet: string;
 }

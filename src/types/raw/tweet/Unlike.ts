@@ -5,10 +5,10 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetUnlikeResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	unfavorite_tweet: string;
 }

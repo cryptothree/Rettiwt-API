@@ -5,7 +5,7 @@
  *
  * @public
  */
-export interface Root {
+export interface IMediaInitializeUploadResponse {
 	media_id: number;
 	media_id_string: string;
 	expires_after_secs: number;

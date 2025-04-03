@@ -5,10 +5,10 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetUnscheduleResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	scheduledtweet_delete: string;
 }

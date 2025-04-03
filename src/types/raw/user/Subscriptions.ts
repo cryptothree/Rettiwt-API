@@ -5,44 +5,44 @@
  *
  * @public
  */
-export interface Root {
+export interface IUserSubscriptionsResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	user: User;
 }
 
-export interface User {
+interface User {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	__typename: string;
 	timeline: Timeline;
 }
 
-export interface Timeline {
+interface Timeline {
 	timeline: Timeline2;
 }
 
-export interface Timeline2 {
+interface Timeline2 {
 	instructions: Instruction[];
 }
 
-export interface Instruction {
+interface Instruction {
 	type: string;
 	direction?: string;
 	entries?: Entry[];
 }
 
-export interface Entry {
+interface Entry {
 	entryId: string;
 	sortIndex: string;
 	content: Content;
 }
 
-export interface Content {
+interface Content {
 	entryType: string;
 	__typename: string;
 	itemContent?: ItemContent;
@@ -51,18 +51,18 @@ export interface Content {
 	cursorType?: string;
 }
 
-export interface ItemContent {
+interface ItemContent {
 	itemType: string;
 	__typename: string;
 	user_results: UserResults;
 	userDisplayType: string;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result2;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -76,11 +76,11 @@ export interface Result2 {
 	professional?: Professional;
 }
 
-export interface AffiliatesHighlightedLabel {
+interface AffiliatesHighlightedLabel {
 	label?: Label;
 }
 
-export interface Label {
+interface Label {
 	url: Url;
 	badge: Badge;
 	description: string;
@@ -88,16 +88,16 @@ export interface Label {
 	userLabelDisplayType: string;
 }
 
-export interface Url {
+interface Url {
 	url: string;
 	urlType: string;
 }
 
-export interface Badge {
+interface Badge {
 	url: string;
 }
 
-export interface Legacy {
+interface Legacy {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -131,46 +131,46 @@ export interface Legacy {
 	verified_type?: string;
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 	url?: Url3;
 }
 
-export interface Description {
+interface Description {
 	urls: Url2[];
 }
 
-export interface Url2 {
+interface Url2 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Url3 {
+interface Url3 {
 	urls: Url4[];
 }
 
-export interface Url4 {
+interface Url4 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Professional {
+interface Professional {
 	rest_id: string;
 	professional_type: string;
 	category: Category[];
 }
 
-export interface Category {
+interface Category {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface ClientEventInfo {
+interface ClientEventInfo {
 	component: string;
 	element: string;
 }

@@ -5,31 +5,31 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetRepliesResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	threaded_conversation_with_injections_v2: ThreadedConversationWithInjectionsV2;
 }
 
-export interface ThreadedConversationWithInjectionsV2 {
+interface ThreadedConversationWithInjectionsV2 {
 	instructions: Instruction[];
 }
 
-export interface Instruction {
+interface Instruction {
 	type: string;
 	entries?: Entry[];
 	direction?: string;
 }
 
-export interface Entry {
+interface Entry {
 	entryId: string;
 	sortIndex: string;
 	content: Content;
 }
 
-export interface Content {
+interface Content {
 	entryType: string;
 	__typename: string;
 	items?: Item[];
@@ -38,17 +38,17 @@ export interface Content {
 	itemContent?: ItemContent2;
 }
 
-export interface Item {
+interface Item {
 	entryId: string;
 	item: Item2;
 }
 
-export interface Item2 {
+interface Item2 {
 	itemContent: ItemContent;
 	clientEventInfo: ClientEventInfo;
 }
 
-export interface ItemContent {
+interface ItemContent {
 	itemType: string;
 	__typename: string;
 	tweet_results: TweetResults;
@@ -56,11 +56,11 @@ export interface ItemContent {
 	promotedMetadata?: PromotedMetadata;
 }
 
-export interface TweetResults {
+interface TweetResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	__typename: string;
 	rest_id: string;
 	has_birdwatch_notes: boolean;
@@ -75,15 +75,15 @@ export interface Result {
 	unified_card?: UnifiedCard;
 }
 
-export interface Core {
+interface Core {
 	user_results: UserResults;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result2;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -96,9 +96,9 @@ export interface Result2 {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel {}
+interface AffiliatesHighlightedLabel {}
 
-export interface Legacy {
+interface Legacy {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -131,60 +131,60 @@ export interface Legacy {
 	withheld_in_countries: any[];
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 	url?: Url2;
 }
 
-export interface Description {
+interface Description {
 	urls: Url[];
 }
 
-export interface Url {
+interface Url {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Url2 {
+interface Url2 {
 	urls: Url3[];
 }
 
-export interface Url3 {
+interface Url3 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Professional {
+interface Professional {
 	rest_id: string;
 	professional_type: string;
 	category: Category[];
 }
 
-export interface Category {
+interface Category {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface UnmentionData {}
+interface UnmentionData {}
 
-export interface EditControl {
+interface EditControl {
 	edit_tweet_ids: string[];
 	editable_until_msecs: string;
 	is_edit_eligible: boolean;
 	edits_remaining: string;
 }
 
-export interface Views {
+interface Views {
 	count: string;
 	state: string;
 }
 
-export interface Legacy2 {
+interface Legacy2 {
 	bookmark_count: number;
 	bookmarked: boolean;
 	created_at: string;
@@ -210,7 +210,7 @@ export interface Legacy2 {
 	possibly_sensitive_editable?: boolean;
 }
 
-export interface Entities2 {
+interface Entities2 {
 	hashtags: any[];
 	symbols: any[];
 	timestamps: any[];
@@ -219,21 +219,21 @@ export interface Entities2 {
 	media?: Medum[];
 }
 
-export interface Url4 {
+interface Url4 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface UserMention {
+interface UserMention {
 	id_str: string;
 	name: string;
 	screen_name: string;
 	indices: number[];
 }
 
-export interface Medum {
+interface Medum {
 	display_url: string;
 	expanded_url: string;
 	id_str: string;
@@ -250,68 +250,68 @@ export interface Medum {
 	ext_alt_text?: string;
 }
 
-export interface AdditionalMediaInfo {
+interface AdditionalMediaInfo {
 	monetizable: boolean;
 }
 
-export interface ExtMediaAvailability {
+interface ExtMediaAvailability {
 	status: string;
 }
 
-export interface Sizes {
+interface Sizes {
 	large: Large;
 	medium: Medium;
 	small: Small;
 	thumb: Thumb;
 }
 
-export interface Large {
+interface Large {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface Medium {
+interface Medium {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface Small {
+interface Small {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface Thumb {
+interface Thumb {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface OriginalInfo {
+interface OriginalInfo {
 	height: number;
 	width: number;
 	focus_rects: any[];
 }
 
-export interface VideoInfo {
+interface VideoInfo {
 	aspect_ratio: number[];
 	duration_millis?: number;
 	variants: Variant[];
 }
 
-export interface Variant {
+interface Variant {
 	bitrate?: number;
 	content_type: string;
 	url: string;
 }
 
-export interface ExtendedEntities {
+interface ExtendedEntities {
 	media: Medum2[];
 }
 
-export interface Medum2 {
+interface Medum2 {
 	display_url: string;
 	expanded_url: string;
 	id_str: string;
@@ -328,72 +328,72 @@ export interface Medum2 {
 	ext_alt_text?: string;
 }
 
-export interface AdditionalMediaInfo2 {
+interface AdditionalMediaInfo2 {
 	monetizable: boolean;
 }
 
-export interface ExtMediaAvailability2 {
+interface ExtMediaAvailability2 {
 	status: string;
 }
 
-export interface Sizes2 {
+interface Sizes2 {
 	large: Large2;
 	medium: Medium2;
 	small: Small2;
 	thumb: Thumb2;
 }
 
-export interface Large2 {
+interface Large2 {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface Medium2 {
+interface Medium2 {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface Small2 {
+interface Small2 {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface Thumb2 {
+interface Thumb2 {
 	h: number;
 	w: number;
 	resize: string;
 }
 
-export interface OriginalInfo2 {
+interface OriginalInfo2 {
 	height: number;
 	width: number;
 	focus_rects: any[];
 }
 
-export interface VideoInfo2 {
+interface VideoInfo2 {
 	aspect_ratio: number[];
 	duration_millis?: number;
 	variants: Variant2[];
 }
 
-export interface Variant2 {
+interface Variant2 {
 	bitrate?: number;
 	content_type: string;
 	url: string;
 }
 
-export interface QuickPromoteEligibility {
+interface QuickPromoteEligibility {
 	eligibility: string;
 }
 
-export interface UnifiedCard {
+interface UnifiedCard {
 	card_fetch_state: string;
 }
 
-export interface PromotedMetadata {
+interface PromotedMetadata {
 	advertiser_results: AdvertiserResults;
 	disclosureType: string;
 	experimentValues: any[];
@@ -402,11 +402,11 @@ export interface PromotedMetadata {
 	clickTrackingInfo: ClickTrackingInfo;
 }
 
-export interface AdvertiserResults {
+interface AdvertiserResults {
 	result: Result3;
 }
 
-export interface Result3 {
+interface Result3 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -419,9 +419,9 @@ export interface Result3 {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel2 {}
+interface AffiliatesHighlightedLabel2 {}
 
-export interface Legacy3 {
+interface Legacy3 {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -454,84 +454,84 @@ export interface Legacy3 {
 	withheld_in_countries: any[];
 }
 
-export interface Entities3 {
+interface Entities3 {
 	description: Description2;
 	url: Url6;
 }
 
-export interface Description2 {
+interface Description2 {
 	urls: Url5[];
 }
 
-export interface Url5 {
+interface Url5 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Url6 {
+interface Url6 {
 	urls: Url7[];
 }
 
-export interface Url7 {
+interface Url7 {
 	display_url: string;
 	expanded_url: string;
 	url: string;
 	indices: number[];
 }
 
-export interface Professional2 {
+interface Professional2 {
 	rest_id: string;
 	professional_type: string;
 	category: Category2[];
 }
 
-export interface Category2 {
+interface Category2 {
 	id: number;
 	name: string;
 	icon_name: string;
 }
 
-export interface ClickTrackingInfo {
+interface ClickTrackingInfo {
 	urlParams: UrlParam[];
 }
 
-export interface UrlParam {
+interface UrlParam {
 	key: string;
 	value: string;
 }
 
-export interface ClientEventInfo {
+interface ClientEventInfo {
 	details: Details;
 }
 
-export interface Details {
+interface Details {
 	conversationDetails: ConversationDetails;
 	timelinesDetails?: TimelinesDetails;
 }
 
-export interface ConversationDetails {
+interface ConversationDetails {
 	conversationSection: string;
 }
 
-export interface TimelinesDetails {
+interface TimelinesDetails {
 	controllerData: string;
 }
 
-export interface ClientEventInfo2 {
+interface ClientEventInfo2 {
 	details: Details2;
 }
 
-export interface Details2 {
+interface Details2 {
 	conversationDetails: ConversationDetails2;
 }
 
-export interface ConversationDetails2 {
+interface ConversationDetails2 {
 	conversationSection: string;
 }
 
-export interface ItemContent2 {
+interface ItemContent2 {
 	itemType: string;
 	__typename: string;
 	value: string;

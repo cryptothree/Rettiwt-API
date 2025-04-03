@@ -5,7 +5,7 @@
  *
  * @public
  */
-export interface Root {
+export interface IMediaLiveVideoStreamResponse {
 	source: Source;
 	sessionId: string;
 	chatToken: string;
@@ -13,7 +13,7 @@ export interface Root {
 	shareUrl: string;
 }
 
-export interface Source {
+interface Source {
 	location: string;
 	noRedirectPlaybackUrl: string;
 	status: string;

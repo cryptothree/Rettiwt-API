@@ -5,15 +5,15 @@
  *
  * @public
  */
-export interface Root {
+export interface IListDetailsResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	list: List;
 }
 
-export interface List {
+interface List {
 	created_at: number;
 	default_banner_media: DefaultBannerMedia;
 	default_banner_media_results: DefaultBannerMediaResults;
@@ -33,29 +33,29 @@ export interface List {
 	members_context: string;
 }
 
-export interface DefaultBannerMedia {
+interface DefaultBannerMedia {
 	media_info: MediaInfo;
 }
 
-export interface MediaInfo {
+interface MediaInfo {
 	original_img_url: string;
 	original_img_width: number;
 	original_img_height: number;
 	salient_rect: SalientRect;
 }
 
-export interface SalientRect {
+interface SalientRect {
 	left: number;
 	top: number;
 	width: number;
 	height: number;
 }
 
-export interface DefaultBannerMediaResults {
+interface DefaultBannerMediaResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	id: string;
 	media_key: string;
 	media_id: string;
@@ -63,7 +63,7 @@ export interface Result {
 	__typename: string;
 }
 
-export interface MediaInfo2 {
+interface MediaInfo2 {
 	__typename: string;
 	original_img_height: number;
 	original_img_width: number;
@@ -71,18 +71,18 @@ export interface MediaInfo2 {
 	salient_rect: SalientRect2;
 }
 
-export interface SalientRect2 {
+interface SalientRect2 {
 	height: number;
 	left: number;
 	top: number;
 	width: number;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result2;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -94,9 +94,9 @@ export interface Result2 {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel {}
+interface AffiliatesHighlightedLabel {}
 
-export interface Legacy {
+interface Legacy {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -128,10 +128,10 @@ export interface Legacy {
 	withheld_in_countries: any[];
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 }
 
-export interface Description {
+interface Description {
 	urls: any[];
 }

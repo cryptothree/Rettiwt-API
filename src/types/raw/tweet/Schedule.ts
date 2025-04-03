@@ -5,14 +5,14 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetScheduleResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	tweet: Tweet;
 }
 
-export interface Tweet {
+interface Tweet {
 	rest_id: string;
 }

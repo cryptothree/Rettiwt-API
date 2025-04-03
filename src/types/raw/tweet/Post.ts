@@ -5,23 +5,23 @@
  *
  * @public
  */
-export interface Root {
+export interface ITweetPostResponse {
 	data: Data;
 }
 
-export interface Data {
+interface Data {
 	create_tweet: CreateTweet;
 }
 
-export interface CreateTweet {
+interface CreateTweet {
 	tweet_results: TweetResults;
 }
 
-export interface TweetResults {
+interface TweetResults {
 	result: Result;
 }
 
-export interface Result {
+interface Result {
 	rest_id: string;
 	core: Core;
 	edit_control: EditControl;
@@ -33,15 +33,15 @@ export interface Result {
 	unmention_info: UnmentionInfo;
 }
 
-export interface Core {
+interface Core {
 	user_results: UserResults;
 }
 
-export interface UserResults {
+interface UserResults {
 	result: Result2;
 }
 
-export interface Result2 {
+interface Result2 {
 	__typename: string;
 	id: string;
 	rest_id: string;
@@ -53,9 +53,9 @@ export interface Result2 {
 	verified_phone_status: boolean;
 }
 
-export interface AffiliatesHighlightedLabel {}
+interface AffiliatesHighlightedLabel {}
 
-export interface Legacy {
+interface Legacy {
 	can_dm: boolean;
 	can_media_tag: boolean;
 	created_at: string;
@@ -87,31 +87,31 @@ export interface Legacy {
 	withheld_in_countries: any[];
 }
 
-export interface Entities {
+interface Entities {
 	description: Description;
 }
 
-export interface Description {
+interface Description {
 	urls: any[];
 }
 
-export interface EditControl {
+interface EditControl {
 	edit_tweet_ids: string[];
 	editable_until_msecs: string;
 	is_edit_eligible: boolean;
 	edits_remaining: string;
 }
 
-export interface EditPerspective {
+interface EditPerspective {
 	favorited: boolean;
 	retweeted: boolean;
 }
 
-export interface Views {
+interface Views {
 	state: string;
 }
 
-export interface Legacy2 {
+interface Legacy2 {
 	bookmark_count: number;
 	bookmarked: boolean;
 	created_at: string;
@@ -133,18 +133,18 @@ export interface Legacy2 {
 	id_str: string;
 }
 
-export interface Entities2 {
+interface Entities2 {
 	user_mentions: UserMention[];
 	urls: any[];
 	hashtags: any[];
 	symbols: any[];
 }
 
-export interface UserMention {
+interface UserMention {
 	id_str: string;
 	name: string;
 	screen_name: string;
 	indices: number[];
 }
 
-export interface UnmentionInfo {}
+interface UnmentionInfo {}
