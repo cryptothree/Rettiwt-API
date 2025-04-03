@@ -9,22 +9,21 @@ import { User } from '../../models/data/User';
 
 import { ITweetFilter } from '../../types/args/FetchArgs';
 import { INewTweet } from '../../types/args/PostArgs';
-import {
-	IInitializeMediaUploadResponse,
-	IListTweetsResponse,
-	ITweetDetailsResponse,
-	ITweetLikeResponse,
-	ITweetPostResponse,
-	ITweetRepliesResponse,
-	ITweetRetweetersResponse,
-	ITweetRetweetResponse,
-	ITweetScheduleResponse,
-	ITweetSearchResponse,
-	ITweetUnlikeResponse,
-	ITweetUnpostResponse,
-	ITweetUnretweetResponse,
-	ITweetUnscheduleResponse,
-} from '../../types/raw';
+import { IListTweetsResponse } from '../../types/raw/list/Tweets';
+import { IMediaInitializeUploadResponse } from '../../types/raw/media/InitalizeUpload';
+import { ITweetDetailsResponse } from '../../types/raw/tweet/Details';
+
+import { ITweetLikeResponse } from '../../types/raw/tweet/Like';
+import { ITweetPostResponse } from '../../types/raw/tweet/Post';
+import { ITweetRepliesResponse } from '../../types/raw/tweet/Replies';
+import { ITweetRetweetResponse } from '../../types/raw/tweet/Retweet';
+import { ITweetRetweetersResponse } from '../../types/raw/tweet/Retweeters';
+import { ITweetScheduleResponse } from '../../types/raw/tweet/Schedule';
+import { ITweetSearchResponse } from '../../types/raw/tweet/Search';
+import { ITweetUnlikeResponse } from '../../types/raw/tweet/Unlike';
+import { ITweetUnpostResponse } from '../../types/raw/tweet/Unpost';
+import { ITweetUnretweetResponse } from '../../types/raw/tweet/Unretweet';
+import { ITweetUnscheduleResponse } from '../../types/raw/tweet/Unschedule';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';
@@ -732,7 +731,7 @@ export class TweetService extends FetcherService {
 		// INITIALIZE
 		const size = typeof media == 'string' ? statSync(media).size : media.byteLength;
 		const id: string = (
-			await this.request<IInitializeMediaUploadResponse>(EResourceType.MEDIA_UPLOAD_INITIALIZE, {
+			await this.request<IMediaInitializeUploadResponse>(EResourceType.MEDIA_UPLOAD_INITIALIZE, {
 				upload: { size: size },
 			})
 		).media_id_string;

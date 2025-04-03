@@ -1,5 +1,5 @@
 import { IList } from '../../types/data/List';
-import { IList as IRawList } from '../../types/raw';
+import { IList as IRawList } from '../../types/raw/base/List';
 
 /**
  * The details of a single Twitter List.

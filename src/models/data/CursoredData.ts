@@ -3,7 +3,7 @@ import { EBaseType } from '../../enums/Data';
 import { findByFilter } from '../../helper/JsonUtils';
 
 import { ICursor, ICursoredData } from '../../types/data/CursoredData';
-import { ICursor as IRawCursor } from '../../types/raw';
+import { ICursor as IRawCursor } from '../../types/raw/base/Cursor';
 
 import { Notification } from './Notification';
 import { Tweet } from './Tweet';

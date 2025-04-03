@@ -32,39 +32,3 @@ export * from './services/public/UserService';
 // TYPES
 export * from './types/RettiwtConfig';
 export * from './types/ErrorHandler';
-
-// RAW TYPES
-export {
-	IInitializeMediaUploadResponse,
-	IListMembersResponse,
-	IListTweetsResponse,
-	ITweetDetailsResponse,
-	ITweetLikeResponse,
-	ITweetPostResponse,
-	ITweetRepliesResponse,
-	ITweetRetweetersResponse,
-	ITweetRetweetResponse,
-	ITweetScheduleResponse,
-	ITweetSearchResponse,
-	ITweetUnlikeResponse,
-	ITweetUnpostResponse,
-	ITweetUnscheduleResponse,
-	ITweetUnretweetResponse,
-} from './types/raw';
-export {
-	IUserBookmarksResponse,
-	IUserDetailsResponse,
-	IUserFollowedResponse,
-	IUserFollowersResponse,
-	IUserFollowingResponse,
-	IUserFollowResponse,
-	IUserHighlightsResponse,
-	IUserLikesResponse,
-	IUserMediaResponse,
-	IUserNotificationsResponse,
-	IUserRecommendedResponse,
-	IUserSubscriptionsResponse,
-	IUserTweetsAndRepliesResponse,
-	IUserTweetsResponse,
-	IUserUnfollowResponse,
-} from './types/raw';

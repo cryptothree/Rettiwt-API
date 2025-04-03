@@ -2,7 +2,8 @@ import { ELogActions } from '../../enums/Logging';
 import { findByFilter } from '../../helper/JsonUtils';
 import { LogService } from '../../services/internal/LogService';
 import { IUser } from '../../types/data/User';
-import { ITimelineUser as IRawTimelineUser, IUser as IRawUser } from '../../types/raw';
+import { IUser as IRawUser } from '../../types/raw/base/User';
+import { ITimelineUser as IRawTimelineUser } from '../../types/raw/composite/TimelineUser';
 
 /**
  * The details of a single user.

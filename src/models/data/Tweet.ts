@@ -5,13 +5,10 @@ import { findByFilter } from '../../helper/JsonUtils';
 import { LogService } from '../../services/internal/LogService';
 
 import { ITweet } from '../../types/data/Tweet';
-import {
-	ILimitedVisibilityTweet,
-	IExtendedMedia as IRawExtendedMedia,
-	ITweet as IRawTweet,
-	IEntities as IRawTweetEntities,
-	ITimelineTweet,
-} from '../../types/raw';
+import { ILimitedVisibilityTweet } from '../../types/raw/base/LimitedVisibilityTweet';
+import { IExtendedMedia as IRawExtendedMedia } from '../../types/raw/base/Media';
+import { ITweet as IRawTweet, IEntities as IRawTweetEntities } from '../../types/raw/base/Tweet';
+import { ITimelineTweet } from '../../types/raw/composite/TimelineTweet';
 
 import { User } from './User';
 

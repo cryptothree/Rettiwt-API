@@ -2,7 +2,8 @@ import { ENotificationType } from '../../enums/Data';
 import { ENotificationType as ENotificationTypeOriginal } from '../../enums/Notification';
 import { findKeyByValue } from '../../helper/JsonUtils';
 import { INotification } from '../../types/data/Notification';
-import { INotification as IRawNotification, IUserNotificationsResponse } from '../../types/raw';
+import { INotification as IRawNotification } from '../../types/raw/base/Notification';
+import { IUserNotificationsResponse } from '../../types/raw/user/Notifications';
 
 /**
  * The details of a single notification.

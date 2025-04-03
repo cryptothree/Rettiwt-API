@@ -182,7 +182,7 @@ export class FetcherService {
 	 * })
 	 * ```
 	 */
-	public async request<T>(resource: EResourceType, args: IFetchArgs | IPostArgs): Promise<T> {
+	public async request<T = unknown>(resource: EResourceType, args: IFetchArgs | IPostArgs): Promise<T> {
 		// Logging
 		LogService.log(ELogActions.REQUEST, { resource: resource, args: args });
 
