@@ -1,7 +1,10 @@
 import { AxiosRequestConfig } from 'axios';
 
 import { EResourceType } from '../enums/Resource';
-import { Request } from '../requests';
+import { ListRequests } from '../requests/List';
+import { MediaRequests } from '../requests/Media';
+import { TweetRequests } from '../requests/Tweet';
+import { UserRequests } from '../requests/User';
 import { IFetchArgs } from '../types/args/FetchArgs';
 import { IPostArgs } from '../types/args/PostArgs';
 
@@ -13,43 +16,43 @@ import { IPostArgs } from '../types/args/PostArgs';
 export const requests: { [key in keyof typeof EResourceType]: (args: IFetchArgs | IPostArgs) => AxiosRequestConfig } = {
 	/* eslint-disable @typescript-eslint/naming-convention */
 
-	LIST_MEMBERS: (args: IFetchArgs) => Request.list.members(args.id!, args.count, args.cursor),
-	LIST_TWEETS: (args: IFetchArgs) => Request.list.tweets(args.id!, args.count, args.cursor),
+	LIST_MEMBERS: (args: IFetchArgs) => ListRequests.members(args.id!, args.count, args.cursor),
+	LIST_TWEETS: (args: IFetchArgs) => ListRequests.tweets(args.id!, args.count, args.cursor),
 
-	MEDIA_UPLOAD_APPEND: (args: IPostArgs) => Request.media.appendUpload(args.upload!.id!, args.upload!.media!),
-	MEDIA_UPLOAD_FINALIZE: (args: IPostArgs) => Request.media.finalizeUpload(args.upload!.id!),
-	MEDIA_UPLOAD_INITIALIZE: (args: IPostArgs) => Request.media.initializeUpload(args.upload!.size!),
+	MEDIA_UPLOAD_APPEND: (args: IPostArgs) => MediaRequests.appendUpload(args.upload!.id!, args.upload!.media!),
+	MEDIA_UPLOAD_FINALIZE: (args: IPostArgs) => MediaRequests.finalizeUpload(args.upload!.id!),
+	MEDIA_UPLOAD_INITIALIZE: (args: IPostArgs) => MediaRequests.initializeUpload(args.upload!.size!),
 
-	TWEET_DETAILS: (args: IFetchArgs) => Request.tweet.details(args.id!),
-	TWEET_DETAILS_ALT: (args: IFetchArgs) => Request.tweet.replies(args.id!),
-	TWEET_LIKE: (args: IPostArgs) => Request.tweet.like(args.id!),
-	TWEET_POST: (args: IPostArgs) => Request.tweet.post(args.tweet!),
-	TWEET_REPLIES: (args: IFetchArgs) => Request.tweet.replies(args.id!, args.cursor),
-	TWEET_RETWEET: (args: IPostArgs) => Request.tweet.retweet(args.id!),
-	TWEET_RETWEETERS: (args: IFetchArgs) => Request.tweet.retweeters(args.id!, args.count, args.cursor),
-	TWEET_SCHEDULE: (args: IPostArgs) => Request.tweet.schedule(args.tweet!),
-	TWEET_SEARCH: (args: IFetchArgs) => Request.tweet.search(args.filter!, args.count, args.cursor),
-	TWEET_UNLIKE: (args: IPostArgs) => Request.tweet.unlike(args.id!),
-	TWEET_UNPOST: (args: IPostArgs) => Request.tweet.unpost(args.id!),
-	TWEET_UNRETWEET: (args: IPostArgs) => Request.tweet.unretweet(args.id!),
-	TWEET_UNSCHEDULE: (args: IPostArgs) => Request.tweet.unschedule(args.id!),
+	TWEET_DETAILS: (args: IFetchArgs) => TweetRequests.details(args.id!),
+	TWEET_DETAILS_ALT: (args: IFetchArgs) => TweetRequests.replies(args.id!),
+	TWEET_LIKE: (args: IPostArgs) => TweetRequests.like(args.id!),
+	TWEET_POST: (args: IPostArgs) => TweetRequests.post(args.tweet!),
+	TWEET_REPLIES: (args: IFetchArgs) => TweetRequests.replies(args.id!, args.cursor),
+	TWEET_RETWEET: (args: IPostArgs) => TweetRequests.retweet(args.id!),
+	TWEET_RETWEETERS: (args: IFetchArgs) => TweetRequests.retweeters(args.id!, args.count, args.cursor),
+	TWEET_SCHEDULE: (args: IPostArgs) => TweetRequests.schedule(args.tweet!),
+	TWEET_SEARCH: (args: IFetchArgs) => TweetRequests.search(args.filter!, args.count, args.cursor),
+	TWEET_UNLIKE: (args: IPostArgs) => TweetRequests.unlike(args.id!),
+	TWEET_UNPOST: (args: IPostArgs) => TweetRequests.unpost(args.id!),
+	TWEET_UNRETWEET: (args: IPostArgs) => TweetRequests.unretweet(args.id!),
+	TWEET_UNSCHEDULE: (args: IPostArgs) => TweetRequests.unschedule(args.id!),
 
-	USER_BOOKMARKS: (args: IFetchArgs) => Request.user.bookmarks(args.count, args.cursor),
-	USER_DETAILS_BY_USERNAME: (args: IFetchArgs) => Request.user.detailsByUsername(args.id!),
-	USER_DETAILS_BY_ID: (args: IFetchArgs) => Request.user.detailsById(args.id!),
-	USER_FEED_FOLLOWED: (args: IFetchArgs) => Request.user.followed(args.count, args.cursor),
-	USER_FEED_RECOMMENDED: (args: IFetchArgs) => Request.user.recommended(args.count, args.cursor),
-	USER_FOLLOW: (args: IPostArgs) => Request.user.follow(args.id!),
-	USER_FOLLOWING: (args: IFetchArgs) => Request.user.following(args.id!, args.count, args.cursor),
-	USER_FOLLOWERS: (args: IFetchArgs) => Request.user.followers(args.id!, args.count, args.cursor),
-	USER_HIGHLIGHTS: (args: IFetchArgs) => Request.user.highlights(args.id!, args.count, args.cursor),
-	USER_LIKES: (args: IFetchArgs) => Request.user.likes(args.id!, args.count, args.cursor),
-	USER_MEDIA: (args: IFetchArgs) => Request.user.media(args.id!, args.count, args.cursor),
-	USER_NOTIFICATIONS: (args: IFetchArgs) => Request.user.notifications(args.count, args.cursor),
-	USER_SUBSCRIPTIONS: (args: IFetchArgs) => Request.user.subscriptions(args.id!, args.count, args.cursor),
-	USER_TIMELINE: (args: IFetchArgs) => Request.user.tweets(args.id!, args.count, args.cursor),
-	USER_TIMELINE_AND_REPLIES: (args: IFetchArgs) => Request.user.tweetsAndReplies(args.id!, args.count, args.cursor),
-	USER_UNFOLLOW: (args: IPostArgs) => Request.user.unfollow(args.id!),
+	USER_BOOKMARKS: (args: IFetchArgs) => UserRequests.bookmarks(args.count, args.cursor),
+	USER_DETAILS_BY_USERNAME: (args: IFetchArgs) => UserRequests.detailsByUsername(args.id!),
+	USER_DETAILS_BY_ID: (args: IFetchArgs) => UserRequests.detailsById(args.id!),
+	USER_FEED_FOLLOWED: (args: IFetchArgs) => UserRequests.followed(args.count, args.cursor),
+	USER_FEED_RECOMMENDED: (args: IFetchArgs) => UserRequests.recommended(args.count, args.cursor),
+	USER_FOLLOW: (args: IPostArgs) => UserRequests.follow(args.id!),
+	USER_FOLLOWING: (args: IFetchArgs) => UserRequests.following(args.id!, args.count, args.cursor),
+	USER_FOLLOWERS: (args: IFetchArgs) => UserRequests.followers(args.id!, args.count, args.cursor),
+	USER_HIGHLIGHTS: (args: IFetchArgs) => UserRequests.highlights(args.id!, args.count, args.cursor),
+	USER_LIKES: (args: IFetchArgs) => UserRequests.likes(args.id!, args.count, args.cursor),
+	USER_MEDIA: (args: IFetchArgs) => UserRequests.media(args.id!, args.count, args.cursor),
+	USER_NOTIFICATIONS: (args: IFetchArgs) => UserRequests.notifications(args.count, args.cursor),
+	USER_SUBSCRIPTIONS: (args: IFetchArgs) => UserRequests.subscriptions(args.id!, args.count, args.cursor),
+	USER_TIMELINE: (args: IFetchArgs) => UserRequests.tweets(args.id!, args.count, args.cursor),
+	USER_TIMELINE_AND_REPLIES: (args: IFetchArgs) => UserRequests.tweetsAndReplies(args.id!, args.count, args.cursor),
+	USER_UNFOLLOW: (args: IPostArgs) => UserRequests.unfollow(args.id!),
 
 	/* eslint-enable @typescript-eslint/naming-convention */
 };
