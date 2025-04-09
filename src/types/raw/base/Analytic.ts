@@ -5,22 +5,22 @@
  *
  * @public
  */
-export interface IAnalytic {
+export interface IAnalytics {
 	__typename: string;
-	organic_metrics_time_series: IAnalyticMetric[];
+	organic_metrics_time_series: IAnalyticsMetric[];
 	id: string;
 }
 
-export interface IAnalyticMetric {
-	metric_value: IAnalyticMetricValue[];
-	timestamp: IAnalyticTimeStamp;
+export interface IAnalyticsMetric {
+	metric_value: IAnalyticsMetricValue[];
+	timestamp: IAnalyticsTimeStamp;
 }
 
-export interface IAnalyticMetricValue {
+export interface IAnalyticsMetricValue {
 	metric_value: number;
 	metric_type: string;
 }
 
-export interface IAnalyticTimeStamp {
+export interface IAnalyticsTimeStamp {
 	iso8601_time: string;
 }
