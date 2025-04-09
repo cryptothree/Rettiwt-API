@@ -2,7 +2,7 @@ import qs from 'querystring';
 
 import { AxiosRequestConfig } from 'axios';
 
-import { EGranularity, EMetric } from '../enums/Analytic';
+import { ERawAnalyticsGranularity, ERawAnalyticsMetric } from '../enums/raw/Analytics';
 
 /**
  * Collection of requests related to users.
@@ -81,8 +81,8 @@ export class UserRequests {
 	public static analytics(
 		fromTime: Date,
 		toTime: Date,
-		granularity: EGranularity,
-		requestedMetrics: EMetric[],
+		granularity: ERawAnalyticsGranularity,
+		requestedMetrics: ERawAnalyticsMetric[],
 	): AxiosRequestConfig {
 		return {
 			method: 'get',

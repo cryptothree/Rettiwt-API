@@ -2,7 +2,6 @@ import { statSync } from 'fs';
 
 import { extractors } from '../../collections/Extractors';
 import { EResourceType } from '../../enums/Resource';
-import { ESearchResultType } from '../../enums/Search';
 import { CursoredData } from '../../models/data/CursoredData';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
@@ -461,12 +460,7 @@ export class TweetService extends FetcherService {
 	 *
 	 * @remarks For details about available filters, refer to {@link TweetFilter}
 	 */
-	public async search(
-		filter: ITweetFilter,
-		count?: number,
-		cursor?: string,
-		results?: ESearchResultType,
-	): Promise<CursoredData<Tweet>> {
+	public async search(filter: ITweetFilter, count?: number, cursor?: string): Promise<CursoredData<Tweet>> {
 		const resource = EResourceType.TWEET_SEARCH;
 
 		// Fetching raw list of filtered tweets
@@ -474,7 +468,6 @@ export class TweetService extends FetcherService {
 			filter: filter,
 			count: count,
 			cursor: cursor,
-			results: results,
 		});
 
 		// Deserializing response

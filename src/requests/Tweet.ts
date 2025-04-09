@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { ESearchResultType } from '../enums/Search';
 import { TweetFilter } from '../models/args/FetchArgs';
 import { NewTweet } from '../models/args/PostArgs';
 import { MediaVariable, ReplyVariable } from '../models/params/Variables';
 import { ITweetFilter } from '../types/args/FetchArgs';
 import { INewTweet } from '../types/args/PostArgs';
+import { ERawTweetSearchResultType } from '../enums/raw/Tweet';
 
 /**
  * Collection of requests related to tweets.
@@ -351,7 +351,7 @@ export class TweetRequests {
 					count: count,
 					cursor: cursor,
 					querySource: 'typed_query',
-					product: parsedFilter.top ? ESearchResultType.TOP : ESearchResultType.LATEST,
+					product: parsedFilter.top ? ERawTweetSearchResultType.TOP : ERawTweetSearchResultType.LATEST,
 				}),
 				features: JSON.stringify({
 					rweb_lists_timeline_redesign_enabled: true,

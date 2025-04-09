@@ -1,5 +1,6 @@
 import { ELogActions } from '../../enums/Logging';
 import { EMediaType } from '../../enums/Media';
+import { ERawMediaType } from '../../enums/raw/Media';
 import { findByFilter } from '../../helper/JsonUtils';
 
 import { LogService } from '../../services/internal/LogService';
@@ -255,18 +256,19 @@ export class TweetMedia {
 	 * @param media - The raw media details.
 	 */
 	public constructor(media: IRawExtendedMedia) {
-		this.type = media.type;
-
 		// If the media is a photo
-		if (media.type == EMediaType.PHOTO) {
+		if (media.type == ERawMediaType.PHOTO) {
+			this.type = EMediaType.PHOTO;
 			this.url = media.media_url_https;
 		}
 		// If the media is a gif
-		else if (media.type == EMediaType.GIF) {
+		else if (media.type == ERawMediaType.GIF) {
+			this.type = EMediaType.GIF;
 			this.url = media.video_info?.variants[0].url as string;
 		}
 		// If the media is a video
 		else {
+			this.type = EMediaType.VIDEO;
 			this.thumbnailUrl = media.media_url_https;
 
 			/** The highest bitrate of all variants. */

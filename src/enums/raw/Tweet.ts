@@ -3,7 +3,7 @@
  *
  * @public
  */
-export enum ESearchResultType {
+export enum ERawTweetSearchResultType {
 	LATEST = 'Latest',
 	TOP = 'Top',
 }

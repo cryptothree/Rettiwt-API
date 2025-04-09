@@ -1,5 +1,4 @@
 import { EResourceType } from '../../enums/Resource';
-import { ESearchResultType } from '../../enums/Search';
 import { IFetchArgs, ITweetFilter } from '../../types/args/FetchArgs';
 
 /**
@@ -12,7 +11,6 @@ export class FetchArgs implements IFetchArgs {
 	public cursor?: string;
 	public filter?: TweetFilter;
 	public id?: string;
-	public results?: ESearchResultType;
 
 	/**
 	 * @param resource - The resource to be fetched.
@@ -23,7 +21,6 @@ export class FetchArgs implements IFetchArgs {
 		this.count = args.count;
 		this.cursor = args.cursor;
 		this.filter = args.filter ? new TweetFilter(args.filter) : undefined;
-		this.results = args.results;
 	}
 }
 

@@ -4,7 +4,7 @@
  * @public
  */
 export enum EMediaType {
-	PHOTO = 'photo',
-	VIDEO = 'video',
-	GIF = 'animated_gif',
+	PHOTO = 'PHOTO',
+	VIDEO = 'VIDEO',
+	GIF = 'GIF',
 }

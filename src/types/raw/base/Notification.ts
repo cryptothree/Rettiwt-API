@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { ENotificationType } from '../../../enums/Notification';
+import { ERawNotificationType } from '../../../enums/raw/Notification';
 
 /**
  * Represents the raw data of a single Notification.
@@ -16,7 +16,7 @@ export interface INotification {
 }
 
 export interface INotificationIcon {
-	id: ENotificationType;
+	id: ERawNotificationType;
 }
 
 export interface INotificationMessage {

@@ -1,5 +1,3 @@
-import { ESearchResultType } from '../../enums/Search';
-
 /**
  * Options specifying the data that is to be fetched.
  *
@@ -49,18 +47,6 @@ export interface IFetchArgs {
 	 * - For {@link EResourceType.USER_DETAILS_BY_USERNAME}, can be alphanumeric, while for others, is strictly numeric.
 	 */
 	id?: string;
-
-	/**
-	 * The type of search results to fetch. Can be one of:
-	 * - {@link EResourceType.LATEST}, for latest search results.
-	 * - {@link EResourceType.TOP}, for top search results.
-	 *
-	 * @defaultValue {@link ESearchResultType.LATEST}.
-	 *
-	 * @remarks
-	 * - Applicable only for {@link EResourceType.TWEET_SEARCH}.
-	 */
-	results?: ESearchResultType;
 }
 
 /**

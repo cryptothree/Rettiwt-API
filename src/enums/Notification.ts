@@ -4,8 +4,9 @@
  * @public
  */
 export enum ENotificationType {
-	RECOMMENDATION = 'recommendation_icon',
-	INFORMATION = 'bird_icon',
-	LIVE = 'live_icon',
-	ALERT = 'bell_icon',
+	RECOMMENDATION = 'RECOMMENDATION',
+	INFORMATION = 'INFORMATION',
+	LIVE = 'LIVE',
+	ALERT = 'ALERT',
+	UNDEFINED = 'UNDEFINED',
 }
