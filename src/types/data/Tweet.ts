@@ -1,4 +1,4 @@
-import { EMediaType } from 'rettiwt-core';
+import { EMediaType } from '../../enums/Media';
 
 import { IUser } from './User';
 

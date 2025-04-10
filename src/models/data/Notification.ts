@@ -1,12 +1,9 @@
-import {
-	ENotificationType as ENotificationTypeOriginal,
-	INotification as IRawNotification,
-	IUserNotificationsResponse,
-} from 'rettiwt-core';
-
-import { ENotificationType } from '../../enums/Data';
+import { ENotificationType } from '../../enums/Notification';
+import { ERawNotificationType } from '../../enums/raw/Notification';
 import { findKeyByValue } from '../../helper/JsonUtils';
 import { INotification } from '../../types/data/Notification';
+import { INotification as IRawNotification } from '../../types/raw/base/Notification';
+import { IUserNotificationsResponse } from '../../types/raw/user/Notifications';
 
 /**
  * The details of a single notification.
@@ -26,7 +23,7 @@ export class Notification implements INotification {
 	 */
 	public constructor(notification: IRawNotification) {
 		// Getting the original notification type
-		const notificationType: string | undefined = findKeyByValue(ENotificationTypeOriginal, notification.icon.id);
+		const notificationType: string | undefined = findKeyByValue(ERawNotificationType, notification.icon.id);
 
 		this.from = notification.template?.aggregateUserActionsV1?.fromUsers
 			? notification.template.aggregateUserActionsV1.fromUsers.map((item) => item.user.id)

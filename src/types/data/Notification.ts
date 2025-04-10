@@ -1,4 +1,4 @@
-import { ENotificationType } from '../../enums/Data';
+import { ENotificationType } from '../../enums/Notification';
 
 /**
  * The details of a single notification.

@@ -1,27 +1,24 @@
-import {
-	IUserBookmarksResponse,
-	IUserDetailsResponse,
-	IUserFollowedResponse,
-	IUserFollowersResponse,
-	IUserFollowingResponse,
-	IUserFollowResponse,
-	IUserHighlightsResponse,
-	IUserLikesResponse,
-	IUserMediaResponse,
-	IUserNotificationsResponse,
-	IUserRecommendedResponse,
-	IUserSubscriptionsResponse,
-	IUserTweetsAndRepliesResponse,
-	IUserTweetsResponse,
-	IUserUnfollowResponse,
-} from 'rettiwt-core';
-
 import { extractors } from '../../collections/Extractors';
 import { EResourceType } from '../../enums/Resource';
 import { CursoredData } from '../../models/data/CursoredData';
 import { Notification } from '../../models/data/Notification';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
+import { IUserBookmarksResponse } from '../../types/raw/user/Bookmarks';
+import { IUserDetailsResponse } from '../../types/raw/user/Details';
+import { IUserFollowResponse } from '../../types/raw/user/Follow';
+import { IUserFollowedResponse } from '../../types/raw/user/Followed';
+import { IUserFollowersResponse } from '../../types/raw/user/Followers';
+import { IUserFollowingResponse } from '../../types/raw/user/Following';
+import { IUserHighlightsResponse } from '../../types/raw/user/Highlights';
+import { IUserLikesResponse } from '../../types/raw/user/Likes';
+import { IUserMediaResponse } from '../../types/raw/user/Media';
+import { IUserNotificationsResponse } from '../../types/raw/user/Notifications';
+import { IUserRecommendedResponse } from '../../types/raw/user/Recommended';
+import { IUserSubscriptionsResponse } from '../../types/raw/user/Subscriptions';
+import { IUserTweetsResponse } from '../../types/raw/user/Tweets';
+import { IUserTweetsAndRepliesResponse } from '../../types/raw/user/TweetsAndReplies';
+import { IUserUnfollowResponse } from '../../types/raw/user/Unfollow';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';

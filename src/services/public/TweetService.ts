@@ -1,30 +1,28 @@
 import { statSync } from 'fs';
 
-import {
-	ESearchResultType,
-	IInitializeMediaUploadResponse,
-	IListTweetsResponse,
-	INewTweet,
-	ITweetDetailsResponse,
-	ITweetLikeResponse,
-	ITweetPostResponse,
-	ITweetRepliesResponse,
-	ITweetRetweetersResponse,
-	ITweetRetweetResponse,
-	ITweetScheduleResponse,
-	ITweetSearchResponse,
-	ITweetUnlikeResponse,
-	ITweetUnpostResponse,
-	ITweetUnretweetResponse,
-	ITweetUnscheduleResponse,
-	TweetFilter,
-} from 'rettiwt-core';
-
 import { extractors } from '../../collections/Extractors';
 import { EResourceType } from '../../enums/Resource';
 import { CursoredData } from '../../models/data/CursoredData';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
+
+import { ITweetFilter } from '../../types/args/FetchArgs';
+import { INewTweet } from '../../types/args/PostArgs';
+import { IListTweetsResponse } from '../../types/raw/list/Tweets';
+import { IMediaInitializeUploadResponse } from '../../types/raw/media/InitalizeUpload';
+import { ITweetDetailsResponse } from '../../types/raw/tweet/Details';
+
+import { ITweetLikeResponse } from '../../types/raw/tweet/Like';
+import { ITweetPostResponse } from '../../types/raw/tweet/Post';
+import { ITweetRepliesResponse } from '../../types/raw/tweet/Replies';
+import { ITweetRetweetResponse } from '../../types/raw/tweet/Retweet';
+import { ITweetRetweetersResponse } from '../../types/raw/tweet/Retweeters';
+import { ITweetScheduleResponse } from '../../types/raw/tweet/Schedule';
+import { ITweetSearchResponse } from '../../types/raw/tweet/Search';
+import { ITweetUnlikeResponse } from '../../types/raw/tweet/Unlike';
+import { ITweetUnpostResponse } from '../../types/raw/tweet/Unpost';
+import { ITweetUnretweetResponse } from '../../types/raw/tweet/Unretweet';
+import { ITweetUnscheduleResponse } from '../../types/raw/tweet/Unschedule';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';
@@ -462,12 +460,7 @@ export class TweetService extends FetcherService {
 	 *
 	 * @remarks For details about available filters, refer to {@link TweetFilter}
 	 */
-	public async search(
-		filter: TweetFilter,
-		count?: number,
-		cursor?: string,
-		results?: ESearchResultType,
-	): Promise<CursoredData<Tweet>> {
+	public async search(filter: ITweetFilter, count?: number, cursor?: string): Promise<CursoredData<Tweet>> {
 		const resource = EResourceType.TWEET_SEARCH;
 
 		// Fetching raw list of filtered tweets
@@ -475,7 +468,6 @@ export class TweetService extends FetcherService {
 			filter: filter,
 			count: count,
 			cursor: cursor,
-			results: results,
 		});
 
 		// Deserializing response
@@ -519,7 +511,7 @@ export class TweetService extends FetcherService {
 	 * streamTweets();
 	 * ```
 	 */
-	public async *stream(filter: TweetFilter, pollingInterval = 60000): AsyncGenerator<Tweet> {
+	public async *stream(filter: ITweetFilter, pollingInterval = 60000): AsyncGenerator<Tweet> {
 		const startDate = new Date();
 
 		let cursor: string | undefined = undefined;
@@ -732,7 +724,7 @@ export class TweetService extends FetcherService {
 		// INITIALIZE
 		const size = typeof media == 'string' ? statSync(media).size : media.byteLength;
 		const id: string = (
-			await this.request<IInitializeMediaUploadResponse>(EResourceType.MEDIA_UPLOAD_INITIALIZE, {
+			await this.request<IMediaInitializeUploadResponse>(EResourceType.MEDIA_UPLOAD_INITIALIZE, {
 				upload: { size: size },
 			})
 		).media_id_string;

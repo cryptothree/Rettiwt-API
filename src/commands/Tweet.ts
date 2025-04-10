@@ -1,8 +1,9 @@
 import { Command, createCommand } from 'commander';
-import { TweetFilter } from 'rettiwt-core';
 
 import { output } from '../helper/CliUtils';
+import { TweetFilter } from '../models/args/FetchArgs';
 import { Rettiwt } from '../Rettiwt';
+import { ITweetFilter } from '../types/args/FetchArgs';
 
 /**
  * Creates a new 'tweet' command which uses the given Rettiwt instance.
@@ -331,9 +332,9 @@ class TweetSearchOptions {
 	/**
 	 * Converts the filter options to a format recognizable by rettiwt-api.
 	 *
-	 * @returns The '{@link TweetFilter}' representation of filter options.
+	 * @returns The '{@link ITweetFilter}' representation of filter options.
 	 */
-	public toTweetFilter(): TweetFilter {
+	public toTweetFilter(): ITweetFilter {
 		return new TweetFilter({
 			fromUsers: this.from ? this.from.split(',') : undefined,
 			toUsers: this.to ? this.to.split(',') : undefined,
