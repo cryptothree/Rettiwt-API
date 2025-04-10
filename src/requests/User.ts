@@ -14,8 +14,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose affiliates are to be fetched.
 	 * @param count - The number of affiliates to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of affiliates to fetch.
-	 *
-	 * @public
 	 */
 	public static affiliates(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -75,8 +73,6 @@ export class UserRequests {
 	 * @param toTime - The end time of the analytic data to be fetched.
 	 * @param granularity - The granularity of the analytic data to be fetched.
 	 * @param requestedMetrics - The metrics to be fetched.
-	 *
-	 * @public
 	 */
 	public static analytics(
 		fromTime: Date,
@@ -102,8 +98,6 @@ export class UserRequests {
 	/**
 	 * @param count - The number of bookmarks to fetch.
 	 * @param cursor - The cursor to the batch of bookmarks to fetch.
-	 *
-	 * @public
 	 */
 	public static bookmarks(count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -148,8 +142,6 @@ export class UserRequests {
 
 	/**
 	 * @param id - The id of the user whose details are to be fetched.
-	 *
-	 * @public
 	 */
 	public static detailsById(id: string): AxiosRequestConfig {
 		return {
@@ -177,8 +169,6 @@ export class UserRequests {
 
 	/**
 	 * @param userName - The username of the user whose details are to be fetched.
-	 *
-	 * @public
 	 */
 	public static detailsByUsername(userName: string): AxiosRequestConfig {
 		return {
@@ -205,8 +195,6 @@ export class UserRequests {
 
 	/**
 	 * @param id - The id of the user to follow.
-	 *
-	 * @public
 	 */
 	public static follow(id: string): AxiosRequestConfig {
 		return {
@@ -223,8 +211,6 @@ export class UserRequests {
 	/**
 	 * @param count - The number of timeline items to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of followed timeline items to fetch.
-	 *
-	 * @public
 	 */
 	public static followed(count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -276,8 +262,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose followers are to be fetched.
 	 * @param count - The number of followers to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of followers to fetch.
-	 *
-	 * @public
 	 */
 	public static followers(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -323,8 +307,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose followings are to be fetched.
 	 * @param count - The number of followings to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of followings to fetch.
-	 *
-	 * @public
 	 */
 	public static following(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -370,8 +352,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose highlights are to be fetched.
 	 * @param count - The number of highlights to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of highlights to fetch.
-	 *
-	 * @public
 	 */
 	public static highlights(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -418,8 +398,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose likes are to be fetched.
 	 * @param count - The number of likes to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of likes to fetch.
-	 *
-	 * @public
 	 */
 	public static likes(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -469,8 +447,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose media is to be fetched.
 	 * @param count - The number of media to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of media to fetch.
-	 *
-	 * @public
 	 */
 	public static media(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -519,8 +495,6 @@ export class UserRequests {
 	/**
 	 * @param count - The number of notifications to fetch.
 	 * @param cursor - The cursor to the batch of notifications to fetch.
-	 *
-	 * @public
 	 */
 	public static notifications(count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -567,8 +541,6 @@ export class UserRequests {
 	/**
 	 * @param count - The number of timeline items to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of recommended timeline items to fetch.
-	 *
-	 * @public
 	 */
 	public static recommended(count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -617,9 +589,6 @@ export class UserRequests {
 		};
 	}
 
-	/**
-	 * @public
-	 */
 	public static scheduled(): AxiosRequestConfig {
 		return {
 			method: 'get',
@@ -635,8 +604,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose subscriptions are to be fetched.
 	 * @param count - The number of subscriptions to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of subscriptions to fetch.
-	 *
-	 * @public
 	 */
 	public static subscriptions(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -682,8 +649,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose timeline tweets are to be fetched.
 	 * @param count - The number of timeline tweets to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of timeline tweets to fetch.
-	 *
-	 * @public
 	 */
 	public static tweets(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -732,8 +697,6 @@ export class UserRequests {
 	 * @param id - The id of the user whose timeline tweets and replies are to be fetched.
 	 * @param count - The number of timeline tweets and replies to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of timeline tweets and replies to fetch.
-	 *
-	 * @public
 	 */
 	public static tweetsAndReplies(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -780,8 +743,6 @@ export class UserRequests {
 
 	/**
 	 * @param id - The id of the user to be unfollowed.
-	 *
-	 * @public
 	 */
 	public static unfollow(id: string): AxiosRequestConfig {
 		return {

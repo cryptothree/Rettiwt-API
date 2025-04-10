@@ -12,8 +12,6 @@ export class MediaRequests {
 	/**
 	 * @param id - The allocated id of the media item to be uploaded.
 	 * @param media - The media item to upload.
-	 *
-	 * @public
 	 */
 	public static appendUpload(id: string, media: string | ArrayBuffer): AxiosRequestConfig {
 		const data = new FormData();
@@ -35,8 +33,6 @@ export class MediaRequests {
 
 	/**
 	 * @param id - The allocated id of the media item.
-	 *
-	 * @public
 	 */
 	public static finalizeUpload(id: string): AxiosRequestConfig {
 		return {
@@ -54,8 +50,6 @@ export class MediaRequests {
 
 	/**
 	 * @param size - The size (in bytes) of the media item to be uploaded.
-	 *
-	 * @public
 	 */
 	public static initializeUpload(size: number): AxiosRequestConfig {
 		return {

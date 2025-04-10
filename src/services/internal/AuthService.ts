@@ -19,8 +19,6 @@ export class AuthService {
 
 	/**
 	 * @param config - The config object for configuring the `Rettiwt` instance.
-	 *
-	 * @internal
 	 */
 	public constructor(config?: IRettiwtConfig) {
 		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();

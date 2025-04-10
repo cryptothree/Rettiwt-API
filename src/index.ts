@@ -29,7 +29,6 @@ export * from './models/errors/ApiError';
 export * from './models/errors/HttpError';
 export * from './models/errors/RettiwtError';
 export * from './models/errors/TimeoutError';
-export * from './models/params/Variables';
 
 // REQUESTS
 export * from './requests/List';

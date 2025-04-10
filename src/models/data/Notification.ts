@@ -45,8 +45,6 @@ export class Notification implements INotification {
 	 * @param response - The raw response data.
 	 *
 	 * @returns The deserialized list of notifications.
-	 *
-	 * @internal
 	 */
 	public static list(response: NonNullable<unknown>): Notification[] {
 		const notifications: Notification[] = [];

@@ -85,8 +85,6 @@ export class TweetFilter implements ITweetFilter {
 	 *
 	 * @param date - The date object to convert.
 	 * @returns The Twitter string representation of the date.
-	 *
-	 * @internal
 	 */
 	private static dateToTwitterString(date: Date): string {
 		// Converting localized date to UTC date
@@ -113,8 +111,6 @@ export class TweetFilter implements ITweetFilter {
 
 	/**
 	 * @returns The string representation of 'this' filter.
-	 *
-	 * @internal
 	 */
 	public toString(): string {
 		return (

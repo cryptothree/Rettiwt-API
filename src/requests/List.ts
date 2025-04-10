@@ -8,8 +8,6 @@ import { AxiosRequestConfig } from 'axios';
 export class ListRequests {
 	/**
 	 * @param id - The id of the list whose details are to be fetched.
-	 *
-	 * @public
 	 */
 	public static details(id: string): AxiosRequestConfig {
 		return {
@@ -81,8 +79,6 @@ export class ListRequests {
 	 * @param id - The id of the list whose tweets are to be fetched.
 	 * @param count - The number of tweets to fetch. Must be \<= 100.
 	 * @param cursor - The cursor to the batch of tweets to fetch.
-	 *
-	 * @public
 	 */
 	public static tweets(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {

@@ -1,7 +1,7 @@
 /**
  * The different types of authentication for authenticating against Twitter.
  *
- * @internal
+ * @public
  */
 export enum EAuthenticationType {
 	GUEST = 'GUEST',

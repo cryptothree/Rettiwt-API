@@ -120,8 +120,6 @@ export class Tweet implements ITweet {
 	 * @param response - The raw response data.
 	 *
 	 * @returns The deserialized list of tweets.
-	 *
-	 * @internal
 	 */
 	public static list(response: NonNullable<unknown>): Tweet[] {
 		const tweets: Tweet[] = [];
@@ -166,8 +164,6 @@ export class Tweet implements ITweet {
 	 * @param id - The id of the target tweet.
 	 *
 	 * @returns The target deserialized tweet.
-	 *
-	 * @internal
 	 */
 	public static single(response: NonNullable<unknown>, id: string): Tweet | undefined {
 		const tweets: Tweet[] = [];

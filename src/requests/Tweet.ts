@@ -15,8 +15,6 @@ import { ERawTweetSearchResultType } from '../enums/raw/Tweet';
 export class TweetRequests {
 	/**
 	 * @param id - The id of the tweet whose details are to be fetched.
-	 *
-	 * @public
 	 */
 	public static details(id: string): AxiosRequestConfig {
 		return {
@@ -65,8 +63,6 @@ export class TweetRequests {
 
 	/**
 	 * @param id - The id of the tweet to be liked.
-	 *
-	 * @public
 	 */
 	public static like(id: string): AxiosRequestConfig {
 		return {
@@ -86,8 +82,6 @@ export class TweetRequests {
 	 * @param id - The id of the tweet whose likers are to be fetched.
 	 * @param count - The number of likers to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of likers to fetch.
-	 *
-	 * @public
 	 */
 	public static likers(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -131,8 +125,6 @@ export class TweetRequests {
 
 	/**
 	 * @param args - The configuration object for the tweet to be posted.
-	 *
-	 * @public
 	 */
 	public static post(args: INewTweet): AxiosRequestConfig {
 		// Parsing the args
@@ -181,8 +173,6 @@ export class TweetRequests {
 	/**
 	 * @param id - The id of the tweet whose replies are to be fetched.
 	 * @param cursor - The cursor to the batch of replies to fetch.
-	 *
-	 * @public
 	 */
 	public static replies(id: string, cursor?: string): AxiosRequestConfig {
 		return {
@@ -234,8 +224,6 @@ export class TweetRequests {
 
 	/**
 	 * @param id - The id of the tweet which is to be retweeted.
-	 *
-	 * @public
 	 */
 	public static retweet(id: string): AxiosRequestConfig {
 		return {
@@ -256,8 +244,6 @@ export class TweetRequests {
 	 * @param id - The id of the tweet whose retweeters are to be fetched.
 	 * @param count - The number of retweeters to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of retweeters to fetch.
-	 *
-	 * @public
 	 */
 	public static retweeters(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
@@ -303,8 +289,6 @@ export class TweetRequests {
 	 * @param args - The configuration object for the tweet to be posted.
 	 *
 	 * @remarks - Only `text` and `media.id` parameters are supported.
-	 *
-	 * @public
 	 */
 	public static schedule(args: INewTweet): AxiosRequestConfig {
 		// Parsing the args
@@ -334,8 +318,6 @@ export class TweetRequests {
 	 * @param filter - The filter to use for searching tweets.
 	 * @param count - The number of tweets to fetch. Only works as a lower limit when used with a cursor.
 	 * @param cursor - The cursor to the batch of tweets to fetch.
-	 *
-	 * @public
 	 */
 	public static search(filter: ITweetFilter, count?: number, cursor?: string): AxiosRequestConfig {
 		// Parsing the filter
@@ -383,8 +365,6 @@ export class TweetRequests {
 
 	/**
 	 * @param id - The id of the tweet to be unliked.
-	 *
-	 * @public
 	 */
 	public static unlike(id: string): AxiosRequestConfig {
 		return {
@@ -402,8 +382,6 @@ export class TweetRequests {
 
 	/**
 	 * @param id - The id of the tweet to be unposted.
-	 *
-	 * @public
 	 */
 	public static unpost(id: string): AxiosRequestConfig {
 		return {
@@ -421,8 +399,6 @@ export class TweetRequests {
 
 	/**
 	 * @param id - The id of the source tweet (which was retweeted), to be unretweeted.
-	 *
-	 * @public
 	 */
 	public static unretweet(id: string): AxiosRequestConfig {
 		return {
@@ -440,8 +416,6 @@ export class TweetRequests {
 
 	/**
 	 * @param id - The id of the scheduled tweet to be unscheduled.
-	 *
-	 * @public
 	 */
 	public static unschedule(id: string): AxiosRequestConfig {
 		return {

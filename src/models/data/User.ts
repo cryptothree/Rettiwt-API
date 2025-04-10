@@ -52,8 +52,6 @@ export class User implements IUser {
 	 * @param response - The raw response data.
 	 *
 	 * @returns The deserialized list of users.
-	 *
-	 * @internal
 	 */
 	public static list(response: NonNullable<unknown>): User[] {
 		const users: User[] = [];
@@ -86,8 +84,6 @@ export class User implements IUser {
 	 * @param response - The raw response data.
 	 *
 	 * @returns The target deserialized user.
-	 *
-	 * @internal
 	 */
 	public static single(response: NonNullable<unknown>): User | undefined {
 		const users: User[] = [];
