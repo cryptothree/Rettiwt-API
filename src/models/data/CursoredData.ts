@@ -22,21 +22,28 @@ export class CursoredData<T extends Notification | Tweet | User> {
 	/** The cursor to the next batch of data. */
 	public next: Cursor = new Cursor('');
 
+	/** The previous to the next batch of data. */
+	public previous: Cursor = new Cursor('');
+
 	/**
 	 * @param response - The raw response.
 	 * @param type - The base type of the data included in the batch.
 	 */
 	public constructor(response: NonNullable<unknown>, type: EBaseType) {
-		if (type == EBaseType.TWEET) {
-			this.list = Tweet.list(response) as T[];
-			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
-		} else if (type == EBaseType.USER) {
-			this.list = User.list(response) as T[];
-			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
-		} else if (type == EBaseType.NOTIFICATION) {
-			this.list = Notification.list(response) as T[];
-			this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Top')[0]?.value ?? '');
+		switch (type) {
+			case EBaseType.TWEET:
+				this.list = Tweet.list(response) as T[];
+				break;
+			case EBaseType.USER:
+				this.list = User.list(response) as T[];
+				break;
+			case EBaseType.NOTIFICATION:
+				this.list = Notification.list(response) as T[];
+				break;
 		}
+
+		this.next = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
+		this.previous = new Cursor(findByFilter<ICursor>(response, 'cursorType', 'Top')[0]?.value ?? '');
 	}
 }
 
