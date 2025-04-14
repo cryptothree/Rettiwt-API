@@ -33,7 +33,7 @@ export class User implements IUser {
 		this.id = user.rest_id;
 		this.userName = user.legacy.screen_name;
 		this.fullName = user.legacy.name;
-		this.createdAt = user.legacy.created_at;
+		this.createdAt = new Date(user.legacy.created_at).toISOString();
 		this.description = user.legacy.description.length ? user.legacy.description : undefined;
 		this.isVerified = user.is_blue_verified;
 		this.likeCount = user.legacy.favourites_count;
@@ -108,5 +108,27 @@ export class User implements IUser {
 		}
 
 		return users.length ? users[0] : undefined;
+	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): IUser {
+		return {
+			createdAt: this.createdAt,
+			description: this.description,
+			followersCount: this.followersCount,
+			followingsCount: this.followingsCount,
+			fullName: this.fullName,
+			id: this.id,
+			isVerified: this.isVerified,
+			likeCount: this.likeCount,
+			location: this.location,
+			pinnedTweet: this.pinnedTweet,
+			profileBanner: this.profileBanner,
+			profileImage: this.profileImage,
+			statusesCount: this.statusesCount,
+			userName: this.userName,
+		};
 	}
 }

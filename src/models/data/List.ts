@@ -27,4 +27,19 @@ export class List implements IList {
 		this.subscriberCount = list.subscriber_count;
 		this.createdBy = list.user_results.result.id;
 	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): IList {
+		return {
+			createdAt: this.createdAt,
+			createdBy: this.createdBy,
+			description: this.description,
+			id: this.id,
+			memberCount: this.memberCount,
+			name: this.name,
+			subscriberCount: this.subscriberCount,
+		};
+	}
 }

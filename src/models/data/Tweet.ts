@@ -5,7 +5,7 @@ import { findByFilter } from '../../helper/JsonUtils';
 
 import { LogService } from '../../services/internal/LogService';
 
-import { ITweet } from '../../types/data/Tweet';
+import { ITweet, ITweetEntities, ITweetMedia } from '../../types/data/Tweet';
 import { ILimitedVisibilityTweet } from '../../types/raw/base/LimitedVisibilityTweet';
 import { IExtendedMedia as IRawExtendedMedia } from '../../types/raw/base/Media';
 import { ITweet as IRawTweet, IEntities as IRawTweetEntities } from '../../types/raw/base/Tweet';
@@ -44,7 +44,7 @@ export class Tweet implements ITweet {
 	public constructor(tweet: IRawTweet) {
 		this.id = tweet.rest_id;
 		this.conversationId = tweet.legacy.conversation_id_str;
-		this.createdAt = tweet.legacy.created_at;
+		this.createdAt = new Date(tweet.legacy.created_at).toISOString();
 		this.tweetBy = new User(tweet.core.user_results.result);
 		this.entities = new TweetEntities(tweet.legacy.entities);
 		this.media = tweet.legacy.extended_entities?.media?.map((media) => new TweetMedia(media));
@@ -189,6 +189,32 @@ export class Tweet implements ITweet {
 
 		return tweets.length ? tweets[0] : undefined;
 	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): ITweet {
+		return {
+			bookmarkCount: this.bookmarkCount,
+			conversationId: this.conversationId,
+			createdAt: this.createdAt,
+			entities: this.entities.toJSON(),
+			fullText: this.fullText,
+			id: this.id,
+			lang: this.lang,
+			likeCount: this.likeCount,
+			media: this.media?.map((item) => item.toJSON()),
+			quoteCount: this.quoteCount,
+			quoted: this.quoted?.toJSON(),
+			replyCount: this.replyCount,
+			replyTo: this.replyTo,
+			retweetCount: this.retweetCount,
+			retweetedTweet: this.retweetedTweet?.toJSON(),
+			tweetBy: this.tweetBy.toJSON(),
+			url: this.url,
+			viewCount: this.viewCount,
+		};
+	}
 }
 
 /**
@@ -230,6 +256,17 @@ export class TweetEntities {
 				this.hashtags.push(hashtag.text);
 			}
 		}
+	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): ITweetEntities {
+		return {
+			hashtags: this.hashtags,
+			mentionedUsers: this.mentionedUsers,
+			urls: this.urls,
+		};
 	}
 }
 
@@ -280,5 +317,16 @@ export class TweetMedia {
 				}
 			});
 		}
+	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): ITweetMedia {
+		return {
+			thumbnailUrl: this.thumbnailUrl,
+			type: this.type,
+			url: this.url,
+		};
 	}
 }
