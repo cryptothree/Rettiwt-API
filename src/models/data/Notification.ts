@@ -14,7 +14,7 @@ export class Notification implements INotification {
 	public from: string[];
 	public id: string;
 	public message: string;
-	public receivedAt: Date;
+	public receivedAt: string;
 	public target: string[];
 	public type?: ENotificationType;
 
@@ -30,7 +30,7 @@ export class Notification implements INotification {
 			: [];
 		this.id = notification.id;
 		this.message = notification.message.text;
-		this.receivedAt = new Date(Number(notification.timestampMs));
+		this.receivedAt = new Date(Number(notification.timestampMs)).toISOString();
 		this.target = notification.template?.aggregateUserActionsV1?.targetObjects
 			? notification.template.aggregateUserActionsV1.targetObjects.map((item) => item.tweet.id)
 			: [];
@@ -60,5 +60,19 @@ export class Notification implements INotification {
 		}
 
 		return notifications;
+	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): INotification {
+		return {
+			from: this.from,
+			id: this.id,
+			message: this.message,
+			receivedAt: this.receivedAt,
+			target: this.target,
+			type: this.type,
+		};
 	}
 }

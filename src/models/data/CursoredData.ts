@@ -40,4 +40,14 @@ export class CursoredData<T extends Notification | Tweet | User> implements ICur
 			this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Top')[0]?.value ?? '';
 		}
 	}
+
+	/**
+	 * @returns A serializable JSON representation of `this` object.
+	 */
+	public toJSON(): ICursoredData<T> {
+		return {
+			list: this.list.map((item) => item.toJSON() as T),
+			next: this.next,
+		};
+	}
 }
