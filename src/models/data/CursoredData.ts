@@ -19,7 +19,6 @@ import { User } from './User';
 export class CursoredData<T extends Notification | Tweet | User> implements ICursoredData<T> {
 	public list: T[] = [];
 	public next: Cursor = new Cursor('');
-	public previous: Cursor = new Cursor('');
 
 	/**
 	 * @param response - The raw response.
@@ -29,22 +28,17 @@ export class CursoredData<T extends Notification | Tweet | User> implements ICur
 		// Initializing defaults
 		this.list = [];
 		this.next = new Cursor('');
-		this.previous = new Cursor('');
 
-		switch (type) {
-			case EBaseType.TWEET:
-				this.list = Tweet.list(response) as T[];
-				break;
-			case EBaseType.USER:
-				this.list = User.list(response) as T[];
-				break;
-			case EBaseType.NOTIFICATION:
-				this.list = Notification.list(response) as T[];
-				break;
+		if (type == EBaseType.TWEET) {
+			this.list = Tweet.list(response) as T[];
+			this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
+		} else if (type == EBaseType.USER) {
+			this.list = User.list(response) as T[];
+			this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
+		} else if (type == EBaseType.NOTIFICATION) {
+			this.list = Notification.list(response) as T[];
+			this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Top')[0]?.value ?? '');
 		}
-
-		this.next = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '');
-		this.previous = new Cursor(findByFilter<IRawCursor>(response, 'cursorType', 'Top')[0]?.value ?? '');
 	}
 }
 

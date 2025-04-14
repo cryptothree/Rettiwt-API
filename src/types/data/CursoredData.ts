@@ -15,9 +15,6 @@ export interface ICursoredData<T extends INotification | ITweet | IUser> {
 
 	/** The cursor to the next batch of data. */
 	next: ICursor;
-
-	/** The cursor to the previous batch of data. */
-	previous: ICursor;
 }
 
 /**
