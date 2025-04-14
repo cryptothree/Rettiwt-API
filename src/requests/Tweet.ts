@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from 'axios';
 
+import { ERawTweetSearchResultType } from '../enums/raw/Tweet';
 import { TweetFilter } from '../models/args/FetchArgs';
 import { NewTweet } from '../models/args/PostArgs';
 import { MediaVariable, ReplyVariable } from '../models/params/Variables';
 import { ITweetFilter } from '../types/args/FetchArgs';
 import { INewTweet } from '../types/args/PostArgs';
-import { ERawTweetSearchResultType } from '../enums/raw/Tweet';
 
 /**
  * Collection of requests related to tweets.
