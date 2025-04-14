@@ -499,7 +499,7 @@ export class UserService extends FetcherService {
 				first = false;
 			}
 
-			cursor = notifications.next.value;
+			cursor = notifications.next;
 		}
 	}
 
