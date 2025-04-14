@@ -537,7 +537,7 @@ export class TweetService extends FetcherService {
 
 			// If there are more tweets to fetch, adjust the cursor value
 			if (tweets.list.length > 0 && tweets.next) {
-				cursor = tweets.next.value;
+				cursor = tweets.next;
 			}
 			// Else, start the next iteration from this batch's most recent tweet
 			else {
