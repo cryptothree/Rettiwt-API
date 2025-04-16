@@ -8,6 +8,7 @@ import { IListTweetsResponse } from '../types/raw/list/Tweets';
 import { IMediaInitializeUploadResponse } from '../types/raw/media/InitalizeUpload';
 import { ITweetDetailsResponse } from '../types/raw/tweet/Details';
 import { ITweetLikeResponse } from '../types/raw/tweet/Like';
+import { ITweetLikersResponse } from '../types/raw/tweet/Likers';
 import { ITweetPostResponse } from '../types/raw/tweet/Post';
 import { ITweetRepliesResponse } from '../types/raw/tweet/Replies';
 import { ITweetRetweetResponse } from '../types/raw/tweet/Retweet';
@@ -55,6 +56,8 @@ export const extractors = {
 	TWEET_DETAILS: (response: ITweetDetailsResponse, id: string): Tweet | undefined => Tweet.single(response, id),
 	TWEET_DETAILS_ALT: (response: ITweetRepliesResponse, id: string): Tweet | undefined => Tweet.single(response, id),
 	TWEET_LIKE: (response: ITweetLikeResponse): boolean => (response?.data?.favorite_tweet ? true : false),
+	TWEET_LIKERS: (response: ITweetLikersResponse): CursoredData<User> =>
+		new CursoredData<User>(response, EBaseType.USER),
 	TWEET_POST: (response: ITweetPostResponse): string =>
 		response?.data?.create_tweet?.tweet_results?.result?.rest_id ?? undefined,
 	TWEET_REPLIES: (response: ITweetDetailsResponse): CursoredData<Tweet> =>
