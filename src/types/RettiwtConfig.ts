@@ -43,4 +43,11 @@ export interface IRettiwtConfig {
 	 * @remarks Custom headers can be useful for proxies, avoiding rate limits, etc.
 	 */
 	headers?: { [key: string]: string };
+
+	/**
+	 * The delay (in ms) to use between concurrent request.
+	 *
+	 * Can either be a number or a function that returns a number synchronously or asynchronously.
+	 */
+	delay?: number | (() => number | Promise<number>);
 }

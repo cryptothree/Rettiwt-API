@@ -33,6 +33,9 @@ export class FetcherService {
 	/** Custom headers to use for all requests */
 	private readonly _customHeaders?: { [key: string]: string };
 
+	/** The delay/delay function to use (ms). */
+	private readonly _delay?: number | (() => number | Promise<number>);
+
 	/** The service used to handle HTTP and API errors */
 	private readonly _errorHandler: IErrorHandler;
 
@@ -64,6 +67,7 @@ export class FetcherService {
 		this._timeout = config?.timeout ?? 0;
 		this._errorHandler = config?.errorHandler ?? new ErrorService();
 		this._customHeaders = config?.headers;
+		this._delay = config?.delay;
 	}
 
 	/**
@@ -155,6 +159,29 @@ export class FetcherService {
 	}
 
 	/**
+	 * Introduces a delay using the configured delay/delay function.
+	 */
+	private async wait(): Promise<void> {
+		// If no delay is set, skip
+		if (this._delay == undefined) {
+			return;
+		}
+
+		/** The delay (in ms) to use. */
+		let delay = 0;
+
+		// Getting the delay
+		if (this._delay && typeof this._delay == 'number') {
+			delay = this._delay;
+		} else if (this._delay && typeof this._delay == 'function') {
+			delay = await this._delay();
+		}
+
+		// Awaiting for the delay time
+		await new Promise((resolve) => setTimeout(resolve, delay));
+	}
+
+	/**
 	 * Makes an HTTP request according to the given parameters.
 	 *
 	 * @param resource - The requested resource.
@@ -209,6 +236,9 @@ export class FetcherService {
 
 		// Sending the request
 		try {
+			// Introducing a delay
+			await this.wait();
+
 			// Returning the reponse body
 			return (await axios<T>(config)).data;
 		} catch (error) {
