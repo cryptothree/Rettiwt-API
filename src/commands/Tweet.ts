@@ -46,7 +46,7 @@ function createTweetCommand(rettiwt: Rettiwt): Command {
 	// Likers
 	tweet
 		.command('likers')
-		.description('Fetch the list of users who liked the given tweets. Only works for your tweets')
+		.description('Fetch the list of users who liked the given tweet. Only works for your own tweets')
 		.argument('<id>', 'The id of the tweet')
 		.argument('[count]', 'The number of likers to fetch')
 		.argument('[cursor]', 'The cursor to the batch of likers to fetch')

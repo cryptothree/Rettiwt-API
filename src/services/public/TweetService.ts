@@ -137,7 +137,7 @@ export class TweetService extends FetcherService {
 	}
 
 	/**
-	 * Get the list of users who liked a tweet. Only works for your tweets.
+	 * Get the list of users who liked a tweet. Only works for your own tweets.
 	 *
 	 * @param id - The id of the target tweet.
 	 * @param count - The number of likers to fetch, must be \<= 100.
@@ -163,7 +163,6 @@ export class TweetService extends FetcherService {
 	 * ```
 	 */
 	public async likers(id: string, count?: number, cursor?: string): Promise<CursoredData<User>> {
-
 		const resource = EResourceType.TWEET_LIKERS;
 
 		// Fetching raw likers
