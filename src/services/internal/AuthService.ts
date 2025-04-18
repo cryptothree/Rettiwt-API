@@ -6,6 +6,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 
 import { EApiErrors } from '../../enums/Api';
 import { AuthCredential } from '../../models/auth/AuthCredential';
+import { TidProvider } from '../../types/auth/TidProvider';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 /**
@@ -17,11 +18,15 @@ export class AuthService {
 	/** The HTTPS Agent to use for requests to Twitter API. */
 	private readonly _httpsAgent: Agent;
 
+	/** Optional custom `x-client-transaction-id` header provider. */
+	private readonly _tidProvider?: TidProvider;
+
 	/**
 	 * @param config - The config object for configuring the `Rettiwt` instance.
 	 */
 	public constructor(config?: IRettiwtConfig) {
 		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
+		this._tidProvider = config?.tidProvider
 	}
 
 	/**
@@ -117,5 +122,11 @@ export class AuthService {
 			});
 
 		return cred;
+	}
+
+	public async refreshTidDynamicArgs(): Promise<void> {
+		if (this._tidProvider) {
+			await this._tidProvider.refreshDynamicArgs()
+		}
 	}
 }
