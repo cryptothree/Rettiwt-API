@@ -1,7 +1,7 @@
 /**
  * Service responsible for generating the `x-client-transaction-id` header.
  */
-export interface TidProvider {
+export interface ITidProvider {
 	/**
 	 * Generates new `x-client-transaction-id` header.
 	 *
@@ -13,5 +13,5 @@ export interface TidProvider {
 	/**
 	 * Refresh arguments obtained from parsing the HTML page, if any.
 	 */
-	refreshDynamicArgs(): Promise<void>
+	refreshDynamicArgs(): Promise<void>;
 }

@@ -45,7 +45,10 @@ export function calculateClientTransactionIdHeader(args: IGenerateTransactionIdP
 function getAnimationKey(keyBytes: number[], frames: number[][][], indices: number[]): string {
 	const totalTime = 4096;
 	const rowIndex = keyBytes[indices[0]] % 16;
-	const frameTime = indices.slice(1).map((idx) => keyBytes[idx] % 16).reduce((a, b) => a * b, 1);
+	const frameTime = indices
+		.slice(1)
+		.map((idx) => keyBytes[idx] % 16)
+		.reduce((a, b) => a * b, 1);
 	const targetTime = frameTime / totalTime;
 	const frameRow = frames[keyBytes[5] % 4][rowIndex];
 	return animate(frameRow, targetTime);

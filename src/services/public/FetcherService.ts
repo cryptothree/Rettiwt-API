@@ -14,7 +14,7 @@ import { PostArgs } from '../../models/args/PostArgs';
 import { AuthCredential } from '../../models/auth/AuthCredential';
 import { IFetchArgs } from '../../types/args/FetchArgs';
 import { IPostArgs } from '../../types/args/PostArgs';
-import { TidProvider } from '../../types/auth/TidProvider';
+import { ITidProvider } from '../../types/auth/TidProvider';
 import { IErrorHandler } from '../../types/ErrorHandler';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
@@ -47,7 +47,7 @@ export class FetcherService {
 	private readonly _proxyUrl?: URL;
 
 	/** Service responsible for generating the `x-client-transaction-id` header. */
-	private readonly _tidProvider?: TidProvider;
+	private readonly _tidProvider?: ITidProvider;
 
 	/** The max wait time for a response. */
 	private readonly _timeout: number;
@@ -72,7 +72,7 @@ export class FetcherService {
 		this._errorHandler = config?.errorHandler ?? new ErrorService();
 		this._customHeaders = config?.headers;
 		this._delay = config?.delay;
-		this._tidProvider = config?.tidProvider
+		this._tidProvider = config?.tidProvider;
 	}
 
 	/**
@@ -233,15 +233,21 @@ export class FetcherService {
 		// Getting request configuration
 		const config = requests[resource](args);
 
-		const method = config.method ?? ''
-		const path = new URL(config.url ?? '').pathname.split('?')[0].trim()
-		const tid = this._tidProvider ? await this._tidProvider.generate(method.toUpperCase(), path) : ''
+		const method = config.method ?? '';
+		const path = new URL(config.url ?? '').pathname.split('?')[0].trim();
+		const tid = this._tidProvider ? await this._tidProvider.generate(method.toUpperCase(), path) : '';
 
 		// Setting additional request parameters
 		config.headers = {
 			...config.headers,
 			...cred.toHeader(),
-			...(tid ? { 'x-client-transaction-id': tid } : {}),
+			...(tid
+				? {
+						/* eslint-disable @typescript-eslint/naming-convention */
+						'x-client-transaction-id': tid,
+						/* eslint-enable @typescript-eslint/naming-convention */
+					}
+				: {}),
 			...(this._customHeaders || {}),
 		};
 

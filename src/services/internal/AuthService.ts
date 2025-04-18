@@ -6,7 +6,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 
 import { EApiErrors } from '../../enums/Api';
 import { AuthCredential } from '../../models/auth/AuthCredential';
-import { TidProvider } from '../../types/auth/TidProvider';
+import { ITidProvider } from '../../types/auth/TidProvider';
 import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 /**
@@ -19,14 +19,14 @@ export class AuthService {
 	private readonly _httpsAgent: Agent;
 
 	/** Optional custom `x-client-transaction-id` header provider. */
-	private readonly _tidProvider?: TidProvider;
+	private readonly _tidProvider?: ITidProvider;
 
 	/**
 	 * @param config - The config object for configuring the `Rettiwt` instance.
 	 */
 	public constructor(config?: IRettiwtConfig) {
 		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
-		this._tidProvider = config?.tidProvider
+		this._tidProvider = config?.tidProvider;
 	}
 
 	/**
@@ -126,7 +126,7 @@ export class AuthService {
 
 	public async refreshTidDynamicArgs(): Promise<void> {
 		if (this._tidProvider) {
-			await this._tidProvider.refreshDynamicArgs()
+			await this._tidProvider.refreshDynamicArgs();
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { TidProvider } from './auth/TidProvider';
+import { ITidProvider } from './auth/TidProvider';
 import { IErrorHandler } from './ErrorHandler';
 
 /**
@@ -39,7 +39,7 @@ export interface IRettiwtConfig {
 	errorHandler?: IErrorHandler;
 
 	/** Optional custom `x-client-transaction-id` header provider. */
-	tidProvider?: TidProvider;
+	tidProvider?: ITidProvider;
 
 	/**
 	 * Optional custom HTTP headers to add to all requests to Twitter API.
