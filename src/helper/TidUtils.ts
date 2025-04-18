@@ -24,7 +24,7 @@ export interface IGenerateTransactionIdParams {
 }
 
 export function calculateClientTransactionIdHeader(args: IGenerateTransactionIdParams): string {
-	const time = args.time || Math.floor((Date.now() - 1682924400 * 1000) / 1000);
+	const time = Math.floor(((args.time || Date.now()) - 1682924400 * 1000) / 1000);
 	const timeBuffer = new Uint8Array(new Uint32Array([time]).buffer);
 
 	const keyBytes = Array.from(Buffer.from(args.verificationKey, 'base64'));
