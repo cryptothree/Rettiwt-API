@@ -33,6 +33,11 @@ export class TidService implements ITidProvider {
 		/* eslint-enable @typescript-eslint/naming-convention */
 	};
 
+	/**
+	 * Fetches the dynamic args embedded in the homepage.
+	 *
+	 * @returns The new dynamic args.
+	 */
 	private async getDynamicArgs(): Promise<ITidDynamicArgs> {
 		const html = await this.getHomepageHtml();
 		const root = htmlParser.parse(html);
@@ -46,6 +51,11 @@ export class TidService implements ITidProvider {
 		};
 	}
 
+	/**
+	 * Fetches the HTML content of Twitter's homepage.
+	 *
+	 * @returns The stringified HTML content of the homepage.
+	 */
 	private async getHomepageHtml(): Promise<string> {
 		const response = await axios.get<string>('https://x.com', { headers: this._requestHeaders });
 
@@ -105,6 +115,9 @@ export class TidService implements ITidProvider {
 		});
 	}
 
+	/**
+	 * Refreshes the dynamic args from the homepage.
+	 */
 	public async refreshDynamicArgs(): Promise<void> {
 		this._dynamicArgs = await this.getDynamicArgs();
 	}
