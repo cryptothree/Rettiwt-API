@@ -1,29 +1,8 @@
 import { createHash } from 'node:crypto';
 
-export interface IGenerateTransactionIdParams {
-	/** Secret used for transaction ID calculation. */
-	keyword: string;
-	/** Request method. */
-	method: string;
-	/** Endpoint path without query parameters. */
-	path: string;
-	/** Twitter verification key received from HTML. */
-	verificationKey: string;
-	/** Animation frames extracted from HTML. */
-	frames: number[][][];
-	/** Indices used for getting the correct verification key bytes during animation key calculation. */
-	indices: number[];
-	/** Final byte of the transaction ID. */
-	extraByte: number;
-	/** Current time */
-	time?: number;
-	/** XOR byte used for final hash calculation, must be in 0-255 range. */
-	xorByte?: number;
-	/** Precomputed animation key. */
-	animationKey?: string;
-}
+import { ITidParams } from '../types/auth/TidParams';
 
-export function calculateClientTransactionIdHeader(args: IGenerateTransactionIdParams): string {
+export function calculateClientTransactionIdHeader(args: ITidParams): string {
 	const time = Math.floor(((args.time || Date.now()) - 1682924400 * 1000) / 1000);
 	const timeBuffer = new Uint8Array(new Uint32Array([time]).buffer);
 

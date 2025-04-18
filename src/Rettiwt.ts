@@ -1,5 +1,4 @@
 import { AuthService } from './services/internal/AuthService';
-import { TransactionIdService } from './services/internal/TidService';
 import { ListService } from './services/public/ListService';
 import { TweetService } from './services/public/TweetService';
 import { UserService } from './services/public/UserService';
@@ -65,10 +64,9 @@ export class Rettiwt {
 	 * @param config - The config object for configuring the Rettiwt instance.
 	 */
 	public constructor(config?: IRettiwtConfig) {
-		const tidProvider = config?.tidProvider ?? new TransactionIdService();
-		this.auth = new AuthService({ ...config, tidProvider });
-		this.list = new ListService({ ...config, tidProvider });
-		this.tweet = new TweetService({ ...config, tidProvider });
-		this.user = new UserService({ ...config, tidProvider });
+		this.auth = new AuthService(config);
+		this.list = new ListService(config);
+		this.tweet = new TweetService(config);
+		this.user = new UserService(config);
 	}
 }

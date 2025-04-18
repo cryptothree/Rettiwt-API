@@ -38,7 +38,6 @@ export * from './requests/User';
 
 // SERVICES
 export * from './services/internal/AuthService';
-export * from './services/internal/TidService';
 export * from './services/public/FetcherService';
 export * from './services/public/ListService';
 export * from './services/public/TweetService';
@@ -49,6 +48,7 @@ export * from './types/args/FetchArgs';
 export * from './types/args/PostArgs';
 export * from './types/auth/AuthCookie';
 export * from './types/auth/AuthCredential';
+export * from './types/auth/TidProvider';
 export * from './types/data/CursoredData';
 export * from './types/data/List';
 export * from './types/data/Notification';
