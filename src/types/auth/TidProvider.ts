@@ -1,5 +1,7 @@
 /**
  * Service responsible for generating the `x-client-transaction-id` header.
+ *
+ * @public
  */
 export interface ITidProvider {
 	/**
