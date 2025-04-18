@@ -38,6 +38,7 @@ export * from './requests/User';
 
 // SERVICES
 export * from './services/internal/AuthService';
+export * from './services/internal/TidService';
 export * from './services/public/FetcherService';
 export * from './services/public/ListService';
 export * from './services/public/TweetService';
