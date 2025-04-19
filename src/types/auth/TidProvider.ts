@@ -10,7 +10,7 @@ export interface ITidProvider {
 	 * @param method - Request method.
 	 * @param path - Endpoint path without query parameters.
 	 */
-	generate(method: string, path: string): Promise<string>;
+	generate(method: string, path: string): Promise<string | undefined>;
 
 	/**
 	 * Refresh arguments obtained from parsing the HTML page, if any.

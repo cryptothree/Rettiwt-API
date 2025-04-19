@@ -1,3 +1,5 @@
+import { Agent } from 'http';
+
 import axios from 'axios';
 import * as htmlParser from 'node-html-parser';
 
@@ -16,22 +18,32 @@ import { LogService } from './LogService';
  * @internal
  */
 export class TidService implements ITidProvider {
-	private _cdnUrl = 'https://abs.twimg.com/responsive-web/client-web';
+	private readonly _cdnUrl: string;
+	private readonly _httpsAgent: Agent;
+	private readonly _requestHeaders: NonNullable<unknown>;
 	private _dynamicArgs?: ITidDynamicArgs;
-	private _requestHeaders = {
-		/* eslint-disable @typescript-eslint/naming-convention */
 
-		Authority: 'x.com',
-		'Accept-Language': 'en-US,en;q=0.9',
-		'Cache-Control': 'no-cache',
-		Referer: 'https://x.com',
-		'User-Agent':
-			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
-		'X-Twitter-Active-User': 'yes',
-		'X-Twitter-Client-Language': 'en',
+	/**
+	 * @param proxyUrl - The proxy to use while generating the transaction ID.
+	 */
+	public constructor(httpsAgent: Agent) {
+		this._cdnUrl = 'https://abs.twimg.com/responsive-web/client-web';
+		this._httpsAgent = httpsAgent;
+		this._requestHeaders = {
+			/* eslint-disable @typescript-eslint/naming-convention */
 
-		/* eslint-enable @typescript-eslint/naming-convention */
-	};
+			Authority: 'x.com',
+			'Accept-Language': 'en-US,en;q=0.9',
+			'Cache-Control': 'no-cache',
+			Referer: 'https://x.com',
+			'User-Agent':
+				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+			'X-Twitter-Active-User': 'yes',
+			'X-Twitter-Client-Language': 'en',
+
+			/* eslint-enable @typescript-eslint/naming-convention */
+		};
+	}
 
 	/**
 	 * Fetches the dynamic args embedded in the homepage.
@@ -97,22 +109,26 @@ export class TidService implements ITidProvider {
 	 *
 	 * @returns The specific `x-client-transaction-id` token.
 	 */
-	public async generate(method: string, path: string): Promise<string> {
-		if (!this._dynamicArgs) {
-			this._dynamicArgs = await this.getDynamicArgs();
+	public async generate(method: string, path: string): Promise<string | undefined> {
+		try {
+			if (!this._dynamicArgs) {
+				this._dynamicArgs = await this.getDynamicArgs();
+			}
+
+			const { verificationKey, frames, indices } = this._dynamicArgs;
+
+			return calculateClientTransactionIdHeader({
+				keyword: 'obfiowerehiring',
+				method: method,
+				path: path,
+				verificationKey: verificationKey,
+				frames: frames,
+				indices: indices,
+				extraByte: 3,
+			});
+		} catch {
+			return;
 		}
-
-		const { verificationKey, frames, indices } = this._dynamicArgs;
-
-		return calculateClientTransactionIdHeader({
-			keyword: 'obfiowerehiring',
-			method: method,
-			path: path,
-			verificationKey: verificationKey,
-			frames: frames,
-			indices: indices,
-			extraByte: 3,
-		});
 	}
 
 	/**
