@@ -101,11 +101,11 @@ export class AuthService {
 
 		// Getting the guest token
 		await axios
-			.get<{
+			.post<{
 				/* eslint-disable @typescript-eslint/naming-convention */
 				guest_token: string;
 				/* eslint-enable @typescript-eslint/naming-convention */
-			}>('https://api.twitter.com/1.1/guest/activate.json', {
+			}>('https://api.twitter.com/1.1/guest/activate.json', undefined, {
 				headers: cred.toHeader(),
 				httpsAgent: this._httpsAgent,
 			})
