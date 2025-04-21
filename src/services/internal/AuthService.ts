@@ -15,10 +15,10 @@ export class AuthService {
 	private readonly _httpsAgent: Agent;
 
 	/**
-	 * @param config - The config object for configuring the `Rettiwt` instance.
+	 * @param httpsAgent - The HTTPS agent to use. If none is provided, default is used.
 	 */
-	public constructor(httpsAgent: Agent) {
-		this._httpsAgent = httpsAgent;
+	public constructor(httpsAgent?: Agent) {
+		this._httpsAgent = httpsAgent ?? new Agent();
 	}
 
 	/**

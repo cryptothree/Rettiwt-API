@@ -24,11 +24,11 @@ export class TidService implements ITidProvider {
 	private _dynamicArgs?: ITidDynamicArgs;
 
 	/**
-	 * @param proxyUrl - The proxy to use while generating the transaction ID.
+	 * @param httpsAgent - The HTTPS agent to use. If none is provided, default is used.
 	 */
-	public constructor(httpsAgent: Agent) {
+	public constructor(httpsAgent?: Agent) {
 		this._cdnUrl = 'https://abs.twimg.com/responsive-web/client-web';
-		this._httpsAgent = httpsAgent;
+		this._httpsAgent = httpsAgent ?? new Agent();
 		this._requestHeaders = {
 			/* eslint-disable @typescript-eslint/naming-convention */
 
@@ -69,7 +69,11 @@ export class TidService implements ITidProvider {
 	 * @returns The stringified HTML content of the homepage.
 	 */
 	private async getHomepageHtml(): Promise<string> {
-		const response = await axios.get<string>('https://x.com', { headers: this._requestHeaders });
+		const response = await axios.get<string>('https://x.com', {
+			headers: this._requestHeaders,
+			httpAgent: this._httpsAgent,
+			httpsAgent: this._httpsAgent,
+		});
 
 		return response.data;
 	}
@@ -83,7 +87,10 @@ export class TidService implements ITidProvider {
 		}
 
 		const onDemandFileHash = ondemandFileMatch ? ondemandFileMatch[1] : '';
-		const response = await axios.get<string>(`${this._cdnUrl}/ondemand.s.${onDemandFileHash}a.js`);
+		const response = await axios.get<string>(`${this._cdnUrl}/ondemand.s.${onDemandFileHash}a.js`, {
+			httpAgent: this._httpsAgent,
+			httpsAgent: this._httpsAgent,
+		});
 		const match = response.data.matchAll(/(\(\w\[(\d{1,2})],\s*16\))+?/gm);
 
 		return Array.from(match).map((m) => Number(m[2]));

@@ -1,4 +1,4 @@
-import https, { Agent } from 'https';
+import { Agent } from 'https';
 
 import axios from 'axios';
 import { Cookie } from 'cookiejar';
@@ -33,6 +33,9 @@ export class FetcherService {
 	/** The api key to use for authenticating against Twitter API as user. */
 	private readonly _apiKey?: string;
 
+	/** The AuthService instance to use. */
+	private readonly _auth: AuthService;
+
 	/** Custom headers to use for all requests */
 	private readonly _customHeaders?: { [key: string]: string };
 
@@ -66,6 +69,7 @@ export class FetcherService {
 		this._errorHandler = config?.errorHandler ?? new ErrorService();
 		this._customHeaders = config?.headers;
 		this._delay = config?.delay;
+		this._auth = new AuthService(this._httpsAgent);
 		this._tidProvider = config?.tidProvider ?? new TidService(this._httpsAgent);
 	}
 
@@ -105,7 +109,7 @@ export class FetcherService {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'NEW_GUEST_CREDENTIAL' });
 
-			return await new AuthService(this._httpsAgent).guest();
+			return this._auth.guest();
 		}
 	}
 
@@ -118,15 +122,9 @@ export class FetcherService {
 	 */
 	private getHttpsAgent(proxyUrl?: URL): Agent {
 		if (proxyUrl) {
-			// Logging
-			LogService.log(ELogActions.GET, { target: 'HTTPS_PROXY_AGENT' });
-
 			return new HttpsProxyAgent(proxyUrl);
 		} else {
-			// Logging
-			LogService.log(ELogActions.GET, { target: 'HTTPS_AGENT' });
-
-			return new https.Agent();
+			return new Agent();
 		}
 	}
 
