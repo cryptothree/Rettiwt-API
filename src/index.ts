@@ -18,8 +18,6 @@ export * from './enums/Resource';
 // MODELS
 export * from './models/args/FetchArgs';
 export * from './models/args/PostArgs';
-export * from './models/auth/AuthCookie';
-export * from './models/auth/AuthCredential';
 export * from './models/data/CursoredData';
 export * from './models/data/List';
 export * from './models/data/Notification';
@@ -37,7 +35,6 @@ export * from './requests/Tweet';
 export * from './requests/User';
 
 // SERVICES
-export * from './services/internal/AuthService';
 export * from './services/public/FetcherService';
 export * from './services/public/ListService';
 export * from './services/public/TweetService';
@@ -46,8 +43,6 @@ export * from './services/public/UserService';
 // TYPES
 export * from './types/args/FetchArgs';
 export * from './types/args/PostArgs';
-export * from './types/auth/AuthCookie';
-export * from './types/auth/AuthCredential';
 export * from './types/auth/TidProvider';
 export * from './types/data/CursoredData';
 export * from './types/data/List';

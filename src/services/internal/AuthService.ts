@@ -1,13 +1,9 @@
-import https, { Agent } from 'https';
+import { Agent } from 'https';
 
 import axios from 'axios';
 
-import { HttpsProxyAgent } from 'https-proxy-agent';
-
 import { EApiErrors } from '../../enums/Api';
 import { AuthCredential } from '../../models/auth/AuthCredential';
-import { ITidProvider } from '../../types/auth/TidProvider';
-import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 /**
  * The services that handles authentication.
@@ -18,15 +14,11 @@ export class AuthService {
 	/** The HTTPS Agent to use for requests to Twitter API. */
 	private readonly _httpsAgent: Agent;
 
-	/** Optional custom `x-client-transaction-id` header provider. */
-	private readonly _tidProvider?: ITidProvider;
-
 	/**
-	 * @param config - The config object for configuring the `Rettiwt` instance.
+	 * @param httpsAgent - The HTTPS agent to use. If none is provided, default is used.
 	 */
-	public constructor(config?: IRettiwtConfig) {
-		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new https.Agent();
-		this._tidProvider = config?.tidProvider;
+	public constructor(httpsAgent?: Agent) {
+		this._httpsAgent = httpsAgent ?? new Agent();
 	}
 
 	/**
@@ -109,11 +101,11 @@ export class AuthService {
 
 		// Getting the guest token
 		await axios
-			.get<{
+			.post<{
 				/* eslint-disable @typescript-eslint/naming-convention */
 				guest_token: string;
 				/* eslint-enable @typescript-eslint/naming-convention */
-			}>('https://api.twitter.com/1.1/guest/activate.json', {
+			}>('https://api.twitter.com/1.1/guest/activate.json', undefined, {
 				headers: cred.toHeader(),
 				httpsAgent: this._httpsAgent,
 			})
@@ -122,11 +114,5 @@ export class AuthService {
 			});
 
 		return cred;
-	}
-
-	public async refreshTidDynamicArgs(): Promise<void> {
-		if (this._tidProvider) {
-			await this._tidProvider.refreshDynamicArgs();
-		}
 	}
 }

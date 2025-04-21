@@ -1,4 +1,4 @@
-import https, { Agent } from 'https';
+import { Agent } from 'https';
 
 import axios from 'axios';
 import { Cookie } from 'cookiejar';
@@ -33,6 +33,9 @@ export class FetcherService {
 	/** The api key to use for authenticating against Twitter API as user. */
 	private readonly _apiKey?: string;
 
+	/** The AuthService instance to use. */
+	private readonly _auth: AuthService;
+
 	/** Custom headers to use for all requests */
 	private readonly _customHeaders?: { [key: string]: string };
 
@@ -42,20 +45,14 @@ export class FetcherService {
 	/** The service used to handle HTTP and API errors */
 	private readonly _errorHandler: IErrorHandler;
 
-	/** The guest key to use for authenticating against Twitter API as guest. */
-	private readonly _guestKey?: string;
-
-	/** The URL To the proxy server to use for all others. */
-	private readonly _proxyUrl?: URL;
+	/** The HTTPS agent to use. */
+	private readonly _httpsAgent: Agent;
 
 	/** Service responsible for generating the `x-client-transaction-id` header. */
 	private readonly _tidProvider: ITidProvider;
 
 	/** The max wait time for a response. */
 	private readonly _timeout: number;
-
-	/** The URL to the proxy server to use only for authentication. */
-	protected readonly authProxyUrl?: URL;
 
 	/** The id of the authenticated user (if any). */
 	protected readonly userId?: string;
@@ -66,15 +63,14 @@ export class FetcherService {
 	public constructor(config?: IRettiwtConfig) {
 		LogService.enabled = config?.logging ?? false;
 		this._apiKey = config?.apiKey;
-		this._guestKey = config?.guestKey;
 		this.userId = config?.apiKey ? AuthService.getUserId(config.apiKey) : undefined;
-		this.authProxyUrl = config?.authProxyUrl ?? config?.proxyUrl;
-		this._proxyUrl = config?.proxyUrl;
+		this._httpsAgent = this.getHttpsAgent(config?.proxyUrl);
 		this._timeout = config?.timeout ?? 0;
 		this._errorHandler = config?.errorHandler ?? new ErrorService();
 		this._customHeaders = config?.headers;
 		this._delay = config?.delay;
-		this._tidProvider = config?.tidProvider ?? new TidService();
+		this._auth = new AuthService(this._httpsAgent);
+		this._tidProvider = config?.tidProvider ?? new TidService(this._httpsAgent);
 	}
 
 	/**
@@ -109,16 +105,11 @@ export class FetcherService {
 					.split(';')
 					.map((item) => new Cookie(item)),
 			);
-		} else if (this._guestKey) {
-			// Logging
-			LogService.log(ELogActions.GET, { target: 'GUEST_CREDENTIAL' });
-
-			return new AuthCredential(undefined, this._guestKey);
 		} else {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'NEW_GUEST_CREDENTIAL' });
 
-			return await new AuthService({ proxyUrl: this.authProxyUrl }).guest();
+			return this._auth.guest();
 		}
 	}
 
@@ -131,15 +122,9 @@ export class FetcherService {
 	 */
 	private getHttpsAgent(proxyUrl?: URL): Agent {
 		if (proxyUrl) {
-			// Logging
-			LogService.log(ELogActions.GET, { target: 'HTTPS_PROXY_AGENT' });
-
 			return new HttpsProxyAgent(proxyUrl);
 		} else {
-			// Logging
-			LogService.log(ELogActions.GET, { target: 'HTTPS_AGENT' });
-
-			return new https.Agent();
+			return new Agent();
 		}
 	}
 
@@ -152,20 +137,20 @@ export class FetcherService {
 	 * @returns The header containing the transaction ID.
 	 */
 	private async getTransactionHeader(method: string, url: string): Promise<ITidHeader | undefined> {
-		try {
-			// Getting the URL path excluding all params
-			const path = new URL(url).pathname.split('?')[0].trim();
+		// Getting the URL path excluding all params
+		const path = new URL(url).pathname.split('?')[0].trim();
 
-			// Generating the transaction ID
-			const tid = await this._tidProvider.generate(method.toUpperCase(), path);
+		// Generating the transaction ID
+		const tid = await this._tidProvider.generate(method.toUpperCase(), path);
 
+		if (tid) {
 			return {
 				/* eslint-disable @typescript-eslint/naming-convention */
 				'x-client-transaction-id': tid,
 				/* eslint-enable @typescript-eslint/naming-convention */
 			};
-		} catch {
-			return;
+		} else {
+			return undefined;
 		}
 	}
 
@@ -252,9 +237,6 @@ export class FetcherService {
 		// Validating args
 		args = this.validateArgs(resource, args)!;
 
-		// Getting HTTPS agent
-		const httpsAgent: Agent = this.getHttpsAgent(this._proxyUrl);
-
 		// Getting credentials from key
 		const cred: AuthCredential = await this.getCredential();
 
@@ -268,8 +250,8 @@ export class FetcherService {
 			...(await this.getTransactionHeader(config.method ?? '', config.url ?? '')),
 			...this._customHeaders,
 		};
-		config.httpAgent = httpsAgent;
-		config.httpsAgent = httpsAgent;
+		config.httpAgent = this._httpsAgent;
+		config.httpsAgent = this._httpsAgent;
 		config.timeout = this._timeout;
 
 		// Sending the request
