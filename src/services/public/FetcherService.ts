@@ -42,9 +42,6 @@ export class FetcherService {
 	/** The service used to handle HTTP and API errors */
 	private readonly _errorHandler: IErrorHandler;
 
-	/** The guest key to use for authenticating against Twitter API as guest. */
-	private readonly _guestKey?: string;
-
 	/** The HTTPS agent to use. */
 	private readonly _httpsAgent: Agent;
 
@@ -63,7 +60,6 @@ export class FetcherService {
 	public constructor(config?: IRettiwtConfig) {
 		LogService.enabled = config?.logging ?? false;
 		this._apiKey = config?.apiKey;
-		this._guestKey = config?.guestKey;
 		this.userId = config?.apiKey ? AuthService.getUserId(config.apiKey) : undefined;
 		this._httpsAgent = this.getHttpsAgent(config?.proxyUrl);
 		this._timeout = config?.timeout ?? 0;
@@ -105,11 +101,6 @@ export class FetcherService {
 					.split(';')
 					.map((item) => new Cookie(item)),
 			);
-		} else if (this._guestKey) {
-			// Logging
-			LogService.log(ELogActions.GET, { target: 'GUEST_CREDENTIAL' });
-
-			return new AuthCredential(undefined, this._guestKey);
 		} else {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'NEW_GUEST_CREDENTIAL' });
