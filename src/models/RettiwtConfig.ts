@@ -26,17 +26,17 @@ export class RettiwtConfig implements IRettiwtConfig {
 	/**
 	 * @param config - The config for Rettiwt of type {@link IRettiwtConfig}.
 	 */
-	public constructor(config: IRettiwtConfig) {
-		this._apiKey = config.apiKey;
-		this._httpsAgent = config.proxyUrl ? new HttpsProxyAgent(config.proxyUrl) : new Agent();
-		this._userId = config.apiKey ? AuthService.getUserId(config.apiKey) : undefined;
-		this.delay = config.delay;
-		this.errorHandler = config.errorHandler;
-		this.logging = config.logging;
-		this.tidProvider = config.tidProvider;
-		this.timeout = config.timeout;
-		this.apiKey = config.apiKey;
-		this.headers = config.headers;
+	public constructor(config?: IRettiwtConfig) {
+		this._apiKey = config?.apiKey;
+		this._httpsAgent = config?.proxyUrl ? new HttpsProxyAgent(config?.proxyUrl) : new Agent();
+		this._userId = config?.apiKey ? AuthService.getUserId(config?.apiKey) : undefined;
+		this.delay = config?.delay;
+		this.errorHandler = config?.errorHandler;
+		this.logging = config?.logging;
+		this.tidProvider = config?.tidProvider;
+		this.timeout = config?.timeout;
+		this.apiKey = config?.apiKey;
+		this.headers = config?.headers;
 	}
 
 	public get apiKey(): string | undefined {

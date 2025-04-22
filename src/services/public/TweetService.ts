@@ -6,6 +6,7 @@ import { CursoredData } from '../../models/data/CursoredData';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
 
+import { RettiwtConfig } from '../../models/RettiwtConfig';
 import { ITweetFilter } from '../../types/args/FetchArgs';
 import { INewTweet } from '../../types/args/PostArgs';
 import { IListTweetsResponse } from '../../types/raw/list/Tweets';
@@ -24,7 +25,6 @@ import { ITweetUnlikeResponse } from '../../types/raw/tweet/Unlike';
 import { ITweetUnpostResponse } from '../../types/raw/tweet/Unpost';
 import { ITweetUnretweetResponse } from '../../types/raw/tweet/Unretweet';
 import { ITweetUnscheduleResponse } from '../../types/raw/tweet/Unschedule';
-import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';
 
@@ -39,7 +39,7 @@ export class TweetService extends FetcherService {
 	 *
 	 * @internal
 	 */
-	public constructor(config?: IRettiwtConfig) {
+	public constructor(config: RettiwtConfig) {
 		super(config);
 	}
 
@@ -73,7 +73,7 @@ export class TweetService extends FetcherService {
 		let resource: EResourceType;
 
 		// If user is authenticated
-		if (this.userId != undefined) {
+		if (this.config.userId != undefined) {
 			resource = EResourceType.TWEET_DETAILS_ALT;
 
 			// Fetching raw tweet details
