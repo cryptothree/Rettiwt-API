@@ -115,43 +115,38 @@ export class Tweet implements ITweet {
 	}
 
 	/**
-	 * Extracts and deserializes the list of tweets from the given raw response data.
+	 * Extracts and deserializes multiple target tweets from the given raw response data.
 	 *
 	 * @param response - The raw response data.
+	 * @param ids - The ids of the target tweets.
 	 *
-	 * @returns The deserialized list of tweets.
+	 * @returns The target deserialized tweet.
 	 */
-	public static list(response: NonNullable<unknown>): Tweet[] {
-		const tweets: Tweet[] = [];
+	public static multiple(response: NonNullable<unknown>, ids: string[]): Tweet[] {
+		let tweets: Tweet[] = [];
 
 		// Extracting the matching data
-		const extract = findByFilter<ITimelineTweet>(response, '__typename', 'TimelineTweet');
+		const extract = findByFilter<IRawTweet>(response, '__typename', 'Tweet');
 
 		// Deserializing valid data
 		for (const item of extract) {
-			// If tweet with limited visibility
-			if (
-				item.tweet_results?.result &&
-				item.tweet_results?.result?.__typename == 'TweetWithVisibilityResults' &&
-				(item.tweet_results?.result as ILimitedVisibilityTweet)?.tweet?.legacy
-			) {
-				tweets.push(new Tweet((item.tweet_results.result as ILimitedVisibilityTweet).tweet));
-			}
-			// If normal tweet
-			else if ((item.tweet_results?.result as IRawTweet)?.legacy) {
+			if (item.legacy) {
 				// Logging
-				LogService.log(ELogActions.DESERIALIZE, { id: (item.tweet_results.result as IRawTweet).rest_id });
+				LogService.log(ELogActions.DESERIALIZE, { id: item.rest_id });
 
-				tweets.push(new Tweet(item.tweet_results.result as IRawTweet));
-			}
-			// If invalid/unrecognized tweet
-			else {
+				tweets.push(new Tweet(item));
+			} else {
 				// Logging
 				LogService.log(ELogActions.WARNING, {
 					action: ELogActions.DESERIALIZE,
 					message: `Tweet not found, skipping`,
 				});
 			}
+		}
+
+		// Filtering only required tweets, if required
+		if (ids && ids.length) {
+			tweets = tweets.filter((tweet) => ids.includes(tweet.id));
 		}
 
 		return tweets;
@@ -188,6 +183,50 @@ export class Tweet implements ITweet {
 		}
 
 		return tweets.length ? tweets[0] : undefined;
+	}
+
+	/**
+	 * Extracts and deserializes the timeline of tweets from the given raw response data.
+	 *
+	 * @param response - The raw response data.
+	 * @param ids - The IDs of specific tweets that need to be extracted.
+	 *
+	 * @returns The deserialized timeline of tweets.
+	 */
+	public static timeline(response: NonNullable<unknown>): Tweet[] {
+		const tweets: Tweet[] = [];
+
+		// Extracting the matching data
+		const extract = findByFilter<ITimelineTweet>(response, '__typename', 'TimelineTweet');
+
+		// Deserializing valid data
+		for (const item of extract) {
+			// If tweet with limited visibility
+			if (
+				item.tweet_results?.result &&
+				item.tweet_results?.result?.__typename == 'TweetWithVisibilityResults' &&
+				(item.tweet_results?.result as ILimitedVisibilityTweet)?.tweet?.legacy
+			) {
+				tweets.push(new Tweet((item.tweet_results.result as ILimitedVisibilityTweet).tweet));
+			}
+			// If normal tweet
+			else if ((item.tweet_results?.result as IRawTweet)?.legacy) {
+				// Logging
+				LogService.log(ELogActions.DESERIALIZE, { id: (item.tweet_results.result as IRawTweet).rest_id });
+
+				tweets.push(new Tweet(item.tweet_results.result as IRawTweet));
+			}
+			// If invalid/unrecognized tweet
+			else {
+				// Logging
+				LogService.log(ELogActions.WARNING, {
+					action: ELogActions.DESERIALIZE,
+					message: `Tweet not found, skipping`,
+				});
+			}
+		}
+
+		return tweets;
 	}
 
 	/**

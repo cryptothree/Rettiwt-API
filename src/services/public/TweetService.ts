@@ -46,7 +46,7 @@ export class TweetService extends FetcherService {
 	/**
 	 * Get the details of a tweet.
 	 *
-	 * @param id - The id of the target tweet.
+	 * @param id - The id(s) of the target tweet/tweets.
 	 *
 	 * @returns
 	 * The details of the tweet with the given id.
@@ -69,11 +69,11 @@ export class TweetService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async details(id: string): Promise<Tweet | undefined> {
+	public async details<T extends string | string[]>(id: T): Promise<T extends string ? Tweet | undefined : Tweet[]> {
 		let resource: EResourceType;
 
-		// If user is authenticated
-		if (this.config.userId != undefined) {
+		// If user is authenticated and details of single tweet required
+		if (this.config.userId != undefined && typeof id == 'string') {
 			resource = EResourceType.TWEET_DETAILS_ALT;
 
 			// Fetching raw tweet details
@@ -82,19 +82,31 @@ export class TweetService extends FetcherService {
 			// Deserializing response
 			const data = extractors[resource](response, id);
 
-			return data;
+			return data as T extends string ? Tweet | undefined : Tweet[];
+		}
+		// If user is authenticated and details of multiple tweets required
+		else if (this.config.userId != undefined && Array.isArray(id)) {
+			resource = EResourceType.TWEET_DETAILS_BULK;
+
+			// Fetching raw tweet details
+			const response = await this.request<ITweetRepliesResponse>(resource, { ids: id });
+
+			// Deserializing response
+			const data = extractors[resource](response, id);
+
+			return data as T extends string ? Tweet | undefined : Tweet[];
 		}
 		// If user is not authenticated
 		else {
 			resource = EResourceType.TWEET_DETAILS;
 
 			// Fetching raw tweet details
-			const response = await this.request<ITweetDetailsResponse>(resource, { id: id });
+			const response = await this.request<ITweetDetailsResponse>(resource, { id: String(id) });
 
 			// Deserializing response
-			const data = extractors[resource](response, id);
+			const data = extractors[resource](response, String(id));
 
-			return data;
+			return data as T extends string ? Tweet | undefined : Tweet[];
 		}
 	}
 

@@ -55,6 +55,7 @@ export const extractors = {
 
 	TWEET_DETAILS: (response: ITweetDetailsResponse, id: string): Tweet | undefined => Tweet.single(response, id),
 	TWEET_DETAILS_ALT: (response: ITweetRepliesResponse, id: string): Tweet | undefined => Tweet.single(response, id),
+	TWEET_DETAILS_BULK: (response: NonNullable<unknown>, ids: string[]): Tweet[] => Tweet.multiple(response, ids),
 	TWEET_LIKE: (response: ITweetLikeResponse): boolean => (response?.data?.favorite_tweet ? true : false),
 	TWEET_LIKERS: (response: ITweetLikersResponse): CursoredData<User> =>
 		new CursoredData<User>(response, EBaseType.USER),
