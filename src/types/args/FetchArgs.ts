@@ -47,6 +47,14 @@ export interface IFetchArgs {
 	 * - For {@link EResourceType.USER_DETAILS_BY_USERNAME}, can be alphanumeric, while for others, is strictly numeric.
 	 */
 	id?: string;
+
+	/**
+	 * The IDs of the target resources.
+	 *
+	 * @remarks
+	 * - Required only for {@link EResourceType.TWEET_DETAILS_BULK}
+	 */
+	ids?: string[];
 }
 
 /**

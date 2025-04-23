@@ -18,12 +18,23 @@ function createTweetCommand(rettiwt: Rettiwt): Command {
 	// Details
 	tweet
 		.command('details')
-		.description('Fetch the details of tweet with the given id')
-		.argument('<id>', 'The id of the tweet whose details are to be fetched')
+		.description('Fetch the details of tweet/tweets with the given id/ids')
+		.argument('<id>', 'The comma-separated list of IDs of tweets whose details are to be fetched')
 		.action(async (id: string) => {
 			try {
-				const details = await rettiwt.tweet.details(id);
-				output(details);
+				// Getting the different IDs
+				const ids: string[] = id.split(',');
+
+				// If single ID given
+				if (ids.length <= 1) {
+					const details = await rettiwt.tweet.details(ids[0]);
+					output(details);
+				}
+				// If multiple IDs give
+				else {
+					const details = await rettiwt.tweet.details(ids);
+					output(details);
+				}
 			} catch (error) {
 				output(error);
 			}

@@ -11,6 +11,7 @@ export class FetchArgs implements IFetchArgs {
 	public cursor?: string;
 	public filter?: TweetFilter;
 	public id?: string;
+	public ids?: string[];
 
 	/**
 	 * @param resource - The resource to be fetched.
@@ -18,6 +19,7 @@ export class FetchArgs implements IFetchArgs {
 	 */
 	public constructor(resource: EResourceType, args: IFetchArgs) {
 		this.id = args.id;
+		this.ids = args.ids;
 		this.count = args.count;
 		this.cursor = args.cursor;
 		this.filter = args.filter ? new TweetFilter(args.filter) : undefined;
