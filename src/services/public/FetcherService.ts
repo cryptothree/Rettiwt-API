@@ -53,7 +53,7 @@ export class FetcherService {
 		this.config = config;
 		this._delay = config.delay;
 		this._errorHandler = config.errorHandler ?? new ErrorService();
-		this._tidProvider = config.tidProvider ?? new TidService();
+		this._tidProvider = config.tidProvider ?? new TidService(config.httpsAgent);
 		this._timeout = config.timeout ?? 0;
 		this._auth = new AuthService(config.httpsAgent);
 	}
