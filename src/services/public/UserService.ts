@@ -4,6 +4,7 @@ import { CursoredData } from '../../models/data/CursoredData';
 import { Notification } from '../../models/data/Notification';
 import { Tweet } from '../../models/data/Tweet';
 import { User } from '../../models/data/User';
+import { RettiwtConfig } from '../../models/RettiwtConfig';
 import { IUserBookmarksResponse } from '../../types/raw/user/Bookmarks';
 import { IUserDetailsResponse } from '../../types/raw/user/Details';
 import { IUserFollowResponse } from '../../types/raw/user/Follow';
@@ -19,7 +20,6 @@ import { IUserSubscriptionsResponse } from '../../types/raw/user/Subscriptions';
 import { IUserTweetsResponse } from '../../types/raw/user/Tweets';
 import { IUserTweetsAndRepliesResponse } from '../../types/raw/user/TweetsAndReplies';
 import { IUserUnfollowResponse } from '../../types/raw/user/Unfollow';
-import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { FetcherService } from './FetcherService';
 
@@ -34,7 +34,7 @@ export class UserService extends FetcherService {
 	 *
 	 * @internal
 	 */
-	public constructor(config?: IRettiwtConfig) {
+	public constructor(config: RettiwtConfig) {
 		super(config);
 	}
 
@@ -378,7 +378,7 @@ export class UserService extends FetcherService {
 
 		// Fetching raw list of likes
 		const response = await this.request<IUserLikesResponse>(resource, {
-			id: this.userId,
+			id: this.config.userId,
 			count: count,
 			cursor: cursor,
 		});

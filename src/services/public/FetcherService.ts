@@ -1,8 +1,5 @@
-import { Agent } from 'https';
-
 import axios from 'axios';
 import { Cookie } from 'cookiejar';
-import { HttpsProxyAgent } from 'https-proxy-agent';
 
 import { allowGuestAuthentication, fetchResources, postResources } from '../../collections/Groups';
 import { requests } from '../../collections/Requests';
@@ -12,12 +9,12 @@ import { EResourceType } from '../../enums/Resource';
 import { FetchArgs } from '../../models/args/FetchArgs';
 import { PostArgs } from '../../models/args/PostArgs';
 import { AuthCredential } from '../../models/auth/AuthCredential';
+import { RettiwtConfig } from '../../models/RettiwtConfig';
 import { IFetchArgs } from '../../types/args/FetchArgs';
 import { IPostArgs } from '../../types/args/PostArgs';
 import { ITidHeader } from '../../types/auth/TidHeader';
 import { ITidProvider } from '../../types/auth/TidProvider';
 import { IErrorHandler } from '../../types/ErrorHandler';
-import { IRettiwtConfig } from '../../types/RettiwtConfig';
 
 import { AuthService } from '../internal/AuthService';
 import { ErrorService } from '../internal/ErrorService';
@@ -30,14 +27,8 @@ import { TidService } from '../internal/TidService';
  * @public
  */
 export class FetcherService {
-	/** The api key to use for authenticating against Twitter API as user. */
-	private readonly _apiKey?: string;
-
 	/** The AuthService instance to use. */
 	private readonly _auth: AuthService;
-
-	/** Custom headers to use for all requests */
-	private readonly _customHeaders?: { [key: string]: string };
 
 	/** The delay/delay function to use (ms). */
 	private readonly _delay?: number | (() => number | Promise<number>);
@@ -45,32 +36,26 @@ export class FetcherService {
 	/** The service used to handle HTTP and API errors */
 	private readonly _errorHandler: IErrorHandler;
 
-	/** The HTTPS agent to use. */
-	private readonly _httpsAgent: Agent;
-
 	/** Service responsible for generating the `x-client-transaction-id` header. */
 	private readonly _tidProvider: ITidProvider;
 
 	/** The max wait time for a response. */
 	private readonly _timeout: number;
 
-	/** The id of the authenticated user (if any). */
-	protected readonly userId?: string;
+	/** The config object. */
+	protected readonly config: RettiwtConfig;
 
 	/**
 	 * @param config - The config object for configuring the Rettiwt instance.
 	 */
-	public constructor(config?: IRettiwtConfig) {
-		LogService.enabled = config?.logging ?? false;
-		this._apiKey = config?.apiKey;
-		this.userId = config?.apiKey ? AuthService.getUserId(config.apiKey) : undefined;
-		this._httpsAgent = this.getHttpsAgent(config?.proxyUrl);
-		this._timeout = config?.timeout ?? 0;
-		this._errorHandler = config?.errorHandler ?? new ErrorService();
-		this._customHeaders = config?.headers;
-		this._delay = config?.delay;
-		this._auth = new AuthService(this._httpsAgent);
-		this._tidProvider = config?.tidProvider ?? new TidService(this._httpsAgent);
+	public constructor(config: RettiwtConfig) {
+		LogService.enabled = config.logging ?? false;
+		this.config = config;
+		this._delay = config.delay;
+		this._errorHandler = config.errorHandler ?? new ErrorService();
+		this._tidProvider = config.tidProvider ?? new TidService();
+		this._timeout = config.timeout ?? 0;
+		this._auth = new AuthService(config.httpsAgent);
 	}
 
 	/**
@@ -82,10 +67,10 @@ export class FetcherService {
 	 */
 	private checkAuthorization(resource: EResourceType): void {
 		// Logging
-		LogService.log(ELogActions.AUTHORIZATION, { authenticated: this.userId != undefined });
+		LogService.log(ELogActions.AUTHORIZATION, { authenticated: this.config.userId != undefined });
 
 		// Checking authorization status
-		if (!allowGuestAuthentication.includes(resource) && this.userId == undefined) {
+		if (!allowGuestAuthentication.includes(resource) && this.config.userId == undefined) {
 			throw new Error(EApiErrors.RESOURCE_NOT_ALLOWED);
 		}
 	}
@@ -96,12 +81,12 @@ export class FetcherService {
 	 * @returns The generated AuthCredential
 	 */
 	private async getCredential(): Promise<AuthCredential> {
-		if (this._apiKey) {
+		if (this.config.apiKey) {
 			// Logging
 			LogService.log(ELogActions.GET, { target: 'USER_CREDENTIAL' });
 
 			return new AuthCredential(
-				AuthService.decodeCookie(this._apiKey)
+				AuthService.decodeCookie(this.config.apiKey)
 					.split(';')
 					.map((item) => new Cookie(item)),
 			);
@@ -110,21 +95,6 @@ export class FetcherService {
 			LogService.log(ELogActions.GET, { target: 'NEW_GUEST_CREDENTIAL' });
 
 			return this._auth.guest();
-		}
-	}
-
-	/**
-	 * Gets the https agent based on whether a proxy is used or not.
-	 *
-	 * @param proxyUrl - Optional URL with proxy configuration to use for requests to Twitter API.
-	 *
-	 * @returns The https agent to use.
-	 */
-	private getHttpsAgent(proxyUrl?: URL): Agent {
-		if (proxyUrl) {
-			return new HttpsProxyAgent(proxyUrl);
-		} else {
-			return new Agent();
 		}
 	}
 
@@ -205,7 +175,7 @@ export class FetcherService {
 	 * @param resource - The requested resource.
 	 * @param config - The request configuration.
 	 *
-	 * @typeParam T - The type of the returned response data.
+	 * @typeParam T - The type of the returned res1914679671410589981ponse data.
 	 *
 	 * @returns The raw data response received.
 	 *
@@ -248,10 +218,10 @@ export class FetcherService {
 			...config.headers,
 			...cred.toHeader(),
 			...(await this.getTransactionHeader(config.method ?? '', config.url ?? '')),
-			...this._customHeaders,
+			...this.config.headers,
 		};
-		config.httpAgent = this._httpsAgent;
-		config.httpsAgent = this._httpsAgent;
+		config.httpAgent = this.config.httpsAgent;
+		config.httpsAgent = this.config.httpsAgent;
 		config.timeout = this._timeout;
 
 		// Sending the request
