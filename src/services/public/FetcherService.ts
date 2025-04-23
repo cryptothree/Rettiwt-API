@@ -175,7 +175,7 @@ export class FetcherService {
 	 * @param resource - The requested resource.
 	 * @param config - The request configuration.
 	 *
-	 * @typeParam T - The type of the returned res1914679671410589981ponse data.
+	 * @typeParam T - The type of the returned response data.
 	 *
 	 * @returns The raw data response received.
 	 *
