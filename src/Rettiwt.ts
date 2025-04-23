@@ -69,4 +69,19 @@ export class Rettiwt {
 		this.tweet = new TweetService(this._config);
 		this.user = new UserService(this._config);
 	}
+
+	/** Set the API key for the current instance. */
+	public set apiKey(apiKey: string | undefined) {
+		this._config.apiKey = apiKey;
+	}
+
+	/** Set the custom headers for the current instance. */
+	public set headers(headers: { [key: string]: string }) {
+		this._config.headers = headers;
+	}
+
+	/** Set the proxy URL for the current instance. */
+	public set proxyUrl(proxyUrl: URL) {
+		this._config.proxyUrl = proxyUrl;
+	}
 }
