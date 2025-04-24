@@ -120,7 +120,7 @@ export class Tweet implements ITweet {
 	 * @param response - The raw response data.
 	 * @param ids - The ids of the target tweets.
 	 *
-	 * @returns The target deserialized tweet.
+	 * @returns The target deserialized tweets.
 	 */
 	public static multiple(response: NonNullable<unknown>, ids: string[]): Tweet[] {
 		let tweets: Tweet[] = [];

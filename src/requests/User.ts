@@ -141,6 +141,31 @@ export class UserRequests {
 	}
 
 	/**
+	 * @param ids - The IDs of the users whose details are to be fetched.
+	 */
+	public static bulkDetailsByIds(ids: string[]): AxiosRequestConfig {
+		return {
+			method: 'get',
+			url: 'https://x.com/i/api/graphql/PyRggX3LQweP9nSF6PHliA/UsersByRestIds',
+			params: {
+				/* eslint-disable @typescript-eslint/naming-convention */
+				variables: JSON.stringify({ userIds: ids }),
+				features: JSON.stringify({
+					profile_label_improvements_pcf_label_in_post_enabled: false,
+					rweb_tipjar_consumption_enabled: false,
+					responsive_web_graphql_exclude_directive_enabled: false,
+					verified_phone_label_enabled: false,
+					responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+					responsive_web_graphql_timeline_navigation_enabled: false,
+				}),
+				fieldToggles: JSON.stringify({ withAuxiliaryUserLabels: false }),
+				/* eslint-enable @typescript-eslint/naming-convention */
+			},
+			paramsSerializer: { encode: encodeURIComponent },
+		};
+	}
+
+	/**
 	 * @param id - The id of the user whose details are to be fetched.
 	 */
 	public static detailsById(id: string): AxiosRequestConfig {

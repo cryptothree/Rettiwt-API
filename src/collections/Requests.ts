@@ -42,6 +42,7 @@ export const requests: { [key in keyof typeof EResourceType]: (args: IFetchArgs 
 	USER_BOOKMARKS: (args: IFetchArgs) => UserRequests.bookmarks(args.count, args.cursor),
 	USER_DETAILS_BY_USERNAME: (args: IFetchArgs) => UserRequests.detailsByUsername(args.id!),
 	USER_DETAILS_BY_ID: (args: IFetchArgs) => UserRequests.detailsById(args.id!),
+	USER_DETAILS_BY_IDS_BULK: (args: IFetchArgs) => UserRequests.bulkDetailsByIds(args.ids!),
 	USER_FEED_FOLLOWED: (args: IFetchArgs) => UserRequests.followed(args.count, args.cursor),
 	USER_FEED_RECOMMENDED: (args: IFetchArgs) => UserRequests.recommended(args.count, args.cursor),
 	USER_FOLLOW: (args: IPostArgs) => UserRequests.follow(args.id!),

@@ -47,25 +47,26 @@ export class User implements IUser {
 	}
 
 	/**
-	 * Extracts and deserializes the list of users from the given raw response data.
+	 * Extracts and deserializes multiple target users from the given raw response data.
 	 *
 	 * @param response - The raw response data.
+	 * @param ids - The ids of the target users.
 	 *
-	 * @returns The deserialized list of users.
+	 * @returns The target deserialized users.
 	 */
-	public static list(response: NonNullable<unknown>): User[] {
-		const users: User[] = [];
+	public static multiple(response: NonNullable<unknown>, ids: string[]): User[] {
+		let users: User[] = [];
 
 		// Extracting the matching data
-		const extract = findByFilter<IRawTimelineUser>(response, '__typename', 'TimelineUser');
+		const extract = findByFilter<IRawUser>(response, '__typename', 'User');
 
 		// Deserializing valid data
 		for (const item of extract) {
-			if (item.user_results?.result?.legacy) {
+			if (item.legacy && item.legacy.created_at) {
 				// Logging
-				LogService.log(ELogActions.DESERIALIZE, { id: item.user_results.result.rest_id });
+				LogService.log(ELogActions.DESERIALIZE, { id: item.rest_id });
 
-				users.push(new User(item.user_results.result));
+				users.push(new User(item));
 			} else {
 				// Logging
 				LogService.log(ELogActions.WARNING, {
@@ -73,6 +74,11 @@ export class User implements IUser {
 					message: `User not found, skipping`,
 				});
 			}
+		}
+
+		// Filtering only required user, if required
+		if (ids && ids.length) {
+			users = users.filter((user) => ids.includes(user.id));
 		}
 
 		return users;
@@ -108,6 +114,38 @@ export class User implements IUser {
 		}
 
 		return users.length ? users[0] : undefined;
+	}
+
+	/**
+	 * Extracts and deserializes the timeline of users from the given raw response data.
+	 *
+	 * @param response - The raw response data.
+	 *
+	 * @returns The deserialized timeline of users.
+	 */
+	public static timeline(response: NonNullable<unknown>): User[] {
+		const users: User[] = [];
+
+		// Extracting the matching data
+		const extract = findByFilter<IRawTimelineUser>(response, '__typename', 'TimelineUser');
+
+		// Deserializing valid data
+		for (const item of extract) {
+			if (item.user_results?.result?.legacy) {
+				// Logging
+				LogService.log(ELogActions.DESERIALIZE, { id: item.user_results.result.rest_id });
+
+				users.push(new User(item.user_results.result));
+			} else {
+				// Logging
+				LogService.log(ELogActions.WARNING, {
+					action: ELogActions.DESERIALIZE,
+					message: `User not found, skipping`,
+				});
+			}
+		}
+
+		return users;
 	}
 
 	/**

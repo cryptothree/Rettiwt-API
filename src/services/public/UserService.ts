@@ -81,7 +81,7 @@ export class UserService extends FetcherService {
 	/**
 	 * Get the details of a user.
 	 *
-	 * @param id - The username/id of the target user.
+	 * @param id - The username/id(s) of the target user/users.
 	 *
 	 * @returns
 	 * The details of the given user.
@@ -123,25 +123,40 @@ export class UserService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async details(id: string): Promise<User | undefined> {
+	public async details<T extends string | string[]>(id: T): Promise<T extends string ? User | undefined : User[]> {
 		let resource: EResourceType;
 
-		// If username is given
-		if (isNaN(Number(id))) {
-			resource = EResourceType.USER_DETAILS_BY_USERNAME;
+		// If details of multiple users required
+		if (Array.isArray(id)) {
+			resource = EResourceType.USER_DETAILS_BY_IDS_BULK;
+
+			// Fetching raw details
+			const response = await this.request<IUserDetailsResponse>(resource, { ids: id });
+
+			// Deserializing response
+			const data = extractors[resource](response, id);
+
+			return data as T extends string ? User | undefined : User[];
 		}
-		// If id is given
+		// If details of single user required
 		else {
-			resource = EResourceType.USER_DETAILS_BY_ID;
+			// If username is given
+			if (isNaN(Number(id))) {
+				resource = EResourceType.USER_DETAILS_BY_USERNAME;
+			}
+			// If id is given
+			else {
+				resource = EResourceType.USER_DETAILS_BY_ID;
+			}
+
+			// Fetching raw details
+			const response = await this.request<IUserDetailsResponse>(resource, { id: id });
+
+			// Deserializing response
+			const data = extractors[resource](response);
+
+			return data as T extends string ? User | undefined : User[];
 		}
-
-		// Fetching raw details
-		const response = await this.request<IUserDetailsResponse>(resource, { id: id });
-
-		// Deserializing response
-		const data = extractors[resource](response);
-
-		return data;
 	}
 
 	/**

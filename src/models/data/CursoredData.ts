@@ -33,7 +33,7 @@ export class CursoredData<T extends Notification | Tweet | User> implements ICur
 			this.list = Tweet.timeline(response) as T[];
 			this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '';
 		} else if (type == EBaseType.USER) {
-			this.list = User.list(response) as T[];
+			this.list = User.timeline(response) as T[];
 			this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '';
 		} else if (type == EBaseType.NOTIFICATION) {
 			this.list = Notification.list(response) as T[];

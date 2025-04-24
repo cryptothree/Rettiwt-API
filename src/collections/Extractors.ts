@@ -79,6 +79,7 @@ export const extractors = {
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_DETAILS_BY_USERNAME: (response: IUserDetailsResponse): User | undefined => User.single(response),
 	USER_DETAILS_BY_ID: (response: IUserDetailsResponse): User | undefined => User.single(response),
+	USER_DETAILS_BY_IDS_BULK: (response: NonNullable<unknown>, ids: string[]): User[] => User.multiple(response, ids),
 	USER_FEED_FOLLOWED: (response: IUserFollowedResponse): CursoredData<Tweet> =>
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_FEED_RECOMMENDED: (response: IUserRecommendedResponse): CursoredData<Tweet> =>
