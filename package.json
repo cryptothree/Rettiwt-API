@@ -1,6 +1,6 @@
 {
 	"name": "@cryptothree/rettiwt-api",
-	"version": "5.0.3",
+	"version": "5.0.4",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"description": "An API for fetching data from TwitterAPI, without any rate limits!",
