@@ -52,7 +52,7 @@ export interface IFetchArgs {
 	 * The IDs of the target resources.
 	 *
 	 * @remarks
-	 * - Required only for {@link EResourceType.TWEET_DETAILS_BULK}
+	 * - Required only for {@link EResourceType.TWEET_DETAILS_BULK} and {@link EResourceType.USER_DETAILS_BY_IDS_BULK}.
 	 */
 	ids?: string[];
 }

@@ -13,6 +13,9 @@ import { INewTweet } from '../types/args/PostArgs';
  * @public
  */
 export class TweetRequests {
+	/**
+	 * @param ids - The IDs of the tweets whose details are to be fetched.
+	 */
 	public static bulkDetails(ids: string[]): AxiosRequestConfig {
 		return {
 			method: 'get',

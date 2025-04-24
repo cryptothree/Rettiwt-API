@@ -29,6 +29,7 @@ export const fetchResources = [
 	EResourceType.USER_BOOKMARKS,
 	EResourceType.USER_DETAILS_BY_USERNAME,
 	EResourceType.USER_DETAILS_BY_ID,
+	EResourceType.USER_DETAILS_BY_IDS_BULK,
 	EResourceType.USER_FEED_FOLLOWED,
 	EResourceType.USER_FEED_RECOMMENDED,
 	EResourceType.USER_FOLLOWING,
