@@ -151,12 +151,17 @@ export class UserRequests {
 				/* eslint-disable @typescript-eslint/naming-convention */
 				variables: JSON.stringify({ userIds: ids }),
 				features: JSON.stringify({
+					hidden_profile_likes_enabled: false,
+					hidden_profile_subscriptions_enabled: false,
+					responsive_web_graphql_exclude_directive_enabled: true,
+					verified_phone_label_enabled: true,
+					subscriptions_verification_info_verified_since_enabled: true,
+					highlights_tweets_tab_ui_enabled: true,
+					creator_subscriptions_tweet_preview_api_enabled: true,
+					responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
+					responsive_web_graphql_timeline_navigation_enabled: true,
 					profile_label_improvements_pcf_label_in_post_enabled: false,
 					rweb_tipjar_consumption_enabled: false,
-					responsive_web_graphql_exclude_directive_enabled: false,
-					verified_phone_label_enabled: false,
-					responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
-					responsive_web_graphql_timeline_navigation_enabled: false,
 				}),
 				/* eslint-enable @typescript-eslint/naming-convention */
 			},
