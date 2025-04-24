@@ -82,7 +82,7 @@ export class UserService extends FetcherService {
 	/**
 	 * Get the details of a user.
 	 *
-	 * @param id - The username/id(s) of the target user/users.
+	 * @param id - The username/id(s) of the target user/users. If no ID is provided, uses ID of authenticated user.
 	 *
 	 * @returns
 	 * The details of the given user.
@@ -124,7 +124,9 @@ export class UserService extends FetcherService {
 	 * });
 	 * ```
 	 */
-	public async details<T extends string | string[]>(id: T): Promise<T extends string ? User | undefined : User[]> {
+	public async details<T extends string | string[] | undefined>(
+		id: T,
+	): Promise<T extends string | undefined ? User | undefined : User[]> {
 		let resource: EResourceType;
 
 		// If details of multiple users required
@@ -137,26 +139,31 @@ export class UserService extends FetcherService {
 			// Deserializing response
 			const data = extractors[resource](response, id);
 
-			return data as T extends string ? User | undefined : User[];
+			return data as T extends string | undefined ? User | undefined : User[];
 		}
 		// If details of single user required
 		else {
 			// If username is given
-			if (isNaN(Number(id))) {
+			if (id && isNaN(Number(id))) {
 				resource = EResourceType.USER_DETAILS_BY_USERNAME;
 			}
-			// If id is given
+			// If id is given (or not, for self details)
 			else {
 				resource = EResourceType.USER_DETAILS_BY_ID;
 			}
 
+			// If no ID is given, and not authenticated, skip
+			if (!id && !this.config.userId) {
+				return undefined as T extends string | undefined ? User | undefined : User[];
+			}
+
 			// Fetching raw details
-			const response = await this.request<IUserDetailsResponse>(resource, { id: id });
+			const response = await this.request<IUserDetailsResponse>(resource, { id: id ?? this.config.userId });
 
 			// Deserializing response
 			const data = extractors[resource](response);
 
-			return data as T extends string ? User | undefined : User[];
+			return data as T extends string | undefined ? User | undefined : User[];
 		}
 	}
 
