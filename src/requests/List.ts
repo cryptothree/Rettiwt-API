@@ -83,7 +83,7 @@ export class ListRequests {
 	public static tweets(id: string, count?: number, cursor?: string): AxiosRequestConfig {
 		return {
 			method: 'get',
-			url: 'https://x.com/i/api/graphql/naCjgapXCSCsbZ7qnnItQA/ListLatestTweetsTimeline',
+			url: 'https://x.com/i/api/graphql/2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline',
 			params: {
 				/* eslint-disable @typescript-eslint/naming-convention */
 				variables: JSON.stringify({
@@ -92,9 +92,9 @@ export class ListRequests {
 					cursor: cursor,
 				}),
 				features: JSON.stringify({
-					rweb_lists_timeline_redesign_enabled: true,
+					rweb_lists_timeline_redesign_enabled: false,
 					responsive_web_graphql_exclude_directive_enabled: true,
-					verified_phone_label_enabled: true,
+					verified_phone_label_enabled: false,
 					creator_subscriptions_tweet_preview_api_enabled: true,
 					responsive_web_graphql_timeline_navigation_enabled: true,
 					responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
