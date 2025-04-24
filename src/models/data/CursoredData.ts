@@ -19,6 +19,7 @@ import { User } from './User';
 export class CursoredData<T extends Notification | Tweet | User> implements ICursoredData<T> {
 	public list: T[];
 	public next: string;
+	public previous: string;
 
 	/**
 	 * @param response - The raw response.
@@ -28,17 +29,22 @@ export class CursoredData<T extends Notification | Tweet | User> implements ICur
 		// Initializing defaults
 		this.list = [];
 		this.next = '';
+		this.previous = '';
 
-		if (type == EBaseType.TWEET) {
-			this.list = Tweet.timeline(response) as T[];
-			this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '';
-		} else if (type == EBaseType.USER) {
-			this.list = User.list(response) as T[];
-			this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '';
-		} else if (type == EBaseType.NOTIFICATION) {
-			this.list = Notification.list(response) as T[];
-			this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Top')[0]?.value ?? '';
+		switch (type) {
+			case EBaseType.TWEET:
+				this.list = Tweet.timeline(response) as T[];
+				break;
+			case EBaseType.USER:
+				this.list = User.list(response) as T[];
+				break;
+			case EBaseType.NOTIFICATION:
+				this.list = Notification.list(response) as T[];
+				break;
 		}
+
+		this.next = findByFilter<IRawCursor>(response, 'cursorType', 'Bottom')[0]?.value ?? '';
+		this.previous = findByFilter<IRawCursor>(response, 'cursorType', 'Top')[0]?.value ?? '';
 	}
 
 	/**
