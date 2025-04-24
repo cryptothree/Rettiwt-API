@@ -7,6 +7,7 @@ import { IListMembersResponse } from '../types/raw/list/Members';
 import { IListTweetsResponse } from '../types/raw/list/Tweets';
 import { IMediaInitializeUploadResponse } from '../types/raw/media/InitalizeUpload';
 import { ITweetDetailsResponse } from '../types/raw/tweet/Details';
+import { ITweetDetailsBulkResponse } from '../types/raw/tweet/DetailsBulk';
 import { ITweetLikeResponse } from '../types/raw/tweet/Like';
 import { ITweetLikersResponse } from '../types/raw/tweet/Likers';
 import { ITweetPostResponse } from '../types/raw/tweet/Post';
@@ -21,6 +22,7 @@ import { ITweetUnretweetResponse } from '../types/raw/tweet/Unretweet';
 import { ITweetUnscheduleResponse } from '../types/raw/tweet/Unschedule';
 import { IUserBookmarksResponse } from '../types/raw/user/Bookmarks';
 import { IUserDetailsResponse } from '../types/raw/user/Details';
+import { IUserDetailsBulkResponse } from '../types/raw/user/DetailsBulk';
 import { IUserFollowResponse } from '../types/raw/user/Follow';
 import { IUserFollowedResponse } from '../types/raw/user/Followed';
 import { IUserFollowersResponse } from '../types/raw/user/Followers';
@@ -55,7 +57,7 @@ export const extractors = {
 
 	TWEET_DETAILS: (response: ITweetDetailsResponse, id: string): Tweet | undefined => Tweet.single(response, id),
 	TWEET_DETAILS_ALT: (response: ITweetRepliesResponse, id: string): Tweet | undefined => Tweet.single(response, id),
-	TWEET_DETAILS_BULK: (response: NonNullable<unknown>, ids: string[]): Tweet[] => Tweet.multiple(response, ids),
+	TWEET_DETAILS_BULK: (response: ITweetDetailsBulkResponse, ids: string[]): Tweet[] => Tweet.multiple(response, ids),
 	TWEET_LIKE: (response: ITweetLikeResponse): boolean => (response?.data?.favorite_tweet ? true : false),
 	TWEET_LIKERS: (response: ITweetLikersResponse): CursoredData<User> =>
 		new CursoredData<User>(response, EBaseType.USER),
@@ -79,7 +81,8 @@ export const extractors = {
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_DETAILS_BY_USERNAME: (response: IUserDetailsResponse): User | undefined => User.single(response),
 	USER_DETAILS_BY_ID: (response: IUserDetailsResponse): User | undefined => User.single(response),
-	USER_DETAILS_BY_IDS_BULK: (response: NonNullable<unknown>, ids: string[]): User[] => User.multiple(response, ids),
+	USER_DETAILS_BY_IDS_BULK: (response: IUserDetailsBulkResponse, ids: string[]): User[] =>
+		User.multiple(response, ids),
 	USER_FEED_FOLLOWED: (response: IUserFollowedResponse): CursoredData<Tweet> =>
 		new CursoredData<Tweet>(response, EBaseType.TWEET),
 	USER_FEED_RECOMMENDED: (response: IUserRecommendedResponse): CursoredData<Tweet> =>

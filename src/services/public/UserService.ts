@@ -7,6 +7,7 @@ import { User } from '../../models/data/User';
 import { RettiwtConfig } from '../../models/RettiwtConfig';
 import { IUserBookmarksResponse } from '../../types/raw/user/Bookmarks';
 import { IUserDetailsResponse } from '../../types/raw/user/Details';
+import { IUserDetailsBulkResponse } from '../../types/raw/user/DetailsBulk';
 import { IUserFollowResponse } from '../../types/raw/user/Follow';
 import { IUserFollowedResponse } from '../../types/raw/user/Followed';
 import { IUserFollowersResponse } from '../../types/raw/user/Followers';
@@ -131,7 +132,7 @@ export class UserService extends FetcherService {
 			resource = EResourceType.USER_DETAILS_BY_IDS_BULK;
 
 			// Fetching raw details
-			const response = await this.request<IUserDetailsResponse>(resource, { ids: id });
+			const response = await this.request<IUserDetailsBulkResponse>(resource, { ids: id });
 
 			// Deserializing response
 			const data = extractors[resource](response, id);

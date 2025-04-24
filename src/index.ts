@@ -71,6 +71,7 @@ export { IMediaFinalizeUploadResponse as IRawMediaFinalizeUploadResponse } from 
 export { IMediaInitializeUploadResponse as IRawMediaInitializeUploadResponse } from './types/raw/media/InitalizeUpload';
 export { IMediaLiveVideoStreamResponse as IRawMediaLiveVideoStreamResponse } from './types/raw/media/LiveVideoStream';
 export { ITweetDetailsResponse as IRawTweetDetailsResponse } from './types/raw/tweet/Details';
+export { ITweetDetailsBulkResponse as IRawTweetDetailsBulkResponse } from './types/raw/tweet/DetailsBulk';
 export { ITweetLikeResponse as IRawTweetLikeResponse } from './types/raw/tweet/Like';
 export { ITweetLikersResponse as IRawTweetLikersResponse } from './types/raw/tweet/Likers';
 export { ITweetPostResponse as IRawTweetPostResponse } from './types/raw/tweet/Post';
@@ -87,6 +88,7 @@ export { IUserAffiliatesResponse as IRawUserAffiliatesResponse } from './types/r
 export { IUserAnalyticsResponse as IRawUserAnalyticsResponse } from './types/raw/user/Analytics';
 export { IUserBookmarksResponse as IRawUserBookmarksResponse } from './types/raw/user/Bookmarks';
 export { IUserDetailsResponse as IRawUserDetailsResponse } from './types/raw/user/Details';
+export { IUserDetailsBulkResponse as IRawUserDetailsBulkResponse } from './types/raw/user/DetailsBulk';
 export { IUserFollowResponse as IRawUserFollowResponse } from './types/raw/user/Follow';
 export { IUserFollowedResponse as IRawUserFollowedResponse } from './types/raw/user/Followed';
 export { IUserFollowersResponse as IRawUserFollowersResponse } from './types/raw/user/Followers';

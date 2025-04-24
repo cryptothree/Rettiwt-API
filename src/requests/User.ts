@@ -158,7 +158,6 @@ export class UserRequests {
 					responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
 					responsive_web_graphql_timeline_navigation_enabled: false,
 				}),
-				fieldToggles: JSON.stringify({ withAuxiliaryUserLabels: false }),
 				/* eslint-enable @typescript-eslint/naming-convention */
 			},
 			paramsSerializer: { encode: encodeURIComponent },
