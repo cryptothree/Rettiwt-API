@@ -1,5 +1,5 @@
 {
-	"name": "rettiwt-api",
+	"name": "@cryptothree/rettiwt-api",
 	"version": "5.0.0-alpha.2",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
