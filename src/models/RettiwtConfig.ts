@@ -1,6 +1,7 @@
 import { Agent } from 'https';
 
 import { HttpsProxyAgent } from 'https-proxy-agent';
+import UserAgent from 'user-agents';
 
 import { AuthService } from '../services/internal/AuthService';
 import { ITidProvider } from '../types/auth/TidProvider';
@@ -36,7 +37,10 @@ export class RettiwtConfig implements IRettiwtConfig {
 		this.tidProvider = config?.tidProvider;
 		this.timeout = config?.timeout;
 		this.apiKey = config?.apiKey;
-		this.headers = config?.headers;
+		this.headers = {
+			...this.generateDefaultHeaders(),
+			...config?.headers,
+		};
 	}
 
 	public get apiKey(): string | undefined {
@@ -60,5 +64,13 @@ export class RettiwtConfig implements IRettiwtConfig {
 
 	public set proxyUrl(proxyUrl: URL | undefined) {
 		this._httpsAgent = proxyUrl ? new HttpsProxyAgent(proxyUrl) : new Agent();
+	}
+
+	private generateDefaultHeaders(): { [key: string]: string } {
+		/* eslint-disable @typescript-eslint/naming-convention */
+		return {
+			'User-Agent': new UserAgent({ deviceCategory: 'desktop' }).toString(),
+			Referer: 'https://x.com',
+		};
 	}
 }
