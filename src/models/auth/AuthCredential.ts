@@ -3,6 +3,8 @@ import { AxiosHeaders, AxiosRequestHeaders } from 'axios';
 import { Cookie } from 'cookiejar';
 
 import { EAuthenticationType } from '../../enums/Authentication';
+import { ELogActions } from '../../enums/Logging';
+import { LogService } from '../../services/internal/LogService';
 import { IAuthCredential } from '../../types/auth/AuthCredential';
 
 import { AuthCookie } from './AuthCookie';
@@ -18,6 +20,13 @@ import { AuthCookie } from './AuthCookie';
  * @public
  */
 export class AuthCredential implements IAuthCredential {
+	private static readonly _authTokens: string[] = [
+		'AAAAAAAAAAAAAAAAAAAAAG5LOQEAAAAAbEKsIYYIhrfOQqm4H8u7xcahRkU%3Dz98HKmzbeXdKqBfUDmElcqYl0cmmKY9KdS2UoNIz3Phapgsowi',
+		'AAAAAAAAAAAAAAAAAAAAAFQODgEAAAAAVHTp76lzh3rFzcHbmHVvQxYYpTw%3DckAlMINMjmCwxUcaXbAN4XqJVdgMJaHqNOFgPMK0zN1qLqLQCF',
+		'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA',
+	];
+	private static _currentAuthTokenIndex = 0;
+
 	public authToken?: string;
 	public authenticationType?: EAuthenticationType;
 	public cookies?: string;
@@ -29,8 +38,7 @@ export class AuthCredential implements IAuthCredential {
 	 * @param guestToken - The guest token to be used to authenticate a guest session.
 	 */
 	public constructor(cookies?: Cookie[], guestToken?: string) {
-		this.authToken =
-			'AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
+		this.authToken = AuthCredential._authTokens[AuthCredential._currentAuthTokenIndex];
 		// If guest credentials given
 		if (!cookies && guestToken) {
 			this.guestToken = guestToken;
@@ -54,6 +62,20 @@ export class AuthCredential implements IAuthCredential {
 			this.csrfToken = parsedCookie.ct0;
 			this.authenticationType = EAuthenticationType.USER;
 		}
+	}
+
+	/**
+	 * Switches the current auth token to the next one.
+	 */
+	public static switchAuthToken(): void {
+		AuthCredential._currentAuthTokenIndex =
+			(AuthCredential._currentAuthTokenIndex + 1) % AuthCredential._authTokens.length;
+
+		// Logging
+		LogService.log(ELogActions.AUTHORIZATION, {
+			action: ELogActions.AUTHORIZATION,
+			message: `Switching auth token to ${AuthCredential._authTokens[AuthCredential._currentAuthTokenIndex]}`,
+		});
 	}
 
 	/**

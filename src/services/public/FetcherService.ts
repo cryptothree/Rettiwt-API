@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import { Cookie } from 'cookiejar';
 
 import { allowGuestAuthentication, fetchResources, postResources } from '../../collections/Groups';
@@ -229,9 +229,14 @@ export class FetcherService {
 			// Introducing a delay
 			await this.wait();
 
-			// Returning the reponse body
+			// Returning the response body
 			return (await axios<T>(config)).data;
 		} catch (error) {
+			// Switching auth token if rate limited
+			if (isAxiosError(error) && error.response?.status === 429) {
+				AuthCredential.switchAuthToken();
+			}
+
 			// If error, delegate handling to error handler
 			this._errorHandler.handle(error);
 			throw error;
